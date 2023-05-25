@@ -1,28 +1,24 @@
-// usePeer.js
-import {useEffect, useState, useRef,} from 'react';
+// src/components/usePeer.js
+import { useEffect, useState, useRef } from 'react';
 import Peer from 'peerjs';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const usePeer = (socket) => {
-    const [peer, setPeer] = useState(null);
+    const peerRef = useRef(null);
     const [local_peer_id, setLocalPeerId] = useState(null);
-    const [isLocalStreamReady, setIsLocalStreamReady] = useState(false);
-    const userStream = useRef(null);
+    const [peerIsReady, setPeerIsReady] = useState(false);
     const roomId = useParams().roomId;
     const username = localStorage.getItem("username");
-    const [peerIsReady, setPeerIsReady] = useState(false);
-
 
     const initializePeer = async (socket) => {
-        const peer = new Peer(undefined, {
+        peerRef.current = new Peer(undefined, {
             host: "localhost",
             port: 9000,
             path: "/",
         });
 
-        peer.on("open", (id) => {
+        peerRef.current.on("open", (id) => {
             setLocalPeerId(id);
-
             setPeerIsReady(true);
             socket.emit("join_room", {
                 room_id: roomId,
@@ -30,24 +26,23 @@ const usePeer = (socket) => {
                 peer_id: id,
             });
         });
-        setPeer(peer);
     };
 
     useEffect(() => {
-        if (socket && !peer) {
+        if (socket && !peerRef.current) {
             initializePeer(socket).catch(error => {
                 console.error("Error initializing peer: ", error);
             });
         }
         return () => {
             // Clean up here.
-            if (peer) {
-                peer.disconnect();
+            if (peerRef.current) {
+                peerRef.current.disconnect();
             }
         }
     }, [socket]);
 
-    return {peer, local_peer_id, peerIsReady};
+    return {peer: peerRef, local_peer_id, peerIsReady};
 };
 
 export default usePeer;

@@ -11,7 +11,8 @@ import Register from './components/register';
 import RoomList from "./RoomList";
 import Room from "./Room";
 import Logout from "./components/Logout";
-
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
 
@@ -34,7 +35,11 @@ function App() {
     return (
         <div className="App">
             <Router>
-                <Routes>
+                <div className="flex flex-col min-h-screen">
+                    <Header/>
+                    <main className="flex-1 flex items-center justify-center">
+
+                    <Routes>
                     <Route
                         path="/login"
                         element={authenticated
@@ -61,7 +66,11 @@ function App() {
                     <Route path="/" element={<Navigate to="/roomlists"/>}/>
                     <Route path="/logout" element={<Logout onLogout={handleLogout}/>}/>
                 </Routes>
+                    </main>
+                    <Footer/>
+                </div>
             </Router>
+
         </div>
     );
 }

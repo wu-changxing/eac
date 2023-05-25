@@ -67,8 +67,8 @@ const RoomList = () => {
                     <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div className="p-4">
                             <h5 className="text-lg font-bold mb-2">{room.name}</h5>
-                            <p className="text-sm text-gray-500 mb-2">Created by: {room.admin}</p>
-                            <p className="text-sm text-gray-500">Time: {room.created_at}</p>
+                            <p className="text-sm text-gray-500 mb-2">主理人: {room.admin}</p>
+                            <p className="text-sm text-gray-500"> {room.created_at}</p>
                         </div>
                         <div className="p-4 bg-gray-100">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

@@ -1,14 +1,22 @@
-// useStream.js
+// src/components/useStream.js
 import { useState, useEffect } from 'react';
 
-const useStream = (video = true, audio = true) => {
+const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 480) => {
     const [stream, setStream] = useState(null);
     const [isStreamReady, setIsStreamReady] = useState(false);
 
     useEffect(() => {
         const initializeStream = async () => {
             try {
-                const mediaStream = await navigator.mediaDevices.getUserMedia({ video, audio });
+                const mediaStream = await navigator.mediaDevices.getUserMedia({
+                    // video: video ? {
+                    //     echoCancellation: true,
+                    //     width: videoWidth,
+                    //     height: videoHeight,
+                    // } : false,
+                    video:false,
+                    audio,
+                });
                 setStream(mediaStream);
                 setIsStreamReady(true);
             } catch (error) {
@@ -17,7 +25,7 @@ const useStream = (video = true, audio = true) => {
         };
 
         initializeStream();
-    }, [video, audio]);
+    }, [video, audio, videoWidth, videoHeight]);
 
     return { stream, isStreamReady };
 };

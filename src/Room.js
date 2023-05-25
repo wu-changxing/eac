@@ -1,7 +1,9 @@
+// src/Room.js
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import StreamConnect from "./components/StreamConnect";
 import useSocket from './components/useSocket';
+import AdminRoomControl from "./components/AdminRoomControl";
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -14,11 +16,6 @@ const Room = ({onLogout}) => {
         navigate('/roomlists');
     };
 
-    const dismissRoom = () => {
-        if (isAdmin) {
-            socket.emit('dismissRoom', roomId);
-        }
-    };
 
     useEffect(() => {
         if (socket) {
@@ -35,7 +32,7 @@ const Room = ({onLogout}) => {
             });
             socket.emit('is_room_admin', {
                 room_id: roomId,
-                username:username,
+                username: username,
             });
             socket.on('is_admin', (data) => {
                 console.log('Room admin:', data);
@@ -43,17 +40,30 @@ const Room = ({onLogout}) => {
                 console.log('after set is admin in room:', isAdmin);
                 console.log('isAdmin:', isAdmin);
             });
+            socket.on('room_dismissed', (data) => {
+                if (data.room_id === roomId) {
+                    navigate('/roomlists');
+                }
+            });
+            socket.on('you_kicked', (data) => {
+                console.log('you are kicked from room:', data);
+                if (data.user === username) {
+                    navigate('/roomlists');
+                }
+            });
 
         }
     }, [socket]);
 
 
-
     return (
         <div className="room-container">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4" onClick={backToRoomList}>Back to Room List</button>
-            {isAdmin && <button className="px-4 py-2 font-semibold text-white transition duration-500 ease-in-out transform bg-red-500 rounded-lg hover:bg-red-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2" onClick={dismissRoom}>Dismiss Room</button>}
-            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin} />
+
+            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin}/>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
+                    onClick={backToRoomList}>Back
+            </button>
+            {isAdmin && <AdminRoomControl roomId={roomId} socket={socket} />}
         </div>
     );
 };

@@ -1,0 +1,33 @@
+{
+  "name": "eac",
+  "version": "1.0.0",
+  "description": "EAC frontend",
+  "private": true,
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel src/index.html -p 3000",
+    "build": "parcel build src/index.html",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "browserslist": ">0.2%, not dead, not op_mini all, not ie <= 11",
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "buffer": "^5.7.1",
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.23",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "peerjs": "^1.4.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.11.2",
+    "socket.io-client": "^4.6.1",
+    "web-vitals": "^3.3.1"
+  }
+}

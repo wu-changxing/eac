@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Peer from 'peerjs';
 import { useParams } from 'react-router-dom';
+import config from '../config';
 
 const usePeer = (socket) => {
     const peerRef = useRef(null);
@@ -12,7 +13,7 @@ const usePeer = (socket) => {
 
     const initializePeer = async (socket) => {
         peerRef.current = new Peer(undefined, {
-            host: "localhost",
+            host: confg.PEER_HOST,
             port: 9000,
             path: "/",
         });

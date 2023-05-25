@@ -7,6 +7,7 @@
   "scripts": {
     "start": "parcel src/index.html -p 3000",
     "build": "parcel build src/index.html",
+    "d": "./rename_build.sh",
     "test": "jest"
   },
   "keywords": [],
@@ -16,8 +17,11 @@
   "devDependencies": {
     "autoprefixer": "^10.4.14",
     "buffer": "^5.7.1",
+    "cssnano": "^6.0.1",
     "parcel": "^2.8.3",
-    "postcss": "^8.4.23",
+    "parcel-namer-hashless": "^1.0.5",
+    "parcel-namer-rewrite": "^2.0.0-rc.3",
+    "postcss": "^8.2.15",
     "process": "^0.11.10",
     "tailwindcss": "^3.3.2"
   },

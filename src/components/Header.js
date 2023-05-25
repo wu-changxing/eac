@@ -8,6 +8,15 @@ const Header = () => {
             <div className="flex justify-between items-center h-full px-4">
                 {/*<img src={logo} alt="Logo" className="h-12 w-12 mx-2" />*/}
                 <nav className="text-lg">
+                    <ul className="flex items-center">
+                        <li className="mx-2">
+                            <Link to="/roomlists">Room List</Link>
+                        </li>
+                        <li className="mx-2">
+                            <Link to="/logout">Logout</Link>
+                        </li>
+                    </ul>
+
                 </nav>
             </div>
         </header>

@@ -4,10 +4,11 @@ import {useParams, useNavigate} from 'react-router-dom';
 import StreamConnect from "./components/StreamConnect";
 import useSocket from './components/useSocket';
 import AdminRoomControl from "./components/AdminRoomControl";
+import config from "./config";
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
-    const socket = useSocket("http://localhost:8000");
+    const socket = useSocket(config.HOST);
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');

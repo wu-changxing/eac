@@ -13,24 +13,27 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:8000/eac/api/login/', {
+            const response = await axios.post(`${config.PRO_BACKEND}/eac/api/login/`, {
                 username: username,
                 password: password,
             });
 
             if (response && response.data) {
-                // Handle successful response here
                 console.log('Login successful:', response.data);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username',username);
                 onLogin(); // Call onLogin prop
             } else {
-                // Handle unsuccessful response here
                 console.log('Login failed');
+                setError('Login failed.'); // Set error state
             }
         } catch (error) {
-            // Handle errors gracefully
             console.error('Error occurred during login:', error);
+            if (error.response && error.response.data) {
+                setError('Error: ' + error.response.data.detail); // Set error state
+            } else {
+                setError('An error occurred.'); // Set error state
+            }
         }
     }
 

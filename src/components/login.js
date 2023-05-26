@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`${config.PRO_BACKEND}/eac/api/login/`, {
+            const response = await axios.post(`${config.BACKEND}/eac/api/login/`, {
                 username: username,
                 password: password,
             });

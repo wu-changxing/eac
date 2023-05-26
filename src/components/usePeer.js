@@ -13,9 +13,10 @@ const usePeer = (socket) => {
 
     const initializePeer = async (socket) => {
         peerRef.current = new Peer(undefined, {
-            host: confg.PEER_HOST,
-            port: 9000,
-            path: "/",
+            host: config.PEER_HOST,
+            // port:9000,
+            path: "/eacroom",
+            secure: true, // Set secure to true
         });
 
         peerRef.current.on("open", (id) => {

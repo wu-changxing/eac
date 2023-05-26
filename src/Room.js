@@ -8,7 +8,7 @@ import config from "./config";
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
-    const socket = useSocket(config.HOST);
+    const socket = useSocket(config.SOCKET_HOST);
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');

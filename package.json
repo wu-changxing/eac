@@ -5,7 +5,7 @@
   "private": true,
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel src/index.html -p 3000",
+    "start": "rm -rf dist && parcel src/index.html -p 3000",
     "build": "parcel build src/index.html",
     "d": "./rename_build.sh",
     "test": "jest"

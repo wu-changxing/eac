@@ -7,7 +7,7 @@ import CreateRoomModal from "./components/CreateRoomModal";
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
-    const socket = useSocket(config.HOST);
+    const socket = useSocket(config.SOCKET_HOST);
     const username = localStorage.getItem('username');
     const [modalOpen, setModalOpen] = useState(false);
 

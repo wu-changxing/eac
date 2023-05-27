@@ -7,7 +7,7 @@ const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-
+    // console.log(config)
     async function handleLogin(e) {
         e.preventDefault();
 
@@ -42,15 +42,16 @@ const Login = ({ onLogin }) => {
             <div className="bg-white w-full rounded shadow-2xl p-4 md:p-8 lg:p-16 mx-2 sm:mx-4 md:mx-20 lg:max-w-xl">
                 <h2 className="text-3xl text-center font-bold mb-10 text-gray-800">Login</h2>
                 {error && <div className="bg-red-500 p-2 rounded-sm text-white mb-2">{error}</div>}
-                <div className="mb-8">
-                    <label htmlFor="username" className="block mb-2 font-bold text-gray-700">Username:</label>
-                    <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} className="w-full px-3 py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                <div className="my-8">
+                    <label htmlFor="username" className="block mb-8 lg:mb-2 font-bold text-gray-700">Username:</label>
+                    <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} className="w-full bg-gray-100 px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                 </div>
-                <div className="mb-8">
-                    <label htmlFor="password" className="block mb-2 font-bold text-gray-700">Password:</label>
-                    <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                <div className="my-8">
+                    <label htmlFor="password" className="block mb-8 lg:mb-2 font-bold text-gray-700">Password:</label>
+                    <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-gray-100 px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                 </div>
-                <button onClick={handleLogin} className="w-full p-4 mt-4 lg:text-2xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Login</button>
+                <button onClick={handleLogin} className="w-full py-8 lg:py-4 px-4 mt-4 lg:text-2xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Login</button>
+
                 <p className="mt-8 text-center text-2xl">Don't have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Sign up here</Link>.</p>
             </div>
         </div>

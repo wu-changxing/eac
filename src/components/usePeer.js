@@ -14,14 +14,16 @@ const usePeer = (socket) => {
     const initializePeer = async (socket) => {
         peerRef.current = new Peer(undefined, {
             host: config.PEER_HOST,
-            // port:9000,
             path: "/eacroom",
             secure: true, // Set secure to true
         });
+        console.log("peerRef.current:", peerRef.current);
 
         peerRef.current.on("open", (id) => {
+            console.log("peer is ready:", id)
             setLocalPeerId(id);
             setPeerIsReady(true);
+            console.log("peer is ready:", id);
             socket.emit("join_room", {
                 room_id: roomId,
                 username: username,

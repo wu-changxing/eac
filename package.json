@@ -18,15 +18,18 @@
     "autoprefixer": "^10.4.14",
     "buffer": "^5.7.1",
     "cssnano": "^6.0.1",
+    "os-browserify": "^0.3.0",
     "parcel": "^2.8.3",
     "parcel-namer-hashless": "^1.0.5",
     "parcel-namer-rewrite": "^2.0.0-rc.3",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.2.15",
     "process": "^0.11.10",
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
     "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

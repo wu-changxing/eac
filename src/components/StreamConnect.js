@@ -59,7 +59,10 @@ const StreamConnect = ({roomId, socket}) => {
     }, [peerIsReady, isStreamReady]);
 
     useEffect(() => {
+        console.log("useEffect connectedUsers", connectedUsers)
+        console.log("peer and stream ready?", peerIsReady, isStreamReady)
         if (peerIsReady && isStreamReady) {
+            console.log("setting up peer call listener...")
             let localConnectedUsers = new Set(connectedUsers);
             const handleRoomUsers = (data) => {
                 // for loop to call each user

@@ -11,6 +11,7 @@ const RoomList = () => {
     const username = localStorage.getItem('username');
     const [modalOpen, setModalOpen] = useState(false);
 
+    console.log(config)
     useEffect(() => {
         if (socket) {
             socket.emit('list_rooms');

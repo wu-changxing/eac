@@ -59,12 +59,10 @@ const Room = ({onLogout}) => {
 
     return (
         <div className="room-container">
-
             <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin}/>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-                    onClick={backToRoomList}>Back
-            </button>
-            {isAdmin && <AdminRoomControl roomId={roomId} socket={socket} />}
+            <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
+                 <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} />
+            </div>
         </div>
     );
 };

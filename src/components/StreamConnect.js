@@ -112,7 +112,8 @@ const StreamConnect = ({roomId, socket}) => {
         <div className="p-4">
             <h1 className="font-bold text-2xl mb-4">Stream Connect</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                {streams.map((s, index) => (
+
+            {streams.map((s, index) => (
                     <div key={s.userLabel}>
                         <div className="text-sm font-semibold mb-2 text-gray-200">{index}</div>
                         <Video stream={s.stream} userLabel={s.userLabel} isLocal={s.isLocal}/>

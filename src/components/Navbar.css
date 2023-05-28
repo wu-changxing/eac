@@ -25,7 +25,7 @@
     background: hotpink;
     opacity: 0;
     z-index: -1;
-    transition: opacity 0.3s var(--bezier);
+    transition: opacity 0.15s var(--bezier);
 }
 
 .nav__trigger-finger span {
@@ -45,7 +45,7 @@
     display: block;
     height: 2px;
     background: currentColor;
-    transition: transform 0.4s var(--bezier), top 0.4s 0.4s var(--bezier), background 0.2s var(--bezier);
+    transition: transform 0.2s var(--bezier), top 0.2s 0.2s var(--bezier), background 0.1s var(--bezier);
 }
 
 .nav__trigger-finger span::before {
@@ -85,7 +85,7 @@
 .nav__trigger-input:checked + .nav__trigger-finger span::before,
 .nav__trigger-input:checked + .nav__trigger-finger span::after {
     top: calc(50% - 1px);
-    transition: transform 0.4s 0.4s var(--bezier), top 0.4s var(--bezier), background 0.2s var(--bezier);
+    transition: transform 0.2s 0.2s var(--bezier), top 0.2s var(--bezier), background 0.1s var(--bezier);
 }
 
 .nav__trigger-input:checked + .nav__trigger-finger span::after {
@@ -95,7 +95,7 @@
 .nav__trigger-input:checked ~ .nav__list {
     z-index: 9;
     transform: none;
-    transition: 0.5s var(--bezier);
+    transition: 0.25s var(--bezier);
 }
 .nav__list {
     position: fixed;
@@ -108,28 +108,15 @@
     background: hotpink;
     font-size: 4rem;
     padding: 40px;
-    transform: translate(100vw) rotate(45deg);
-    transition: 0.2s var(--bezier);
+    transform: translate(150vw) rotate(8deg);
+    transition: 0.1s var(--bezier);
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 1200px) {
     .nav__list {
         transform: translate(140vw) rotate(45deg);
     }
 }
-
-@media screen and (min-width: 401px) and (max-width: 800px) {
-    .nav__list {
-        transform: translate(120vw) rotate(45deg);
-    }
-}
-
-@media screen and (min-width: 801px) and (max-width: 1200px) {
-    .nav__list {
-        transform: translate(110vw) rotate(45deg);
-    }
-}
-
 @media screen and (min-width: 1201px) {
     .nav__list {
         transform: translate(100vw) rotate(45deg);
@@ -162,7 +149,7 @@
     display: inline-block;
     border: 10px solid transparent;
     border-top-color: white;
-    transition: 0.4s var(--bezier);
+    transition: 0.2s var(--bezier);
 }
 
 .nav__link {

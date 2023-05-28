@@ -38,8 +38,11 @@ const Header = ({ authenticated }) => {
                         )}
                     </ul>
                 </nav>
-                <div className="flex items-center justify-center">
+                <div className="lg:text-lg">
                     <Navbar/>
+                </div>
+                <div className="flex items-center justify-end">
+
                     <div
                         className={`h-8 w-8 lg:h-12 lg:w-12 rounded-full border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center`}>
                         <div
@@ -49,6 +52,7 @@ const Header = ({ authenticated }) => {
                         </div>
                     </div>
                 </div>
+
             </div>
         </header>
     );

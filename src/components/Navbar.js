@@ -19,7 +19,7 @@ const Navbar = () => {
                    onClick={handleNavClick}/>
 
             <label
-                className="fixed top-0 right-0 z-10 flex items-center w-24 h-16 m-10 text-pink-500 nav__trigger-finger"
+                className="fixed top-0 right-0 z-10 flex items-center w-14 h-8 m-10 text-pink-500 nav__trigger-finger"
                 htmlFor="trigger">
                 <span></span>
             </label>

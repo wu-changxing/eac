@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
 import { FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
+import Navbar from "./Navbar";
 
 const Header = ({ authenticated }) => {
     const {state: socketState} = useContext(SocketContext);
@@ -38,6 +39,7 @@ const Header = ({ authenticated }) => {
                     </ul>
                 </nav>
                 <div className="flex items-center justify-center">
+                    <Navbar/>
                     <div
                         className={`h-8 w-8 lg:h-12 lg:w-12 rounded-full border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center`}>
                         <div

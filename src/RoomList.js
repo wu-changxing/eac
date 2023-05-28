@@ -1,79 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import config from './config';
-import useSocket from './components/useSocket';
+import React, {useState, useEffect, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {SocketContext} from './SocketContext';
 import CreateRoomModal from "./components/CreateRoomModal";
 
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
-    const socket = useSocket(config.SOCKET_HOST);
+    const {state: {socket}, loading} = useContext(SocketContext);
     const username = localStorage.getItem('username');
     const [modalOpen, setModalOpen] = useState(false);
 
-    console.log(config)
     useEffect(() => {
-        if (socket) {
-            socket.emit('list_rooms');
+        console.log("socket is: ", socket)
+        if (!socket) return;
 
-            socket.on('rooms', (data) => {
-                const roomsArray = Object.entries(data.rooms).map(([roomId, roomDetails]) => ({
-                    roomId,
-                    ...roomDetails,
-                }));
-                setRooms(roomsArray);
-            });
+        const handleRooms = (data) => {
+            const roomsArray = Object.entries(data.rooms).map(([roomId, roomDetails]) => ({
+                roomId,
+                ...roomDetails,
+            }));
+            setRooms(roomsArray);
+        };
 
-            socket.on('connect_error', (error) => {
-                console.log('Connection error happened:', error);
-            });
+        socket.emit('list_rooms');
+        socket.on('rooms', handleRooms);
+        socket.on('connect_error', error => console.log('Connection error happened:', error));
+        socket.on('disconnect', reason => console.log('Disconnected:', reason));
 
-            socket.on('disconnect', (reason) => {
-                console.log('Disconnected:', reason);
-            });
-        }
         return () => {
-            if (socket) {
-                socket.off('rooms');
-                socket.off('connect_error');
-                socket.off('disconnect');
-            }
+            socket.off('rooms', handleRooms);
+            socket.off('connect_error');
         };
     }, [socket]);
 
-    const createRoom = () => {
-        setModalOpen(true);
-    };
+    const createRoom = () => setModalOpen(true);
 
     const handleCreateRoom = (roomName) => {
-        if (roomName) {
-            socket.emit('create_room', { room_name: roomName, username });
-        }
+        console.log("after click handle room the  socket is: ", socket)
+        if (!socket || !roomName) return;
+
+        socket.emit('create_room', {room_name: roomName, username});
         setModalOpen(false);
-        socket.on('room_created', (data) => {
-            setRooms((prevRooms) => [...prevRooms, { ...data }]);
-            joinRoom(data.room_id);
-        });
     };
 
-    const joinRoom = (roomId) => {
-        navigate(`/eac/${roomId}`);
-    };
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleRoomCreated = (data) => {
+            setRooms((prevRooms) => [...prevRooms, {...data}]);
+            joinRoom(data.room_id);
+        };
+
+        socket.on('room_created', handleRoomCreated);
+
+        return () => {
+            socket.off('room_created', handleRoomCreated);
+        };
+    }, [socket]);
+
+    const joinRoom = (roomId) => navigate(`/eac/${roomId}`);
+    if (loading) {
+        return <div>Loading...</div>; // Replace with your own loading spinner
+    }
 
     return (
-        <div className="p-4">
+        <div className="p-4 text-5xl lg:text-lg">
             <h1 className="font-bold text-2xl mb-4">Room List</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {rooms.map(room => (
                     <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div className="p-4">
-                            <h5 className="text-lg font-bold mb-2">{room.name}</h5>
-                            <p className="text-sm text-gray-500 mb-2">主理人: {room.admin}</p>
-                            <p className="text-sm text-gray-500"> {room.created_at}</p>
+                            <h5 className="lg:text-lg text-5xl font-bold mb-2">{room.name}</h5>
+                            <p className="lg:text-sm text-4xl text-gray-500 mb-2">主理人: {room.admin}</p>
+                            <p className="lg:text-sm text-4xl text-gray-500"> {room.created_at}</p>
                         </div>
                         <div className="p-4 bg-gray-100">
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                    onClick={() => joinRoom(room.roomId)}>Join Room</button>
+                                    onClick={() => joinRoom(room.roomId)}>Join Room
+                            </button>
                         </div>
                     </div>
                 ))}
@@ -81,7 +85,7 @@ const RoomList = () => {
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                     onClick={createRoom}>Create Room
             </button>
-            <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom} />
+            <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>
         </div>
     );
 };

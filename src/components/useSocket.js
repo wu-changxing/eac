@@ -1,10 +1,11 @@
-// useSocket.js
-import { useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
+import { SocketContext } from '../SocketContext'; // Import the context
+import config from "../config";
 
-const useSocket = (url) => {
-    const [socket, setSocket] = useState(null);
+const useSocket = () => {
     const hasMounted = useRef(false);
+    const { dispatch } = useContext(SocketContext); // Access dispatch
 
     useEffect(() => {
         hasMounted.current = true;
@@ -15,7 +16,7 @@ const useSocket = (url) => {
 
     useEffect(() => {
         if (hasMounted.current) {
-            const socketIo = io(url, {
+            const socketIo = io(config.SOCKET_HOST, {
                 auth: {
                     token: `${localStorage.getItem("token")}`,
                 },
@@ -23,18 +24,19 @@ const useSocket = (url) => {
 
             socketIo.on("connect", () => {
                 console.log("Connected to Socket.IO server");
-                setSocket(socketIo);
+                dispatch({ type: "SET_SOCKET", payload: socketIo }); // Dispatch the SET_SOCKET action
             });
 
             return () => {
                 if (socketIo) {
                     socketIo.disconnect();
+                    dispatch({ type: "CLEAR_SOCKET" }); // Dispatch the CLEAR_SOCKET action
                 }
             };
         }
-    }, [url, hasMounted]);
+    }, [url, hasMounted, dispatch]); // Add dispatch to the dependency array
 
-    return socket;
+    return;
 };
 
 export default useSocket;

@@ -17,10 +17,10 @@ const Video = ({stream, userLabel, isLocal}) => {
 
 
     return (
-        <div className="bg-gray-50 p-4 rounded-lg shadow-md w-full mb-4">
+        <div className="bg-gray-50 p-4 rounded-lg shadow-md w-full mb-4 text-4xl">
             <div className="flex items-center mb-2">
                 <div className="h-4 w-4 bg-blue-500 rounded-full mr-2"></div>
-                <h3 className="text-lg font-semibold text-sky-700">{userLabel}</h3>
+                <h3 className="lg:text-lg font-semibold text-sky-700">{userLabel}</h3>
                 {isLocal && <span className="text-gray-400">(You)</span>}
             </div>
 

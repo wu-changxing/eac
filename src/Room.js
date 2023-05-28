@@ -5,10 +5,13 @@ import StreamConnect from "./components/StreamConnect";
 import useSocket from './components/useSocket';
 import AdminRoomControl from "./components/AdminRoomControl";
 import config from "./config";
-
+import { useContext } from 'react';
+import { SocketContext } from './SocketContext';
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
-    const socket = useSocket(config.SOCKET_HOST);
+    const { state: socketState } = useContext(SocketContext);
+    const socket = socketState.socket;
+    const peer = socketState.peer;
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');
@@ -19,9 +22,10 @@ const Room = ({onLogout}) => {
 
 
     useEffect(() => {
-        if (socket) {
+        if (socket && peer) {
             console.log('room created: and socket is: ', socket);
             socket.emit('list_rooms');
+            socket.emit('join_room', {room_id: roomId, username: username, peer_id: peer.id});
             socket.on('room_created', (data) => {
                 setIsAdmin(data.is_admin);
 
@@ -54,7 +58,7 @@ const Room = ({onLogout}) => {
             });
 
         }
-    }, [socket]);
+    }, [socket,roomId,peer]);
 
 
     return (

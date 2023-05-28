@@ -34,6 +34,7 @@ function App() {
                 <SocketProvider>
                     <Header authenticated={authenticated}/>
                     <main className="flex-grow flex flex-col justify-center overflow-auto">
+
                         <Routes>
                             <Route
                                 path="/login"

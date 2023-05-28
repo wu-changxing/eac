@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
+import { FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
 
 const Header = ({ authenticated }) => {
     const {state: socketState} = useContext(SocketContext);
@@ -18,19 +19,19 @@ const Header = ({ authenticated }) => {
                         {authenticated ? (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/roomlists">Room List</Link>
+                                    <Link to="/roomlists"><FaListUl className="inline lg:hidden mr-2"/><span className="lg:inline hidden">List </span></Link>
                                 </li>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/logout">Logout</Link>
+                                    <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Logout</span></Link>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/login">Login</Link>
+                                    <Link to="/login"><FaSignInAlt className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Login</span></Link>
                                 </li>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/register">Register</Link>
+                                    <Link to="/register"><FaUserPlus className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Register</span></Link>
                                 </li>
                             </>
                         )}

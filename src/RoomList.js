@@ -2,13 +2,16 @@ import React, {useState, useEffect, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {SocketContext} from './SocketContext';
 import CreateRoomModal from "./components/CreateRoomModal";
+import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
+import {RiVoiceprintFill} from 'react-icons/ri';
 
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
     const {state: {socket}, loading} = useContext(SocketContext);
     const username = localStorage.getItem('username');
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen,] = useState(false);
+
 
     useEffect(() => {
         console.log("socket is: ", socket)
@@ -71,20 +74,27 @@ const RoomList = () => {
                     <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div className="p-4">
                             <h5 className="lg:text-lg text-5xl font-bold mb-2">{room.name}</h5>
-                            <p className="lg:text-sm text-4xl text-gray-500 mb-2">主理人: {room.admin}</p>
-                            <p className="lg:text-sm text-4xl text-gray-500"> {room.created_at}</p>
+                            <p className="lg:text-sm text-4xl text-gray-500 mb-2"><IoMdPeople
+                                className="inline mr-2"/>主理人: {room.admin}</p>
+                            <p className="lg:text-sm text-4xl text-gray-500"><IoIosTime
+                                className="inline mr-2"/>{room.created_at}</p>
                         </div>
                         <div className="p-4 bg-gray-100">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                    onClick={() => joinRoom(room.roomId)}>Join Room
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-16 lg:px-4 text-center rounded"
+                                    onClick={() => joinRoom(room.roomId)}><RiVoiceprintFill className="inline mr-2"/><span
+                                className="lg:inline hidden">Join Room</span>
                             </button>
                         </div>
                     </div>
                 ))}
             </div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                    onClick={createRoom}>Create Room
-            </button>
+            <div className="flex justify-center mb-12 items-center h-16 sm:h-auto bottom-1">
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-6 rounded-full sm:py-2 sm:px-4 sm:rounded mt-4"
+                    onClick={createRoom}>
+                    <IoIosAddCircle className="inline mr-2"/><span className="hidden sm:inline">Create Room</span>
+                </button>
+            </div>
             <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>
         </div>
     );

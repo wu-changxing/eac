@@ -20,9 +20,6 @@ const Header = ({ authenticated }) => {
                         {authenticated ? (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/roomlists"><FaListUl className="inline lg:hidden mr-2"/><span className="lg:inline hidden">List </span></Link>
-                                </li>
-                                <li className="mx-2 my-2 md:my-0">
                                     <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Logout</span></Link>
                                 </li>
                             </>

@@ -1,10 +1,10 @@
 import React from 'react';
 import './Navbar.css';
-
+import { Link } from 'react-router-dom';
 const Navbar = () => {
     const [isNavOpen, setIsNavOpen] = React.useState(false);
     const [isSubmenuOpen, setIsSubmenuOpen] = React.useState(false);
-
+    const navInputRef = React.useRef();
     const handleNavClick = () => {
         setIsNavOpen(!isNavOpen);
     }
@@ -12,12 +12,20 @@ const Navbar = () => {
     const handleSubmenuClick = () => {
         setIsSubmenuOpen(!isSubmenuOpen);
     }
+    const closeNavbar = () => {
+        setIsNavOpen(false);
+        navInputRef.current.checked = false;
+    }
+    return (<nav className="text-white bg-sky-500">
 
-    return (
-        <nav className="text-white bg-sky-500">
-            <input className="nav__trigger-input" type="checkbox" id="trigger" aria-label="open the navigation"
-                   onClick={handleNavClick}/>
-
+        <input
+            ref={navInputRef}
+            className="nav__trigger-input"
+            type="checkbox"
+            id="trigger"
+            aria-label="open the navigation"
+            onClick={handleNavClick}
+        />
             <label
                 className="fixed top-0 right-0 z-10 flex items-center w-14 h-8 m-10 text-pink-500 nav__trigger-finger"
                 htmlFor="trigger">
@@ -25,14 +33,14 @@ const Navbar = () => {
             </label>
             <ul className={`nav__list ${isNavOpen ? 'nav__list-open' : ''}`}>
                 <li className="nav__item">
-                    <a href="#hoi" className="nav__link">
+                    <Link to="/roomlists" className="nav__link" onClick={closeNavbar}>
             <span className="nav__text">
-              List
+             Home
             </span>
-                    </a>
+                    </Link>
                 </li>
                 <li className="nav__item">
-                    <a href="#hoi" className="nav__link">
+                    <a href="https://aaron404.com" className="nav__link">
             <span className="nav__text">
               About
             </span>
@@ -71,9 +79,16 @@ const Navbar = () => {
             </span>
                     </a>
                 </li>
+                <li className="nav__item">
+                    <Link to={"/logout"} className={"nav__link"} onClick={closeNavbar}>
+
+            <span className="nav__text">
+              Logout
+            </span>
+                    </Link>
+                </li>
             </ul>
-        </nav>
-    );
+        </nav>);
 };
 
 export default Navbar;

@@ -47,7 +47,7 @@ const StreamConnect = ({roomId, stream, isStreamReady}) => {
                     const call = peerRef.call(user.peer_id, stream, {metadata: {username}});
                     console.log("Calling user", user);
 
-                    // call.on("stream", remoteStream => addVideoStream(remoteStream, user.username, false));
+                    call.on("stream", remoteStream => addVideoStream(remoteStream, user.username, false));
                 });
             };
 

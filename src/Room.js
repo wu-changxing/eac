@@ -16,7 +16,7 @@ const Room = ({onLogout}) => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');
-    const {stream, isStreamReady} = useStream(false, true);
+    const {stream, isStreamReady} = useStream(true, true);
     const backToRoomList = () => {
         navigate('/roomlists');
     };

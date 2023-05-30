@@ -4,12 +4,12 @@ import { SocketContext } from '../SocketContext';
 import Video from "./Video";
 import useStream from './useStream';
 
-const StreamConnect = ({roomId}) => {
+const StreamConnect = ({roomId, stream, isStreamReady}) => {
     const [streams, setStreams] = useState([]);
     const { state: socketState } = useContext(SocketContext);
     const { socket, peer: peerRef } = socketState;
     const username = localStorage.getItem("username");
-    const {stream, isStreamReady} = useStream(true, true);
+
 
     const addVideoStream = (stream, userLabel, isLocal) => {
         setStreams(prevStreams => {

@@ -7,6 +7,7 @@ import AdminRoomControl from "./components/AdminRoomControl";
 import config from "./config";
 import { useContext } from 'react';
 import { SocketContext } from './SocketContext';
+import useStream from './components/useStream';
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
     const { state: socketState } = useContext(SocketContext);
@@ -15,7 +16,7 @@ const Room = ({onLogout}) => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');
-
+    const {stream, isStreamReady} = useStream(false, true);
     const backToRoomList = () => {
         navigate('/roomlists');
     };
@@ -63,9 +64,9 @@ const Room = ({onLogout}) => {
 
     return (
         <div className="room-container">
-            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin}/>
+            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin} stream={stream} isStreamReady={isStreamReady}/>
             <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
-                 <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} />
+                 <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} stream={stream} />
             </div>
         </div>
     );

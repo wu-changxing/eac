@@ -3,7 +3,7 @@ import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/i
 import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
 
-const AdminRoomControl = ({socket, roomId, isAdmin}) => {
+const AdminRoomControl = ({socket, roomId, isAdmin, stream}) => {
     const [users, setUsers] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
@@ -17,6 +17,12 @@ const AdminRoomControl = ({socket, roomId, isAdmin}) => {
     const kickUser = (user) => {
         socket.emit("kick_user", {room_id: roomId, user: user});
         setShowModal(false);
+    };
+
+    const muteAudio = () => {
+        stream.getAudioTracks().forEach(track => {
+            track.enabled = !track.enabled;
+        });
     };
 
     useEffect(() => {
@@ -46,6 +52,12 @@ const AdminRoomControl = ({socket, roomId, isAdmin}) => {
                     onClick={backToRoomList}>
                     <IoMdReturnLeft className="mr-2 font-bold"/>
                     <span className="lg:inline hidden">Back</span>
+                </button>
+                <button
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
+                    onClick={muteAudio}
+                >
+                    Mute
                 </button>
                 {isAdmin && (
                     <>

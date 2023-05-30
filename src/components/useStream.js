@@ -14,8 +14,8 @@ const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 4
                     //     width: videoWidth,
                     //     height: videoHeight,
                     // } : false,
-                    video:false,
-                    audio,
+                    video:video,
+                    audio:audio,
                 });
                 setStream(mediaStream);
                 setIsStreamReady(true);

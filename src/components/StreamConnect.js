@@ -4,63 +4,84 @@ import { SocketContext } from '../SocketContext';
 import Video from "./Video";
 import useStream from './useStream';
 
-const StreamConnect = ({roomId, stream, isStreamReady}) => {
+const StreamConnect = ({roomId, localStream, isStreamReady}) => {
     const [streams, setStreams] = useState([]);
     const { state: socketState } = useContext(SocketContext);
     const { socket, peer: peerRef } = socketState;
     const username = localStorage.getItem("username");
 
+    useEffect(() => {
+        if (socket) {
+            const handleUserLeft = ({ username }) => {
+                setStreams(streams => streams.filter(s => s.userLabel !== username));
+                console.log("User left", username);
+            };
+            socket.on('user_left', handleUserLeft);
+            return () => socket.removeListener('user_left', handleUserLeft);
+        }
+    }, [socket]);
 
-    const addVideoStream = (stream, userLabel, isLocal) => {
+    const addVideoStream = (livestream, userLabel, isLocal) => {
         setStreams(prevStreams => {
+            const otherStreams = prevStreams.filter(s => s.userLabel !== userLabel);
             if(prevStreams.some(s => s.userLabel === userLabel)) {
-                console.log("Stream already exists for user", userLabel);
-                return prevStreams;
+                console.log("Stream already exists for user", userLabel, "Replacing with new stream.");
+            } else {
+                console.log("Adding video stream", userLabel, livestream);
             }
-            console.log("Adding video stream", userLabel);
-            return [...prevStreams, {stream, userLabel, isLocal}];
+            return [...otherStreams, {livestream, userLabel, isLocal}];
         });
     };
 
+
     useEffect(() => {
-        if (peerRef && isStreamReady) {
-            addVideoStream(stream, username, true);
+        console.log("StreamConnect: useEffect: peerRef", localStream,isStreamReady)
+        if (peerRef && localStream) {
+
+            addVideoStream(localStream, username, true);
             const handleIncomingCall = incomingCall => {
-                //exist user will answer every call it received and add the stream to the streams array
                 console.log("Receiving call exist user will answer every call it received and add the stream to the streams array", incomingCall)
-                incomingCall.answer(stream);
-                const {username: remoteUsername, peer_id: remotePeerId} = incomingCall.metadata;
-                addVideoStream(incomingCall.stream, remoteUsername || "Unknown", false);
+                incomingCall.answer(localStream);
+
+                incomingCall.on('stream', remoteStream => {
+                    const {username: remoteUsername} = incomingCall.metadata;
+                    addVideoStream(remoteStream, remoteUsername || "Unknown", false);
+                });
             };
+
             peerRef.on("call", handleIncomingCall);
+
             return () => peerRef.removeListener("call", handleIncomingCall);
         }
-    }, [peerRef, isStreamReady, stream, username]);
+    }, [peerRef, isStreamReady, localStream, username]);
 
     useEffect(() => {
         if (peerRef && isStreamReady) {
             const handleRoomUsers = ({users}) => {
-                console.log("get room users and start calling", users)
+                console.log("get room users and start to handle room users", users)
                 Object.values(users).forEach(user => {
-                    console.log("Calling user", user);
+                    console.log("handle user", user.user)
                     if (user.peer_id === peerRef.id) return;
+                    if (user.user === username) return;
+                    const stream = localStream; // rename localStream to stream
                     const call = peerRef.call(user.peer_id, stream, {metadata: {username}});
-                    console.log("Calling user", user);
-
-                    // call.on("stream", remoteStream => addVideoStream(remoteStream, user.username, false));
+                    console.log("Calling user", user.user);
+                    console.log("StreamConnect: useEffect: peerRef", localStream,isStreamReady,peerRef)
+                    call.on("stream", remoteStream => addVideoStream(remoteStream, user.user, false));
                 });
             };
 
-            socket.on("update_users", (data) => {
-                console.log("get room users and start calling", data)
+            socket.on("exist_users", (data) => {
                 handleRoomUsers(data);
             });
             socket.on("user_joined", (data) => {
-                console.log("--- NEW User joined", data);
+                // console.log("--- NEW User joined", data);
+                // you can add a notification here
+                // callNewUser(data.new_user);
             });
             return () => socket.removeListener("update_users", handleRoomUsers);
         }
-    }, [peerRef, isStreamReady, stream, username, socket]);
+    }, [peerRef, isStreamReady, localStream, username, socket]);
 
     useEffect(() => {
         if (socket) {
@@ -86,7 +107,7 @@ const StreamConnect = ({roomId, stream, isStreamReady}) => {
                 {streams.map((s, index) => (
                     <div key={s.userLabel} className="p-6 bg-white rounded-lg shadow-md">
                         <div className="text-lg font-semibold mb-2 text-gray-700">{index}</div>
-                        <Video stream={s.stream} userLabel={s.userLabel} isLocal={s.isLocal}/>
+                        <Video stream={s.livestream} userLabel={s.userLabel} isLocal={s.isLocal}/>
                     </div>
                 ))}
             </div>

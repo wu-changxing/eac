@@ -4,7 +4,7 @@ import {SocketContext} from './SocketContext';
 import CreateRoomModal from "./components/CreateRoomModal";
 import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
 import {RiVoiceprintFill} from 'react-icons/ri';
-
+import Dialog from "./components/Dialog";
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
@@ -12,7 +12,10 @@ const RoomList = () => {
     const username = localStorage.getItem('username');
     const [modalOpen, setModalOpen,] = useState(false);
 
-
+    const [openDialog, setOpenDialog] = useState(false);
+    const [openVideo, setOpenVideo] = useState(false);
+    const [openAudio, setOpenAudio] = useState(false);
+    const [selectedRoomId, setSelectedRoomId] = useState(null);
     useEffect(() => {
         console.log("socket is: ", socket)
         if (!socket) return;
@@ -61,7 +64,16 @@ const RoomList = () => {
         };
     }, [socket]);
 
-    const joinRoom = (roomId) => navigate(`/eac/${roomId}`);
+    const joinRoom = (roomId) => {
+        setSelectedRoomId(roomId); // Store roomId to join after confirm
+        navigate(`/eac/${roomId}`); // Navigate to room
+    };
+
+    const handleDialogConfirm = () => {
+        setOpenDialog(false); // Close the dialog
+        console.log("opevide and openaudio is: ", openVideo, openAudio)
+        navigate(`/eac/${selectedRoomId}`, { state: { openVideo, openAudio } }); // Navigate to room with user choices
+    };
     if (loading) {
         return <div>Loading...</div>; // Replace with your own loading spinner
     }
@@ -95,6 +107,9 @@ const RoomList = () => {
                     <IoIosAddCircle className="inline mr-2"/><span className="hidden sm:inline">Create Room</span>
                 </button>
             </div>
+
+
+
             <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>
         </div>
     );

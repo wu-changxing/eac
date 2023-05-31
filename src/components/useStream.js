@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 480) => {
-    const [stream, setStream] = useState(null);
+    const [localStream, setStream] = useState(null);
     const [isStreamReady, setIsStreamReady] = useState(false);
 
     useEffect(() => {
@@ -14,20 +14,20 @@ const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 4
                     //     width: videoWidth,
                     //     height: videoHeight,
                     // } : false,
-                    video:video,
+                    video:true,
                     audio:audio,
                 });
                 setStream(mediaStream);
                 setIsStreamReady(true);
             } catch (error) {
-                console.error('Error initializing stream:', error);
+                console.error('Error initializing localStream:', error);
             }
         };
 
         initializeStream();
     }, [video, audio, videoWidth, videoHeight]);
 
-    return { stream, isStreamReady };
+    return { localStream, isStreamReady };
 };
 
 export default useStream;

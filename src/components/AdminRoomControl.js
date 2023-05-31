@@ -2,12 +2,34 @@ import React, {useState, useEffect} from "react";
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
 import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
+import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 
-const AdminRoomControl = ({socket, roomId, isAdmin, stream}) => {
+const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVideo}) => {
     const [users, setUsers] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const username = localStorage.getItem("username");
     const navigate = useNavigate();
+    const [videoStatus, setVideoStatus] = useState(true);
+    const leaveRoom = () => {
+        // Stop all tracks in the stream
+        socket.emit("leave", {room_id: roomId, username: username});
+        if (!localStream) {
+            console.log('localStream is null');
+            return;
+        }
+        localStream.getTracks().forEach((track) => {
+            track.stop();
+        });
+
+        // Notify the server that the user is leaving
+
+        // Disconnect the socket and peer
+        // socket.disconnect();
+        // peerRef.disconnect();
+    }
+
     const backToRoomList = () => {
+        leaveRoom()
         navigate('/roomlists');
     };
     const dismissRoom = () => {
@@ -20,9 +42,22 @@ const AdminRoomControl = ({socket, roomId, isAdmin, stream}) => {
     };
 
     const muteAudio = () => {
-        stream.getAudioTracks().forEach(track => {
+        localStream.getAudioTracks().forEach(track => {
             track.enabled = !track.enabled;
         });
+    };
+    const toggleVideo = () => {
+        console.log('toggleVideo has been called');
+        console.log('localStream:', localStream)
+        console.log('localStream.getVideoTracks():', localStream.getVideoTracks());
+        const videoTrack = localStream.getVideoTracks()[0];
+        console.log('videoTrack:', videoTrack);
+        if (videoTrack) {
+            videoTrack.enabled = !videoTrack.enabled;
+            console.log('videoTrack.enabled:', videoTrack.enabled);
+            // setOpenVideo(videoTrack.enabled);
+            setVideoStatus(videoTrack.enabled);
+        }
     };
 
     useEffect(() => {
@@ -51,13 +86,20 @@ const AdminRoomControl = ({socket, roomId, isAdmin, stream}) => {
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={backToRoomList}>
                     <IoMdReturnLeft className="mr-2 font-bold"/>
-                    <span className="lg:inline hidden">Back</span>
+                    <span className="lg:inline hidden">leave</span>
                 </button>
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={muteAudio}
                 >
                     Mute
+                </button>
+                <button
+                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
+                    onClick={toggleVideo}
+                >
+                    {videoStatus ? <IoVideocamOff className="mr-2 font-bold"/> : <IoVideocam className="mr-2 font-bold"/>}
+                    <span className="lg:inline hidden">{videoStatus ? "Disable Video" : "Enable Video"}</span>
                 </button>
                 {isAdmin && (
                     <>

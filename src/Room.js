@@ -8,6 +8,7 @@ import config from "./config";
 import { useContext } from 'react';
 import { SocketContext } from './SocketContext';
 import useStream from './components/useStream';
+import Dialog  from "./components/Dialog";
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
     const { state: socketState } = useContext(SocketContext);
@@ -16,7 +17,12 @@ const Room = ({onLogout}) => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');
-    const {stream, isStreamReady} = useStream(true, true);
+    const { openVideo: initialOpenVideo, openAudio: initialOpenAudio } = location.state || { openVideo: false, openAudio: true };
+    // rest of the useState declarations
+    const [openVideo, setOpenVideo] = useState(initialOpenVideo);
+    const [openAudio, setOpenAudio] = useState(initialOpenAudio);
+    // rest of the code
+    const { localStream, isStreamReady } = useStream(openVideo, openAudio);
     const backToRoomList = () => {
         navigate('/roomlists');
     };
@@ -64,9 +70,10 @@ const Room = ({onLogout}) => {
 
     return (
         <div className="room-container">
-            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin} stream={stream} isStreamReady={isStreamReady}/>
+            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
             <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
-                 <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} stream={stream} />
+                <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}  openVideo={openVideo} setOpenVideo={setOpenVideo} />
+
             </div>
         </div>
     );

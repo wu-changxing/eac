@@ -3,13 +3,14 @@ import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/i
 import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
-
+import { IoMicOff, IoMic } from "react-icons/io5";
 const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVideo}) => {
     const [users, setUsers] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const username = localStorage.getItem("username");
     const navigate = useNavigate();
-    const [videoStatus, setVideoStatus] = useState(true);
+    const [videoStatus, setVideoStatus] = useState(false);
+    const [audioStatus, setAudioStatus] = useState(true);
     const leaveRoom = () => {
         // Stop all tracks in the stream
         socket.emit("leave", {room_id: roomId, username: username});
@@ -41,10 +42,13 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
         setShowModal(false);
     };
 
-    const muteAudio = () => {
+
+
+    const toggleAudio = () => {
         localStream.getAudioTracks().forEach(track => {
             track.enabled = !track.enabled;
         });
+        setAudioStatus(localStream.getAudioTracks()[0]?.enabled ?? false);
     };
     const toggleVideo = () => {
         console.log('toggleVideo has been called');
@@ -90,10 +94,12 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
                 </button>
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
-                    onClick={muteAudio}
+                    onClick={toggleAudio}
                 >
-                    Mute
+                    {audioStatus ? <IoMicOff className="mr-2 font-bold"/> : <IoMic className="mr-2 font-bold"/>}
+                    <span className="lg:inline hidden">{audioStatus ? "Mute Audio" : "Unmute Audio"}</span>
                 </button>
+
                 <button
                     className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={toggleVideo}

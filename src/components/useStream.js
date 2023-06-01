@@ -9,16 +9,19 @@ const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 4
         const initializeStream = async () => {
             try {
                 const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    // video: video ? {
-                    //     echoCancellation: true,
-                    //     width: videoWidth,
-                    //     height: videoHeight,
-                    // } : false,
-                    video:true,
+                    video: {
+                        echoCancellation: true,
+                        width: videoWidth,
+                        height: videoHeight,
+                    } ,
                     audio:audio,
                 });
                 setStream(mediaStream);
                 setIsStreamReady(true);
+                    const videoTrack = mediaStream.getVideoTracks()[0];
+                    if (videoTrack) {
+                        videoTrack.enabled = false;
+                    }
             } catch (error) {
                 console.error('Error initializing localStream:', error);
             }

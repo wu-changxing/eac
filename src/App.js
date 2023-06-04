@@ -9,6 +9,8 @@ import Logout from './components/Logout';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import {SocketProvider} from './SocketContext';
+import Profile from "./Profile";
+import EditProfile from "./EditProfile";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -31,6 +33,7 @@ function App() {
     return (
         <div className="App h-screen flex flex-col text-5xl lg:text-lg">
             <Router>
+
                 <SocketProvider>
                     <Header authenticated={authenticated}/>
                     <main className="flex-grow flex flex-col justify-center overflow-auto">
@@ -87,10 +90,26 @@ function App() {
                                 }
                             />
                             <Route path="/logout" element={<Logout onLogout={handleLogout}/>}/>
+                            <Route path="/profile" element={
+                                authenticated ? (
+                                        <Profile/>)
+                                    : (
+                                        <Login onLogin={handleLogin}/>
+
+                                    )
+                            }/>
+                            <Route path="/editprofile" element={
+                                authenticated ? (
+                                        <EditProfile/>)
+                                    : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                            }/>
                         </Routes>
                     </main>
                     <Footer/>
-                </SocketProvider>
+
+            </SocketProvider>
             </Router>
         </div>
     );

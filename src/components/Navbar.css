@@ -108,13 +108,13 @@
     background: hotpink;
     font-size: 4rem;
     padding: 40px;
-    transform: translate(150vw) rotate(8deg);
+    transform: translate(180vw) rotate(48deg);
     transition: 0.1s var(--bezier);
 }
 
 @media screen and (max-width: 1200px) {
     .nav__list {
-        transform: translate(140vw) rotate(45deg);
+        transform: translate(150vw) rotate(45deg);
     }
 }
 @media screen and (min-width: 1201px) {

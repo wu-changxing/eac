@@ -1,10 +1,11 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
-import { FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
+import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome} from 'react-icons/fa'; // Import icons
 import Navbar from "./Navbar";
+import logo  from "../logo.svg";
 
-const Header = ({ authenticated }) => {
+const Header = ({authenticated}) => {
     const {state: socketState} = useContext(SocketContext);
     const socket = socketState.socket;
     const peer = socketState.peer;
@@ -17,19 +18,31 @@ const Header = ({ authenticated }) => {
             <div className="flex flex-col md:flex-row justify-between items-center h-full px-4 md:px-10 lg:px-20">
                 <nav className="lg:text-lg">
                     <ul className="flex flex-col md:flex-row items-center lg:text-xl">
+                        <li className="mx-2 my-2 md:my-0">
+                            <img className="h-28 w-28" src={logo} alt=" logo"/>
+                        </li>
+
                         {authenticated ? (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Logout</span></Link>
+                                    <Link to="/">
+                                        <FaHome className="inline lg:hidden mr-2"/><span
+                                        className="lg:inline hidden">Home</span></Link>
+                                </li>
+                                <li className="mx-2 my-2 md:my-0">
+                                    <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2"/><span
+                                        className="lg:inline hidden">Logout</span></Link>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/login"><FaSignInAlt className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Login</span></Link>
+                                    <Link to="/login"><FaSignInAlt className="inline lg:hidden mr-2"/><span
+                                        className="lg:inline hidden">Login</span></Link>
                                 </li>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/register"><FaUserPlus className="inline lg:hidden mr-2"/><span className="lg:inline hidden">Register</span></Link>
+                                    <Link to="/register"><FaUserPlus className="inline lg:hidden mr-2"/><span
+                                        className="lg:inline hidden">Register</span></Link>
                                 </li>
                             </>
                         )}
@@ -52,7 +65,8 @@ const Header = ({ authenticated }) => {
 
             </div>
         </header>
-    );
+    )
+        ;
 };
 
 export default Header;

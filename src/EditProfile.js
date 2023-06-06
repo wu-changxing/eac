@@ -4,7 +4,7 @@ import {FaTransgender, FaCalendar} from "react-icons/fa";
 import config from "./config";
 import {BsFillCalendarFill} from "react-icons/all";
 import ProfileBio from "./ProfileComponents/ProfileBio";
-import {AarowRight} from "react-icons/all";
+import { FaArrowRight } from 'react-icons/fa';
 import {AiOutlineArrowRight} from "react-icons/ai";
 const EditProfile = () => {
     const [profileData, setProfileData] = useState({

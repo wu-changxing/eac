@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import config from '../config';
 
 const Register = () => {
@@ -9,6 +9,19 @@ const Register = () => {
     const [password2, setPassword2] = useState('');
     const [recommendationCode, setRecommendationCode] = useState('');
     const [error, setError] = useState('');
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const recommendationCodeParam = searchParams.get('recommendation_code');
+        console.log(recommendationCodeParam);
+        if (recommendationCodeParam) {
+            setRecommendationCode(decodeURIComponent(recommendationCodeParam.replace(/\+/g, '%20')));
+        }
+    }, [searchParams]);
+
+
+    console.log(recommendationCode)
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,6 +59,7 @@ const Register = () => {
         <div className="min-h-screen flex items-center justify-center bg-blue-500 p-4 w-full text-4xl lg:text-lg">
             <div className="bg-white w-full rounded shadow-2xl p-4 md:p-8 lg:p-16 mx-2 sm:mx-4 md:mx-20 lg:max-w-xl">
                 <h2 className="text-3xl text-center font-bold mb-10 text-gray-800">Register</h2>
+                <p className="text-red-400 text-center">请不要使用微信内置浏览器进行注册。 建议使用Chrome Firefox 浏览器</p> {/* The new line */}
                 {error && <div className="bg-red-500 p-2 rounded-sm text-white mb-2">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="my-4">

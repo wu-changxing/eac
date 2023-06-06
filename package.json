@@ -30,10 +30,13 @@
   "dependencies": {
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
+    "html-to-image": "^1.11.11",
     "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-qr-code": "^2.0.11",
+    "react-qrcode-logo": "^2.9.0",
     "react-router-dom": "^6.11.2",
     "socket.io-client": "^4.6.1",
     "web-vitals": "^3.3.1"

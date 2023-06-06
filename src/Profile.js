@@ -11,6 +11,7 @@ import ProfileCard from "./ProfileComponents/ProfileCard";
 import ProfileState from "./ProfileComponents/ProfileState";
 import RecommendationCodeCard from "./ProfileComponents/RecommendationCodeCard";
 import ProfileBio from "./ProfileComponents/ProfileBio";
+import InvitedUsersCard from "./ProfileComponents/InvitedUsersCard";
 const Profile = () => {
     // fetch data from API
     const [profileData, setProfileData] = useState(null);
@@ -52,22 +53,12 @@ const Profile = () => {
     const bio = profileData ? profileData.bio ? profileData.bio : 'No bio' : 'No bio';
     const avatar = profileData ? profileData.avatar ? profileData.avatar : 'No avatar' : 'No avatar';
 
-    const totalExperience = 3000;
-    const recommendCode = "ABCD123";
-    const useLimit = 10;
-    const [copied, setCopied] = useState(false);
+    const totalExperience = 300;
 
     const progressPercentageCredits = (credits / totalCredits) * 100;
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
-    const handleCopyClick = () => {
-        navigator.clipboard.writeText(recommendCode);
-        setCopied(true);
 
-        setTimeout(() => {
-            setCopied(false);
-        }, 2000);
-    }
     return (
         isLoading ?
             <div>Loading...</div>
@@ -77,7 +68,8 @@ const Profile = () => {
                 <ProfileBio bio={bio} />
                 <ProfileCard username={username} level={level} invited_by={invited_by} badge={badge} avatar={avatar}/>
                 <ProfileState level={level} credits={credits} experience={experience} invited_by={invited_by} />
-                <RecommendationCodeCard recommendCode={recommendCode} useLimit={useLimit} handleCopyClick={handleCopyClick} copied={copied} />
+                <RecommendationCodeCard />
+                <InvitedUsersCard />
             </div>
     );
 };

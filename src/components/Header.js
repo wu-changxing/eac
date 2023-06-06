@@ -4,6 +4,7 @@ import {SocketContext} from '../SocketContext';
 import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome} from 'react-icons/fa'; // Import icons
 import Navbar from "./Navbar";
 import logo  from "../logo.svg";
+import macaw6 from "../../assests/macaw6.svg";
 
 const Header = ({authenticated}) => {
     const {state: socketState} = useContext(SocketContext);
@@ -15,12 +16,13 @@ const Header = ({authenticated}) => {
 
     return (
         <header className="fixed top-0 text-5xl  w-full bg-gray-200 h-20 lg:h-16">
-            <div className="flex flex-col md:flex-row justify-between items-center h-full px-4 md:px-10 lg:px-20">
+            <div className="flex flex-col md:flex-row justify-between items-start h-full px-4 md:px-10 lg:px-20">
                 <nav className="lg:text-lg">
                     <ul className="flex flex-col md:flex-row items-center lg:text-xl">
-                        <li className="mx-2 my-2 md:my-0">
-                            <img className="h-28 w-28" src={logo} alt=" logo"/>
+                        <li className="mx-2 my-2 md:my-0 relative">
+                            <img className="h-28 w-28 z-10 -mb-14" src={macaw6} alt=" logo"/>
                         </li>
+
 
                         {authenticated ? (
                             <>

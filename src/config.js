@@ -4,6 +4,7 @@ const config = {
   PEER_HOST: process.env.PARCEL_PEER_HOST || "peerjs.aaron404.com",
   HOST: process.env.PARCEL_HOST || "aaron404.com",
   SOCKET_HOST: process.env.PARCEL_SOCKET_HOST || "https://aaron404.com",
+  CURRENT_HOST: process.env.PARCEL_CURRENT_HOST || "https://eac.aaron404.com",
 };
 
 export default config;

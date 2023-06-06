@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {AiOutlineUser, AiOutlineMail, AiFillPicture, AiOutlineInfoCircle} from "react-icons/ai"; // import necessary icons
 import {FaTransgender, FaCalendar} from "react-icons/fa";
 import config from "./config";
-import {BsFillCalendarFill} from "react-icons/all";
+import { BsFillCalendarFill } from 'react-icons/bs';
 import ProfileBio from "./ProfileComponents/ProfileBio";
 import { FaArrowRight } from 'react-icons/fa';
 import {AiOutlineArrowRight} from "react-icons/ai";

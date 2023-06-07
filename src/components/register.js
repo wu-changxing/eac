@@ -37,9 +37,12 @@ const Register = () => {
             password2,
             recommendation_code: recommendationCode,
         })
-            .then(() => {
-                // Registration successful, redirect to login page
-                window.location.href = '/login';
+            .then(response => {
+                // Save username and token to local storage
+                localStorage.setItem('username', username);
+                localStorage.setItem('token', response.data.token);
+                // Redirect to home page
+                window.location.href = '/';
             })
             .catch(error => {
                 if (error.response && error.response.data) {

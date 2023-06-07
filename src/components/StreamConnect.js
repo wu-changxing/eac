@@ -9,6 +9,7 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
     const { state: socketState } = useContext(SocketContext);
     const { socket, peer: peerRef } = socketState;
     const username = localStorage.getItem("username");
+    const [newUser, setNewUser] = useState(null);
 
     useEffect(() => {
         if (socket) {
@@ -16,10 +17,37 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
                 setStreams(streams => streams.filter(s => s.userLabel !== username));
                 console.log("User left", username);
             };
+
             socket.on('user_left', handleUserLeft);
+            socket.on('user_joined', (data) =>{
+                console.log("user joined", data)
+                setNewUser(data.new_user);
+                if (peerRef && localStream && isStreamReady) {
+                    if (data.new_user.peer_id === peerRef.id) return;
+                    if (data.new_user.username === username) return;
+                    const stream = localStream; // rename localStream to stream
+                    const call = peerRef.call(data.new_user.peer_id, stream, {metadata: {username}});
+                    console.log("Calling user", data.new_user);
+                    console.log("StreamConnect: useEffect: peerRef", localStream, isStreamReady, peerRef)
+                    call.on("stream", remoteStream => addVideoStream(remoteStream, data.new_user.username, false));
+                }
+            });
+
             return () => socket.removeListener('user_left', handleUserLeft);
         }
     }, [socket]);
+
+    useEffect(() => {
+        if (newUser && peerRef && localStream && isStreamReady) {
+            if (newUser.peer_id === peerRef.id) return;
+            if (newUser.username === username) return;
+            const stream = localStream; // rename localStream to stream
+            const call = peerRef.call(newUser.peer_id, stream, {metadata: {username}});
+            console.log("Calling user", newUser);
+            console.log("StreamConnect: useEffect: peerRef", localStream, isStreamReady, peerRef)
+            call.on("stream", remoteStream => addVideoStream(remoteStream,newUser.username, false));
+        }
+    }, [newUser]);
 
     const addVideoStream = (livestream, userLabel, isLocal) => {
         setStreams(prevStreams => {
@@ -38,6 +66,7 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
         console.log("StreamConnect: useEffect: peerRef", localStream,isStreamReady)
         if (peerRef && localStream) {
 
+            socket.emit('join_room', {room_id: roomId, username: username, peer_id: peerRef.id})
             addVideoStream(localStream, username, true);
             const handleIncomingCall = incomingCall => {
                 console.log("Receiving call exist user will answer every call it received and add the stream to the streams array", incomingCall)
@@ -56,11 +85,12 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
     }, [peerRef, isStreamReady, localStream, username]);
 
     useEffect(() => {
-        if (peerRef && isStreamReady) {
+        if (peerRef && localStream && isStreamReady) {
+
             const handleRoomUsers = ({users}) => {
                 console.log("get room users and start to handle room users", users)
                 Object.values(users).forEach(user => {
-                    console.log("handle user", user.user)
+                    console.log("you are the caller, you are calling the user", user.user)
                     if (user.peer_id === peerRef.id) return;
                     if (user.user === username) return;
                     const stream = localStream; // rename localStream to stream
@@ -70,9 +100,10 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
                     call.on("stream", remoteStream => addVideoStream(remoteStream, user.user, false));
                 });
             };
-
             socket.on("exist_users", (data) => {
+                console.log("get room users and start to handle room users", data)
                 handleRoomUsers(data);
+
             });
             socket.on("user_joined", (data) => {
                 // console.log("--- NEW User joined", data);
@@ -98,7 +129,7 @@ const StreamConnect = ({roomId, localStream, isStreamReady}) => {
             socket.on('user_kicked', handleUserKicked);
             return () => socket.removeListener('user_kicked', handleUserKicked);
         }
-    }, [socket, username, peerRef]);
+    }, [socket, peerRef]);
 
     return (
         <div className="p-4">

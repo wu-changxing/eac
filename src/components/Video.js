@@ -1,19 +1,73 @@
-// src/components/Video.js
 import React, {useState, useEffect, useRef} from "react";
+import config from "../config";
 
 const Video = ({stream, userLabel, isLocal}) => {
     const videoRef = useRef();
-    const waveRef = useRef();
+    const [isVideoMuted, setVideoMuted] = useState(false);
+    const token = localStorage.getItem("token");
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
+    const [videoTrackEnabled, setVideoTrackEnabled] = useState(false);
+    const [videoTrackMuted, setVideoTrackMuted] = useState(false)
 
     useEffect(() => {
         if (videoRef.current && stream) {
             videoRef.current.srcObject = stream;
             if (isLocal) {
                 videoRef.current.muted = true;
+                setVideoMuted(true);
+
             }
         }
-    }, [stream, isLocal]);
+    }, [stream, isLocal, userLabel]);
+
+    useEffect(() => {
+
+        if (isLocal){
+            const videoTrack = stream.getVideoTracks()[0];
+            if (videoTrack) {
+                setVideoTrackEnabled(videoTrack.enabled);
+                setVideoTrackMuted(videoTrack.muted);
+                console.log("Video track", videoTrack, userLabel, videoTrack.enabled, videoTrack.muted, videoTrackEnabled, videoTrackMuted);
+            }
+        }
+    }, [stream,isLocal]);
+
+    useEffect(() => {
+        if(!videoTrackEnabled && !videoTrackMuted){
+            setVideoMuted(false);
+        }
+        if (videoTrackEnabled && videoTrackMuted) {
+            setVideoMuted(true);
+        }
+        if (videoTrackEnabled && !videoTrackMuted) {
+            setVideoMuted(false);
+        }
+        if (!videoTrackEnabled && videoTrackMuted) {
+            setVideoMuted(true);
+        }
+
+    }, [videoTrackEnabled, videoTrackMuted]);
+
+
+    // Put the avatar URL here
+    useEffect(() => {
+        if (isVideoMuted) {
+            fetch(`${config.DJ_END}/eac/user/${userLabel}/avatar/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            )
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setAvatarUrl(data.avatar)
+                })
+                .catch(error => console.log(error));
+        }
+    }, [isVideoMuted, userLabel, token]);
 
 
     return (
@@ -26,14 +80,17 @@ const Video = ({stream, userLabel, isLocal}) => {
 
             <div className="relative mt-2">
                 <div className="bg-white rounded-full p-2 shadow-md">
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        playsInline
-                        className="w-full rounded-full"
-                    ></video>
+                    {isVideoMuted ?
+                        <img src={avatarUrl} alt="User Avatar" className="w-full rounded-full"/>
+                        :
+                        <video
+                            ref={videoRef}
+                            autoPlay
+                            playsInline
+                            className="w-full rounded-full"
+                        ></video>
+                    }
                     <svg
-                        ref={waveRef}
                         className="absolute bottom-0 left-0 w-full h-2"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 1440 20"

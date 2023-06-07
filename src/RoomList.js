@@ -83,7 +83,7 @@ const RoomList = () => {
             <h1 className="font-bold text-2xl mb-4">Room List</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {rooms.map(room => (
-                    <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div key={room.roomId} className="bg-white shadow-lg rounded-tr-3xl lg:rounded-br-8xl rounded-br-7xl overflow-hidden">
                         <div className="p-4">
                             <h5 className="lg:text-lg text-5xl font-bold mb-2">{room.name}</h5>
                             <p className="lg:text-sm text-4xl text-gray-500 mb-2"><IoMdPeople
@@ -100,13 +100,14 @@ const RoomList = () => {
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center mb-12 items-center h-16 sm:h-auto bottom-1">
+            <div className="fixed bottom-10 left-0 w-full flex justify-center pb-4">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-6 rounded-full sm:py-2 sm:px-4 sm:rounded mt-4"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-24 h-24 flex items-center justify-center rounded-full"
                     onClick={createRoom}>
-                    <IoIosAddCircle className="inline mr-2"/><span className="hidden sm:inline">Create Room</span>
+                    <IoIosAddCircle className="md:text-4xl"/>
                 </button>
             </div>
+
 
 
 

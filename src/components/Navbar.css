@@ -74,7 +74,7 @@
 }
 
 .nav__trigger-input:checked + .nav__trigger-finger {
-    height: 10px;
+    /*height: 14px;*/
     color: white;
 }
 
@@ -104,17 +104,17 @@
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: -1;
+    z-index: 1;
     background: hotpink;
     font-size: 4rem;
     padding: 40px;
-    transform: translate(180vw) rotate(48deg);
+    transform: translate(190vw) rotate(49deg);
     transition: 0.1s var(--bezier);
 }
 
 @media screen and (max-width: 1200px) {
     .nav__list {
-        transform: translate(150vw) rotate(45deg);
+        transform: translate(170vw) rotate(45deg);
     }
 }
 @media screen and (min-width: 1201px) {

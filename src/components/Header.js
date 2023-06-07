@@ -16,14 +16,21 @@ const Header = ({authenticated}) => {
 
     return (
         <header className="fixed top-0 text-5xl  w-full bg-gray-200 h-20 lg:h-16">
-            <div className="flex flex-col md:flex-row justify-between items-start h-full px-4 md:px-10 lg:px-20">
+            <div className="flex flex-col md:flex-row justify-between items-stretch h-full px-4 md:px-10 lg:px-20">
+                <div className="flex items-center justify-start">
+                    <div className={`h-8 w-8 lg:h-12 lg:w-12 rounded-8xl border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center`}>
+                        <div className={`h-6 w-6 rounded-8xl ${isPeerReady ? 'bg-green-500' : 'bg-red-500'} flex items-center justify-center`}>
+                            <div className={`h-4 w-4 rounded-8xl ${isPeerConnected ? 'bg-green-500' : 'bg-blue-500'}`}>
+                            </div>
+                        </div>
+                    </div>
+                    <Link to="/">
+                        <img className="h-28 w-28 z-10 -mb-14 -ml-4 mr-10" src={macaw6} alt="logo" />
+                    </Link>
+                </div>
+
                 <nav className="lg:text-lg">
-                    <ul className="flex flex-col md:flex-row items-center lg:text-xl">
-                        <li className="mx-2 my-2 md:my-0 relative">
-                            <img className="h-28 w-28 z-10 -mb-14" src={macaw6} alt=" logo"/>
-                        </li>
-
-
+                    <ul className="flex flex-col mt-4 md:flex-row items-center lg:text-xl">
                         {authenticated ? (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
@@ -50,25 +57,12 @@ const Header = ({authenticated}) => {
                         )}
                     </ul>
                 </nav>
-                <div className="lg:text-lg">
+                <div className="flex items-center lg:text-lg">
                     <Navbar/>
                 </div>
-                <div className="flex items-center justify-end">
-
-                    <div
-                        className={`h-8 w-8 lg:h-12 lg:w-12 rounded-full border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center`}>
-                        <div
-                            className={`h-6 w-6 rounded-full ${isPeerReady ? 'bg-green-500' : 'bg-red-500'} flex items-center justify-center`}>
-                            <div className={`h-4 w-4 rounded-full ${isPeerConnected ? 'bg-green-500' : 'bg-blue-500'}`}>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </header>
-    )
-        ;
+    );
 };
 
 export default Header;

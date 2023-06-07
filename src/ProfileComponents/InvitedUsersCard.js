@@ -45,6 +45,9 @@ const InvitedUsersCard = () => {
             </span>
                 ))}
             </div>
+            <div className="flex flex-wrap space-x-2 text-white">
+                收集一万片不同的羽毛，可以兑换一只鹦鹉
+            </div>
         </div>
     );
 };

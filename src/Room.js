@@ -24,6 +24,7 @@ const Room = ({onLogout}) => {
     // rest of the code
     const { localStream, isStreamReady } = useStream(openVideo, openAudio);
     const backToRoomList = () => {
+        setIsAdmin(false);
         navigate('/roomlists');
     };
 
@@ -39,7 +40,7 @@ const Room = ({onLogout}) => {
                 console.log('after set is admin in room:', isAdmin);
             });
             socket.on('rooms', (data) => {
-                console.log('-------------Room list retrieved:', data.rooms);
+                // console.log('-------------Room list retrieved:', data.rooms);
                 // setRooms(data.rooms);
             });
             socket.emit('is_room_admin', {

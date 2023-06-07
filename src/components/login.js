@@ -37,7 +37,7 @@ const Login = ({ onLogin }) => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-500 p-4 w-full text-4xl lg:text-lg">
+        <div className="min-h-screen flex items-center justify-center p-4 w-full text-4xl lg:text-lg">
             {/*<div className="bg-white w-full rounded shadow-2xl p-4 md:p-8 lg:p-16  mx-2 sm:mx-10 md:mx-0 md:max-w-xl">*/}
             <div className="bg-white w-full rounded shadow-2xl p-4 md:p-8 lg:p-16 mx-2 sm:mx-4 md:mx-20 lg:max-w-xl">
                 <h2 className="text-3xl text-center font-bold mb-10 text-gray-800">Login</h2>

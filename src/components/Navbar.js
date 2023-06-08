@@ -40,7 +40,7 @@ const Navbar = () => {
                 </Link>
             </li>
             <li className="nav__item">
-                <a href="https://aaron404.com/musings" className="nav__link">
+                <a href="#" className="nav__link">
                     <FaInfoCircle /> <span className="nav__text">About</span>
                 </a>
                 <input className="nav__submenu-trigger-input" type="checkbox" id="submenu-trigger"
@@ -48,27 +48,27 @@ const Navbar = () => {
                 <label className="nav__submenu-trigger-finger" htmlFor="submenu-trigger"></label>
                 <ul className={`nav__list-child ${isSubmenuOpen ? 'nav__list-child-open' : ''}`}>
                     <li className="nav__item">
-                        <a href="https://aaron404.com/site/" className="nav__link">
+                        <a href="https://aaron404.com/zh/eac-log/%E4%B8%80%E4%B8%AA%E7%AE%80%E7%9F%AD%E7%9A%84%E9%82%80%E8%AF%B7/" className="nav__link">
                             <span className="nav__text">About the site</span>
                         </a>
                     </li>
                     <li className="nav__item">
-                        <a href="#hoi" className="nav__link">
+                        <a href="#" className="nav__link">
                             <span className="nav__text">About me</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li className="nav__item">
-                <a href="#hoi" className="nav__link">
+                <a href="https://aaron404.com/zh/eac-log/" className="nav__link">
                     <FaBlog className="text-white" /> <span className="nav__text">Blog</span>
                 </a>
             </li>
-            <li className="nav__item">
-                <a href="#hoi" className="nav__link">
-                    <FaEnvelope /> <span className="nav__text">Contact</span>
-                </a>
-            </li>
+            {/*<li className="nav__item">*/}
+            {/*    <a href="#" className="nav__link">*/}
+            {/*        <FaEnvelope /> <span className="nav__text">Contact</span>*/}
+            {/*    </a>*/}
+            {/*</li>*/}
             <li className="nav__item">
                 <Link to={"/logout"} className={"nav__link"} onClick={closeNavbar}>
                     <FaSignOutAlt /> <span className="nav__text">Logout</span>

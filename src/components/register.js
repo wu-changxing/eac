@@ -83,8 +83,8 @@ const Register = () => {
                     </div>
                     <button type="submit" className="w-full py-8 lg:py-4 px-4 mt-4 lg:text-2xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Register</button>
                 </form>
-                <p className="mt-8 text-center text-2xl">Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-700">Login here</Link>.</p>
-                <p className="mt-8 text-center text-2xl">  邀请码获取请查看 <a src="https://aaron404.com/zh/eac-log/%E4%B8%80%E4%B8%AA%E7%AE%80%E7%9F%AD%E7%9A%84%E9%82%80%E8%AF%B7/" className="text-blue-500 hover:text-blue-700"></a>这个说明</p>
+                <p className="mt-8 text-center text-4xl lg:text-xl">Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-700">Login here</Link>.</p>
+                <p className="mt-8 text-center text-4xl lg:text-xl">  邀请码获取请查看 <a src="https://aaron404.com/zh/eac-log/%E4%B8%80%E4%B8%AA%E7%AE%80%E7%9F%AD%E7%9A%84%E9%82%80%E8%AF%B7/" className="text-blue-500 hover:text-blue-700">这个说明</a></p>
             </div>
         </div>
     );

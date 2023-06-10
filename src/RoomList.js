@@ -92,7 +92,7 @@ const RoomList = () => {
                                 className="inline mr-2"/>{room.created_at}</p>
                         </div>
                         <div className="p-4 bg-gray-100">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-16 lg:px-4 text-center rounded"
+                            <button className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-16 lg:px-4 text-center rounded"
                                     onClick={() => joinRoom(room.roomId)}><RiVoiceprintFill className="inline mr-2"/><span
                                 className="lg:inline hidden">Join Room</span>
                             </button>
@@ -102,7 +102,7 @@ const RoomList = () => {
             </div>
             <div className="fixed bottom-10 left-0 w-full flex justify-center pb-4">
                 <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold w-24 h-24 flex items-center justify-center rounded-full"
+                    className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-24 h-24 flex items-center justify-center rounded-full"
                     onClick={createRoom}>
                     <IoIosAddCircle className="md:text-4xl"/>
                 </button>

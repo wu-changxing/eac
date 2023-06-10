@@ -87,24 +87,24 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
         <div className="border-b pb-4 mb-4 text-5xl lg:text-lg">
             <div className="flex items-end space-x-4">
                 <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={backToRoomList}>
                     <IoMdReturnLeft className="mr-2 font-bold"/>
                     <span className="lg:inline hidden">leave</span>
                 </button>
                 <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={toggleAudio}
                 >
-                    {audioStatus ? <IoMicOff className="mr-2 font-bold"/> : <IoMic className="mr-2 font-bold"/>}
+                    {audioStatus ?  <IoMic className="mr-2 font-bold"/> :<IoMicOff className="mr-2 font-bold"/> }
                     <span className="lg:inline hidden">{audioStatus ? "Mute Audio" : "Unmute Audio"}</span>
                 </button>
 
                 <button
-                    className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
                     onClick={toggleVideo}
                 >
-                    {videoStatus ? <IoVideocamOff className="mr-2 font-bold"/> : <IoVideocam className="mr-2 font-bold"/>}
+                    {videoStatus ?  <IoVideocam className="mr-2 font-bold"/> :  <IoVideocamOff className="mr-2 font-bold"/>}
                     <span className="lg:inline hidden">{videoStatus ? "Disable Video" : "Enable Video"}</span>
                 </button>
                 {isAdmin && (
@@ -114,7 +114,7 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
                             onClick={dismissRoom}
                         >
                             <IoIosRemoveCircle className="mr-2 text-red-500"/>
-                            <span className="lg:inline hidden">Dismiss</span>
+                            <span className="lg:inline hidden text-red-500">Dismiss</span>
                         </button>
 
                         <button
@@ -122,7 +122,7 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
                             onClick={() => setShowModal(true)}
                         >
                             <GiHighKick className="mr-2 text-red-500"/>
-                            <span className="lg:inline hidden">Kick</span>
+                            <span className="lg:inline hidden text-red-500">Kick</span>
                         </button>
                     </>
                 )}

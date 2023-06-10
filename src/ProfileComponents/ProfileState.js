@@ -1,21 +1,28 @@
-import React, {useState} from "react";
+// src/ProfileComponents/ProfileState.js
+import React, {useState, useContext, useEffect} from "react";
 import {FaAward, FaCoins, FaLevelUpAlt, FaStar, FaUserFriends, FaCheckCircle} from 'react-icons/fa';
+import {SocketContext} from '../SocketContext';  // Import SocketContext
 
 const ProfileState = ({level, credits, experience, invited_by}) => {
     const totalCredits = 100;
     const totalExperience = 3000;
-
+    const {state: {socket}} = useContext(SocketContext);
     const progressPercentageCredits = (credits / totalCredits) * 100;
     const progressPercentageExperience = (experience / totalExperience) * 100;
+    const [socketReady, setSocketReady] = useState(false);
 
     const [checkedIn, setCheckedIn] = useState(false);  // track whether user has checked in today
     const [message, setMessage] = useState('');  // track the check-in message
 
+    const token = localStorage.getItem('token');
+    const [exp, setExp] = useState(experience);  // track user's experience
     const checkIn = () => {
         if (!checkedIn) {
             // Update user's experience in the backend here and reload user's data
             // After successful backend call, update check-in state
             setCheckedIn(true);
+            console.log('emitting check')
+            socket.emit('check', {token});
             setMessage('Successfully checked in. Your experience has increased!');
         } else {
             setMessage("You've already checked in today!");
@@ -26,6 +33,18 @@ const ProfileState = ({level, credits, experience, invited_by}) => {
             setMessage('');
         }, 3000);
     };
+
+    useEffect(() => {
+        if (socket) {
+            setSocketReady(true);
+            // on event 'check', update checkedIn state
+
+            socket.on('exp_updated', ({exp}) => {
+                console.log('exp_updated:', exp);
+                setExp(exp);
+            })
+        }
+    }, [socket]);
 
     return (
         <div
@@ -47,15 +66,17 @@ const ProfileState = ({level, credits, experience, invited_by}) => {
                         <div style={{width: `${progressPercentageExperience}%`}}
                              className="absolute h-4 bg-blue-400 rounded-lg"></div>
                     </div>
-                    <span className="font-bold ml-2">{experience} exp {level}</span>
+                    <span className="font-bold ml-2">{exp} exp {level}</span>
                 </div>
             </div>
             <div className="flex justify-between text-center border-solid border-t-2 p-8 lg:p-4">
-                <button className={`mt-8 text-white font-bold py-2 px-4 rounded flex items-center ${checkedIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
-                        onClick={checkIn} disabled={checkedIn}>
+
+                {socketReady && <button
+                    className={`mt-8 text-white font-bold py-2 px-4 rounded flex items-center ${checkedIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
+                    onClick={checkIn} disabled={checkedIn}>
                     <FaCheckCircle className="mr-2"/>
                     Check In
-                </button>
+                </button>}
                 {message && <div className="mt-4 text-green-500">{message}</div>}
             </div>
         </div>

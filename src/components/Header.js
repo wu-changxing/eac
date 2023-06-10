@@ -35,22 +35,22 @@ const Header = ({authenticated}) => {
                             <>
                                 <li className="mx-2 my-2 md:my-0">
                                     <Link to="/">
-                                        <FaHome className="inline lg:hidden mr-2"/><span
+                                        <FaHome className="inline lg:hidden mr-2 text-sky-500"/><span
                                         className="lg:inline hidden">Home</span></Link>
                                 </li>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2"/><span
+                                    <Link to="/logout"><FaSignOutAlt className="inline lg:hidden mr-2 text-sky-500 "/><span
                                         className="lg:inline hidden">Logout</span></Link>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/login"><FaSignInAlt className="inline lg:hidden mr-2"/><span
+                                    <Link to="/login"><FaSignInAlt className="inline lg:hidden mr-2 text-sky-500"/><span
                                         className="lg:inline hidden">Login</span></Link>
                                 </li>
                                 <li className="mx-2 my-2 md:my-0">
-                                    <Link to="/register"><FaUserPlus className="inline lg:hidden mr-2"/><span
+                                    <Link to="/register"><FaUserPlus className="inline lg:hidden mr-2 text-sky-500"/><span
                                         className="lg:inline hidden">Register</span></Link>
                                 </li>
                             </>

@@ -1,3 +1,4 @@
+// src/SocketsContext.js
 import React, { createContext, useReducer, useEffect,useState } from "react";
 import io from 'socket.io-client';
 import Peer from 'peerjs';

@@ -16,6 +16,9 @@ const ProfileState = ({level, credits, experience, invited_by}) => {
 
     const token = localStorage.getItem('token');
     const [exp, setExp] = useState(experience);  // track user's experience
+
+
+
     const checkIn = () => {
         if (!checkedIn) {
             // Update user's experience in the backend here and reload user's data
@@ -36,12 +39,31 @@ const ProfileState = ({level, credits, experience, invited_by}) => {
 
     useEffect(() => {
         if (socket) {
+            console.log('socket ready');
             setSocketReady(true);
             // on event 'check', update checkedIn state
+            socket.emit('check_status', {token});
+            console.log('emitting check_status')
+            socket.on('check_status', (response) => {
+                console.log('check_status:', response);
+                if (response.status){
+                    setCheckedIn(false);
+                } else {
+                    setCheckedIn(true);
+                }
+
+                setMessage(response.message);
+                setTimeout(() => {
+                    setMessage('');
+                }, 3000);
+                // If you need to use the "time" property, you can access it like so:
+            });
 
             socket.on('exp_updated', ({exp}) => {
                 console.log('exp_updated:', exp);
+                console.log('exp_updated:', exp);
                 setExp(exp);
+                setCheckedIn(true);
             })
         }
     }, [socket]);

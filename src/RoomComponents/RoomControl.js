@@ -1,10 +1,11 @@
+// src/components/RoomControl.js
 import React, {useState, useEffect} from "react";
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
 import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import { IoMicOff, IoMic } from "react-icons/io5";
-const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVideo}) => {
+const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVideo}) => {
     const [users, setUsers] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const username = localStorage.getItem("username");
@@ -51,18 +52,18 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
         setAudioStatus(localStream.getAudioTracks()[0]?.enabled ?? false);
     };
     const toggleVideo = () => {
-        console.log('toggleVideo has been called');
-        console.log('localStream:', localStream)
-        console.log('localStream.getVideoTracks():', localStream.getVideoTracks());
         const videoTrack = localStream.getVideoTracks()[0];
-        console.log('videoTrack:', videoTrack);
         if (videoTrack) {
             videoTrack.enabled = !videoTrack.enabled;
-            console.log('videoTrack.enabled:', videoTrack.enabled);
-            // setOpenVideo(videoTrack.enabled);
             setVideoStatus(videoTrack.enabled);
+            setOpenVideo(videoTrack.enabled); // reflecting the change in openVideo state
+
+            // emit event to other users in the room
+            socket.emit("toggle_video", {user: username, status: videoTrack.enabled,room_id: roomId});
         }
     };
+
+
 
     useEffect(() => {
         const handleRoomUsers = (data) => {
@@ -158,4 +159,4 @@ const AdminRoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOp
     );
 };
 
-export default AdminRoomControl;
+export default RoomControl;

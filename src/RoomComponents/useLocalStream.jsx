@@ -1,7 +1,7 @@
-// src/components/useStream.js
+// src/components/useLocalStream.js
 import { useState, useEffect } from 'react';
 
-const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 480) => {
+const useLocalStream = (video = true, audio = true, videoWidth = 640, videoHeight = 480) => {
     const [localStream, setStream] = useState(null);
     const [isStreamReady, setIsStreamReady] = useState(false);
 
@@ -18,10 +18,10 @@ const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 4
                 });
                 setStream(mediaStream);
                 setIsStreamReady(true);
-                    const videoTrack = mediaStream.getVideoTracks()[0];
-                    if (videoTrack) {
-                        videoTrack.enabled = false;
-                    }
+                const videoTrack = mediaStream.getVideoTracks()[0];
+                if (videoTrack) {
+                    videoTrack.enabled = false;
+                }
             } catch (error) {
                 console.error('Error initializing localStream:', error);
             }
@@ -33,4 +33,4 @@ const useStream = (video = true, audio = true, videoWidth = 640, videoHeight = 4
     return { localStream, isStreamReady };
 };
 
-export default useStream;
+export default useLocalStream;

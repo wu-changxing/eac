@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react";
 import {AiOutlineUser, AiOutlineMail, AiFillPicture, AiOutlineInfoCircle} from "react-icons/ai"; // import necessary icons
 import {FaTransgender, FaCalendar} from "react-icons/fa";
 import config from "./config";
-import { BsFillCalendarFill } from 'react-icons/bs';
+import {BsFillCalendarFill} from 'react-icons/bs';
 import ProfileBio from "./ProfileComponents/ProfileBio";
-import { FaArrowRight } from 'react-icons/fa';
+import {FaArrowRight} from 'react-icons/fa';
 import {AiOutlineArrowRight} from "react-icons/ai";
+
 const EditProfile = () => {
     const [profileData, setProfileData] = useState({
         username: "",
@@ -15,6 +16,7 @@ const EditProfile = () => {
         birthday: "",
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         fetchProfile();
@@ -78,7 +80,17 @@ const EditProfile = () => {
             setTimeout(() => {
                 setShowSuccessMessage(false);
             }, 3000);
+        } else {
+            const errorData = await response.json();
+            console.log(errorData);
+            const errorMessages = Object.values(errorData).flat();
+            setErrorMessage(errorMessages || "Failed to update profile");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 4000);
+
         }
+
 
     };
 
@@ -88,8 +100,8 @@ const EditProfile = () => {
                 <div className="my-8 lg:mb-4 text-5xl lg:text-2xl">
                     <label className="block">
                         <div className="flex justify-center items-center">
-                    <AiOutlineUser className="text-sky-500" />
-                            <AiOutlineArrowRight className="text-sky-500" />
+                            <AiOutlineUser className="text-sky-500"/>
+                            <AiOutlineArrowRight className="text-sky-500"/>
                             <span className="text-slate-700">{profileData.username}</span>
                         </div>
                     </label>
@@ -108,12 +120,13 @@ const EditProfile = () => {
 
                     <label className="block flex items-center flex-col">
                         {profileData.avatar && (
-                            <img className="rounded-full w-72 h-64 lg:w-36 lg:h-36" src={`${config.DJ_END}${profileData.avatar}`} alt={profileData.username} />
+                            <img className="rounded-full w-72 h-64 lg:w-36 lg:h-36"
+                                 src={`${config.DJ_END}${profileData.avatar}`} alt={profileData.username}/>
                         )}
                         <label
                             className="mt-2 px-14 lg:py-2  bg-sky-500  rounded-lg shadow-md cursor-pointer  flex items-center"
                         >
-                            <AiFillPicture className="mr-2  text-white lg:text-xl" />
+                            <AiFillPicture className="mr-2  text-white lg:text-xl"/>
 
                             <input
                                 type="file"
@@ -128,7 +141,7 @@ const EditProfile = () => {
                 <div className="mb-28 lg:my-4 rounded-2xl shadow-xl">
                     <label className="block">
                         <div className="flex items-center mb-3">
-                            <AiOutlineInfoCircle className="mr-4 lg:mr-5 text-sky-500" />
+                            <AiOutlineInfoCircle className="mr-4 lg:mr-5 text-sky-500"/>
                             <span className="text-sky-300 text-4xl lg:texl-xl">Bio:</span>
                         </div>
                         <textarea
@@ -144,7 +157,7 @@ const EditProfile = () => {
                 <div className="mb-28 lg:my-4 rounded-2xl shadow-xl">
                     <label className="block mb-4">
                         <div className="flex items-center mb-3">
-                            <FaTransgender className="mr-4 lg:mr-5 text-sky-500" />
+                            <FaTransgender className="mr-4 lg:mr-5 text-sky-500"/>
                             <span className="text-sky-300 text-4xl lg:texl-xl">Gender:</span>
                         </div>
                         <select
@@ -164,7 +177,7 @@ const EditProfile = () => {
 
                     <label className="block">
                         <div className="flex items-center mb-1">
-                            <BsFillCalendarFill className="mr-4 my-2 lg:mr-5 text-sky-500" />
+                            <BsFillCalendarFill className="mr-4 my-2 lg:mr-5 text-sky-500"/>
                             <span className="text-sky-300 text-2xl lg:texl-xl">Birth:</span>
                         </div>
                         <input
@@ -177,8 +190,15 @@ const EditProfile = () => {
                     </label>
                 </div>
                 {
-                    showSuccessMessage && <div className="bg-sky-500 text-white h-28 lg:h-16 mt-16 flex justify-center items-center text-center mb-2 text-4xl lg:text-lg">Profile updated successfully</div>
+                    showSuccessMessage && <div
+                        className="bg-sky-500 text-white h-28 lg:h-16 mt-16 flex justify-center items-center text-center mb-2 text-4xl lg:text-lg">Profile
+                        updated successfully</div>
                 }
+                {
+                    errorMessage && <div
+                        className="bg-red-500 text-white h-28 lg:h-16 mt-16 flex justify-center items-center text-center mb-2 text-4xl lg:text-lg">{errorMessage}</div>
+                }
+
                 <input
                     type="submit"
                     value="Save"

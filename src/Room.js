@@ -1,13 +1,13 @@
 // src/Room.js
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import StreamConnect from "./components/StreamConnect";
 import useSocket from './components/useSocket';
-import AdminRoomControl from "./components/AdminRoomControl";
+import Streams from './RoomComponents/Streams';
+import RoomControl from "./RoomComponents/RoomControl";
 import config from "./config";
 import { useContext } from 'react';
 import { SocketContext } from './SocketContext';
-import useStream from './components/useStream';
+import useLocalStream from './RoomComponents/useLocalStream';
 import Dialog  from "./components/Dialog";
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -22,7 +22,7 @@ const Room = ({onLogout}) => {
     const [openVideo, setOpenVideo] = useState(initialOpenVideo);
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
-    const { localStream, isStreamReady } = useStream(openVideo, openAudio);
+    const { localStream, isStreamReady } = useLocalStream(openVideo, openAudio);
     const backToRoomList = () => {
         setIsAdmin(false);
         navigate('/roomlists');
@@ -71,10 +71,10 @@ const Room = ({onLogout}) => {
 
     return (
         <div className="room-container">
-            <StreamConnect roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
-            <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
-                <AdminRoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}  openVideo={openVideo} setOpenVideo={setOpenVideo} />
+            <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
 
+            <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
+                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} />
             </div>
         </div>
     );

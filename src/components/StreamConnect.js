@@ -1,8 +1,8 @@
 // src/components/StreamConnect.js
 import React, { useState, useEffect, useContext } from "react";
 import { SocketContext } from '../SocketContext';
-import Video from "./Video";
-import useStream from './useStream';
+import Video from "../RoomComponents/Video";
+import useStream from '../RoomComponents/useStream';
 
 const StreamConnect = ({roomId, localStream, isStreamReady}) => {
     const [streams, setStreams] = useState([]);

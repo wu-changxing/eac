@@ -21,6 +21,8 @@ const Login = ({ onLogin }) => {
                 console.log('Login successful:', response.data);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username',username);
+                document.cookie = `token=${response.data.token};path=/;domain=.aaron404.com;`;
+                document.cookie = `username=${username};path=/;domain=.aaron404.com;`;
                 onLogin(); // Call onLogin prop
             } else {
                 console.log('Login failed');

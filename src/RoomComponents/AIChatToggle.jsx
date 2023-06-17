@@ -15,8 +15,8 @@ const AIChatToggle = ({ showIframe, setShowIframe }) => {
                     onClick={() => setShowIframe(!showIframe)}
                     className={`flex items-center justify-center text-white rounded-full lg:flex-col p-4 shadow-lg transition-all transform ease-in-out duration-500 
                                 ${showIframe ? 'bg-gray-400 hover:bg-gray-500  hover:scale-105' : 'bg-sky-500 hover:bg-sky-600 hover:scale-105'}`}>
-                    {showIframe ? <GiBrain className="mr-2 lg:text-5xl"/> : <GiArtificialIntelligence className="mr-2 lg:text-5xl"/>}
-                    <span className="text-3xl lg:text-lg">{showIframe ? 'Hide GPT' : 'Show GPT Helper'}</span>
+                    {showIframe ? <GiBrain className="mr-2 text-sm lg:text-5xl"/> : <GiArtificialIntelligence className="mr-2 lg:text-5xl"/>}
+                    <span className="text-3xl lg:text-lg hidden lg:inline">{showIframe ? 'Hide GPT' : 'Show GPT Helper'}</span>
                 </button>
             </div>
         </>

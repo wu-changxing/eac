@@ -9,6 +9,9 @@ import { useContext } from 'react';
 import { SocketContext } from './SocketContext';
 import useLocalStream from './RoomComponents/useLocalStream';
 import Dialog  from "./components/Dialog";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the icons
+import { GiArtificialIntelligence } from 'react-icons/gi'; // Import the AI icon
+import AIChatToggle from './RoomComponents/AIChatToggle';
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
     const { state: socketState } = useContext(SocketContext);
@@ -23,6 +26,7 @@ const Room = ({onLogout}) => {
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
     const { localStream, isStreamReady } = useLocalStream(openVideo, openAudio);
+    const [showIframe, setShowIframe] = useState(false);
     const backToRoomList = () => {
         setIsAdmin(false);
         navigate('/roomlists');
@@ -70,9 +74,11 @@ const Room = ({onLogout}) => {
 
 
     return (
-        <div className="room-container">
-            <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
-
+        <div className="text-5xl lg:text-lg">
+            <div className="flex flex-col lg:flex-row">
+                <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
+                <AIChatToggle showIframe={showIframe} setShowIframe={setShowIframe} />
+            </div>
             <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
                 <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} />
             </div>

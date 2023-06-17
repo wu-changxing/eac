@@ -10,7 +10,7 @@ import { SocketContext } from './SocketContext';
 import useLocalStream from './RoomComponents/useLocalStream';
 import Dialog  from "./components/Dialog";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the icons
-import { GiArtificialIntelligence } from 'react-icons/gi'; // Import the AI icon
+import {GiArtificialIntelligence, GiBrain} from 'react-icons/gi'; // Import the AI icon
 import AIChatToggle from './RoomComponents/AIChatToggle';
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -77,7 +77,18 @@ const Room = ({onLogout}) => {
         <div className="text-5xl lg:text-lg">
             <div className="flex flex-col lg:flex-row">
                 <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
-                <AIChatToggle showIframe={showIframe} setShowIframe={setShowIframe} />
+                {showIframe && (
+                    <AIChatToggle showIframe={showIframe} setShowIframe={setShowIframe} />
+                )}
+                <div className="flex justify-center px-10 py-10 lg:px-5 lg:py-5">
+                    <button
+                        onClick={() => setShowIframe(!showIframe)}
+                        className={`flex items-center justify-center text-white rounded-full lg:flex-col p-4 shadow-lg transition-all transform ease-in-out duration-500 
+                                ${showIframe ? 'bg-gray-400 hover:bg-gray-500  hover:scale-105' : 'bg-sky-500 hover:bg-sky-600 hover:scale-105'}`}>
+                        {showIframe ? <GiBrain className="mr-2 text-sm lg:text-5xl"/> : <GiArtificialIntelligence className="mr-2 lg:text-5xl"/>}
+                        <span className="text-3xl lg:text-lg hidden lg:inline">{showIframe ? 'Hide GPT' : 'Show GPT Helper'}</span>
+                    </button>
+                </div>
             </div>
             <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
                 <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} />

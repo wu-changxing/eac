@@ -48,20 +48,30 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
     const toggleAudio = () => {
         localStream.getAudioTracks().forEach(track => {
             track.enabled = !track.enabled;
+            console.log('track.enabled:', track.enabled);
         });
         setAudioStatus(localStream.getAudioTracks()[0]?.enabled ?? false);
     };
-    const toggleVideo = () => {
-        const videoTrack = localStream.getVideoTracks()[0];
-        if (videoTrack) {
-            videoTrack.enabled = !videoTrack.enabled;
-            setVideoStatus(videoTrack.enabled);
-            setOpenVideo(videoTrack.enabled); // reflecting the change in openVideo state
-
-            // emit event to other users in the room
-            socket.emit("toggle_video", {user: username, status: videoTrack.enabled,room_id: roomId});
+    const toggleVideo = async () => {
+        let videoTrack = localStream.getVideoTracks()[0];
+        if (!videoTrack) {
+            try {
+                const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoTrack = newStream.getVideoTracks()[0];
+                localStream.addTrack(videoTrack);
+            } catch (error) {
+                console.error("Error adding video track:", error);
+                return;
+            }
         }
+
+        videoTrack.enabled = !videoTrack.enabled;
+        setVideoStatus(videoTrack.enabled);
+        setOpenVideo(videoTrack.enabled);
+
+        socket.emit("toggle_video", { user: username, status: videoTrack.enabled, room_id: roomId });
     };
+
 
 
 

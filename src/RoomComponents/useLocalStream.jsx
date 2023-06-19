@@ -1,27 +1,28 @@
 // src/components/useLocalStream.js
 import { useState, useEffect } from 'react';
 
-const useLocalStream = (video = true, audio = true, videoWidth = 640, videoHeight = 480) => {
+const useLocalStream = (video = false, audio = true, videoWidth = 640, videoHeight = 480) => {
     const [localStream, setStream] = useState(null);
     const [isStreamReady, setIsStreamReady] = useState(false);
+    console.log('the default video and audio are', video, audio)
 
     useEffect(() => {
         const initializeStream = async () => {
             try {
-                const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: {
+                let mediaStreamConstraints = { audio };
+                if (video) {
+                    mediaStreamConstraints.video = {
                         echoCancellation: true,
                         width: videoWidth,
-                        height: videoHeight,
-                    } ,
-                    audio:audio,
-                });
+                        height: videoHeight
+                    };
+                }
+
+                const mediaStream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+                const audioTracks = mediaStream.getAudioTracks();
+                console.log('Audio tracks are :', audioTracks);
                 setStream(mediaStream);
                 setIsStreamReady(true);
-                const videoTrack = mediaStream.getVideoTracks()[0];
-                if (videoTrack) {
-                    videoTrack.enabled = false;
-                }
             } catch (error) {
                 console.error('Error initializing localStream:', error);
             }

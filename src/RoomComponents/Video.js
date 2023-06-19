@@ -1,81 +1,49 @@
-// src/RoomComponents/Video.js
-import React, {useState, useEffect, useRef, useContext} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import config from "../config";
-import {SocketContext} from '../SocketContext';
 
 const Video = ({stream, userLabel, isLocal, socket}) => {
     const videoRef = useRef();
     const [isVideoMuted, setVideoMuted] = useState(false);
     const token = localStorage.getItem("token");
     const [avatarUrl, setAvatarUrl] = useState(null);
-    const [videoTrackEnabled, setVideoTrackEnabled] = useState(false);
-    const [videoTrackMuted, setVideoTrackMuted] = useState(false)
+    const [videoTrackAvailable, setVideoTrackAvailable] = useState(false);
 
     useEffect(() => {
         if (videoRef.current && stream) {
             videoRef.current.srcObject = stream;
-            if (isLocal) {
-                videoRef.current.muted = true;
-                setVideoMuted(true);
-            }
-        }
-    }, [stream, isLocal, userLabel]);
-
-    useEffect(() => {
-        socket.on("toggle_video", ({user, status}) => {
-            if (user !== userLabel) return;
-            console.log("Toggling video for user", user, status);
-            if (status) {
-                setVideoMuted(false);
-            } else if (status) {
-                setVideoMuted(true);
-            }
-        });
-
-        return () => {
-            socket.off("toggle_video");
-        };
-    }, [socket]);
-
-
-    useEffect(() => {
-        if (isLocal && stream) {
+            videoRef.current.muted = isLocal;  // Mute the video element if the stream is local
             const videoTrack = stream.getVideoTracks()[0];
-            if (videoTrack) {
-                setVideoTrackEnabled(videoTrack.enabled);
-                setVideoTrackMuted(videoTrack.muted);
-
-                videoTrack.onmute = () => setVideoTrackEnabled(false);
-                videoTrack.onunmute = () => setVideoTrackEnabled(true);
+            if (videoTrack && !isLocal) {
+                setVideoTrackAvailable(videoTrack.enabled);
+                videoTrack.onmute = () => setVideoTrackAvailable(false);
+                videoTrack.onunmute = () => setVideoTrackAvailable(true);
             }
         }
     }, [stream, isLocal]);
 
+    useEffect(() => {
+        socket.on("toggle_video", ({user, status}) => {
+            if (user !== userLabel) return;
+            setVideoTrackAvailable(status);
+        });
+        return () => {
+            socket.off("toggle_video");
+        };
+    }, [socket, userLabel]);
 
     useEffect(() => {
-        setVideoMuted(!videoTrackEnabled || videoTrackMuted);
-    }, [videoTrackEnabled, videoTrackMuted]);
-
-
-    // Put the avatar URL here
-    useEffect(() => {
-        if (isVideoMuted) {
+        if (isVideoMuted || !videoTrackAvailable) {
             fetch(`${config.DJ_END}/eac/user/${userLabel}/avatar/`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
                 }
-            )
+            })
                 .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    setAvatarUrl(data.avatar)
-                })
+                .then(data => setAvatarUrl(data.avatar))
                 .catch(error => console.log(error));
         }
-    }, [isVideoMuted, userLabel, token]);
-
+    }, [isVideoMuted, videoTrackAvailable, userLabel, token]);
 
     return (
         <div className="bg-gray-50 p-4 rounded-lg shadow-md w-full mb-4 text-4xl z-[2]">
@@ -84,19 +52,16 @@ const Video = ({stream, userLabel, isLocal, socket}) => {
                 <h3 className="lg:text-lg font-semibold text-sky-700">{userLabel}</h3>
                 {isLocal && <span className="text-gray-400">(You)</span>}
             </div>
-
             <div className="relative mt-2">
                 <div className="bg-white rounded-full p-2 shadow-md">
-                    {isVideoMuted ?
-                        <img src={avatarUrl} alt="User Avatar" className="w-full rounded-full"/>
-                        :
-                        <video
-                            ref={videoRef}
-                            autoPlay
-                            playsInline
-                            className="w-full rounded-full relative z-[1]"
-                        ></video>
-                    }
+                    <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        className="w-full rounded-full relative"
+                        style={{ display: videoTrackAvailable ? "block" : "none" }}
+                    />
+                    {!videoTrackAvailable && <img src={avatarUrl} alt="User Avatar" className="w-full rounded-full" />}
                 </div>
             </div>
         </div>

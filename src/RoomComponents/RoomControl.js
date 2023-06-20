@@ -32,6 +32,7 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
 
     const backToRoomList = () => {
         leaveRoom()
+        socket.emit("leave", {room_id: roomId, username: username});
         navigate('/roomlists');
     };
     const dismissRoom = () => {

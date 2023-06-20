@@ -13,23 +13,28 @@ const Video = ({stream, userLabel, isLocal, socket}) => {
             videoRef.current.srcObject = stream;
             videoRef.current.muted = isLocal;  // Mute the video element if the stream is local
             const videoTrack = stream.getVideoTracks()[0];
-            if (videoTrack && !isLocal) {
+            if (videoTrack) {
                 setVideoTrackAvailable(videoTrack.enabled);
                 videoTrack.onmute = () => setVideoTrackAvailable(false);
                 videoTrack.onunmute = () => setVideoTrackAvailable(true);
+                console.log("available", videoTrack.enabled);
             }
+            // console.log("video track available:", videoTrackAvailable);
         }
     }, [stream, isLocal]);
-
     useEffect(() => {
-        socket.on("toggle_video", ({user, status}) => {
-            if (user !== userLabel) return;
-            setVideoTrackAvailable(status);
-        });
-        return () => {
-            socket.off("toggle_video");
-        };
-    }, [socket, userLabel]);
+        console.log("Updated video track available:", videoTrackAvailable);
+    }, [videoTrackAvailable]);
+
+    // useEffect(() => {
+    //     socket.on("toggle_video", ({user, status}) => {
+    //         if (user !== userLabel) return;
+    //         setVideoTrackAvailable(status);
+    //     });
+    //     return () => {
+    //         socket.off("toggle_video");
+    //     };
+    // }, [socket, userLabel]);
 
     useEffect(() => {
         if (isVideoMuted || !videoTrackAvailable) {

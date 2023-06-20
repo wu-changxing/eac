@@ -23,12 +23,13 @@ const useStreamConnection = ({ roomId, localStream, isStreamReady }) => {
 
     useEffect(() => {
         if (socket) {
-            const handleUserLeft = ({ username }) => {
-                setStreams(streams => streams.filter(s => s.userLabel !== username));
+            const handleUserLeft = ({ user }) => {
+                setStreams(streams => streams.filter(s => s.userLabel !== user));
                 console.log("User left", username);
             };
 
             socket.on('user_left', handleUserLeft);
+            socket.on('user_kicked', handleUserLeft);
             socket.on('user_joined', (data) => {
                 console.log("user joined", data)
                 setNewUser(data.new_user);

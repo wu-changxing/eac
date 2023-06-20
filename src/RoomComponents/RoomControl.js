@@ -40,6 +40,7 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
 
     const kickUser = (user) => {
         socket.emit("kick_user", {room_id: roomId, user: user});
+
         setShowModal(false);
     };
 
@@ -53,6 +54,8 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
         setAudioStatus(localStream.getAudioTracks()[0]?.enabled ?? false);
     };
     const toggleVideo = async () => {
+        if (!localStream) return;
+
         let videoTrack = localStream.getVideoTracks()[0];
         if (!videoTrack) {
             try {
@@ -74,11 +77,11 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
 
 
 
-
     useEffect(() => {
         const handleRoomUsers = (data) => {
             console.log("room_users:", data);
             if (data.users) {
+                console.log("data.users is an array:", data.users)
                 setUsers(Object.values(data.users));
             } else {
                 console.error("data.users is not an array:", data.users);
@@ -86,8 +89,9 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
         };
 
         if (socket) {
-            socket.on("room_users", handleRoomUsers);
+            socket.emit("fetch_users", {room_id: roomId});
 
+            socket.on('update_users', handleRoomUsers);
             return () => {
                 socket.removeListener("room_users", handleRoomUsers);
             };
@@ -149,8 +153,8 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
                                     onClick={() => kickUser(user.user)}
                                 >
                                     <div className="h-14 w-14 rounded-full overflow-hidden">
-                                        <img src={user.avatar} alt={user.sid}
-                                             className="h-full w-full object-cover"/>
+                                        {/*<img src={user.avatar} alt={user.sid}*/}
+                                        {/*     className="h-full w-full object-cover"/>*/}
                                     </div>
                                     <div>{user.user}</div>
                                 </div>

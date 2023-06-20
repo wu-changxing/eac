@@ -10,7 +10,6 @@ const Streams = ({roomId, localStream, isStreamReady, socket}) => {
             <div className="flex flex-wrap -mx-2"> {/* Added flex and flex-wrap properties */}
                 {streams.map((s, index) => (
                     <div key={s.userLabel} className="p-6 bg-white rounded-lg shadow-md mx-2 my-2 flex-grow max-w-sm"> {/* Added margins for separation */}
-                        <div className="text-lg font-semibold mb-2 text-gray-700">{index}</div>
                         <Video stream={s.livestream} userLabel={s.userLabel} isLocal={s.isLocal} socket={socket}/>
                     </div>
                 ))}

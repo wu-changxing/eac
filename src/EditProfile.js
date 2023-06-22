@@ -95,9 +95,9 @@ const EditProfile = () => {
     };
 
     return (
-        <div className="flex flex-col items-start mt-2 h-screen text-6xl lg:items-center lg:text-lg">
+        <div className="flex flex-col items-start mt-2  text-xl lg:items-center lg:text-lg">
             <form onSubmit={handleSubmit} className="w-full lg:max-w-lg mx-auto">
-                <div className="my-8 lg:mb-4 text-5xl lg:text-2xl">
+                <div className="my-8 lg:mb-4 text-xl lg:text-2xl">
                     <label className="block">
                         <div className="flex justify-center items-center">
                             <AiOutlineUser className="text-sky-500"/>
@@ -120,7 +120,7 @@ const EditProfile = () => {
 
                     <label className="block flex items-center flex-col">
                         {profileData.avatar && (
-                            <img className="rounded-full w-72 h-64 lg:w-36 lg:h-36"
+                            <img className="rounded-full w-20 h-20 lg:w-36 lg:h-36"
                                  src={`${config.DJ_END}${profileData.avatar}`} alt={profileData.username}/>
                         )}
                         <label
@@ -138,11 +138,11 @@ const EditProfile = () => {
                     </label>
 
                 </div>
-                <div className="mb-28 lg:my-4 rounded-2xl shadow-xl">
+                <div className="mb-8 lg:my-4 rounded-2xl shadow-xl">
                     <label className="block">
                         <div className="flex items-center mb-3">
                             <AiOutlineInfoCircle className="mr-4 lg:mr-5 text-sky-500"/>
-                            <span className="text-sky-300 text-4xl lg:texl-xl">Bio:</span>
+                            <span className="text-sky-300  lg:texl-xl">Bio:</span>
                         </div>
                         <textarea
                             name="bio"
@@ -154,11 +154,11 @@ const EditProfile = () => {
                         ></textarea>
                     </label>
                 </div>
-                <div className="mb-28 lg:my-4 rounded-2xl shadow-xl">
+                <div className="mb-8 lg:my-4 rounded-2xl shadow-xl">
                     <label className="block mb-4">
                         <div className="flex items-center mb-3">
                             <FaTransgender className="mr-4 lg:mr-5 text-sky-500"/>
-                            <span className="text-sky-300 text-4xl lg:texl-xl">Gender:</span>
+                            <span className="text-sky-300  lg:texl-xl">Gender:</span>
                         </div>
                         <select
                             name="gender"
@@ -173,7 +173,7 @@ const EditProfile = () => {
                         </select>
                     </label>
                 </div>
-                <div className="mb-28 lg:mb-4 rounded-2xl shadow-xl">
+                <div className="mb-8 lg:mb-4 rounded-2xl shadow-xl">
 
                     <label className="block">
                         <div className="flex items-center mb-1">
@@ -191,18 +191,18 @@ const EditProfile = () => {
                 </div>
                 {
                     showSuccessMessage && <div
-                        className="bg-sky-500 text-white h-28 lg:h-16 mt-16 flex justify-center items-center text-center mb-2 text-4xl lg:text-lg">Profile
+                        className="bg-sky-500 text-white h-8 lg:h-16 mt-16 flex justify-center items-center text-center mb-2  lg:text-lg">Profile
                         updated successfully</div>
                 }
                 {
                     errorMessage && <div
-                        className="bg-red-500 text-white h-28 lg:h-16 mt-16 flex justify-center items-center text-center mb-2 text-4xl lg:text-lg">{errorMessage}</div>
+                        className="bg-red-500 text-white h-8 lg:h-16 mt-16 flex justify-center items-center text-center mb-2  lg:text-lg">{errorMessage}</div>
                 }
 
                 <input
                     type="submit"
                     value="Save"
-                    className="py-4 px-4 h-64 lg:h-16 mt-20 lg:mt-10 font-semibold text-white bg-sky-500 rounded-lg shadow-md hover:bg-sky-700 w-full  lg:text-2xl"
+                    className="py-4 px-4 h-16 lg:h-16 mt-2 lg:mt-10 font-semibold text-white bg-sky-500 rounded-lg shadow-md hover:bg-sky-700 w-full lg:text-2xl"
                 />
             </form>
         </div>

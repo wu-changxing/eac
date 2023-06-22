@@ -8,10 +8,11 @@ import config from "./config";
 import { useContext } from 'react';
 import { SocketContext } from './SocketContext';
 import useLocalStream from './RoomComponents/useLocalStream';
-import Dialog  from "./components/Dialog";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the icons
 import {GiArtificialIntelligence, GiBrain} from 'react-icons/gi'; // Import the AI icon
 import AIChatToggle from './RoomComponents/AIChatToggle';
+import FeedList from './RoomComponents/FeedList';
+import RoomToolsBar from './RoomComponents/RoomToolsBar';
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
     const { state: socketState } = useContext(SocketContext);
@@ -26,7 +27,8 @@ const Room = ({onLogout}) => {
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
     const { localStream, isStreamReady } = useLocalStream(openVideo, openAudio);
-    const [showIframe, setShowIframe] = useState(false);
+    const [users, setUsers] = useState([]);
+
     const backToRoomList = () => {
         setIsAdmin(false);
         navigate('/roomlists');
@@ -71,30 +73,55 @@ const Room = ({onLogout}) => {
 
         }
     }, [socket,roomId,peer]);
+    useEffect(() => {
+        // Other socket event handlers
+
+        const handleRoomUsers = (data) => {
+            console.log("room_users:", data);
+            if (data.users) {
+                console.log("data.users is an array:", data.users);
+                setUsers(Object.values(data.users));
+            } else {
+                console.error("data.users is not an array:", data.users);
+            }
+        };
+
+        let intervalId;
+
+        if (socket) {
+            socket.on('update_users', handleRoomUsers);
+
+            intervalId = setInterval(() => {
+                socket.emit("fetch_users", {room_id: roomId});
+            }, 5000); // Every 5 seconds
+
+            return () => {
+                clearInterval(intervalId); // Clear the interval when component unmounts
+                socket.removeListener("update_users", handleRoomUsers);
+            };
+        }
+    }, [socket,isAdmin, roomId]);
 
 
+
+    // src/Room.js
     return (
-        <div className="text-5xl lg:text-lg">
-            <div className="flex flex-col lg:flex-row">
-                <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
-                {showIframe && (
-                    <AIChatToggle showIframe={showIframe} setShowIframe={setShowIframe} />
-                )}
-                <div className="flex justify-center px-10 py-10 lg:px-5 lg:py-5">
-                    <button
-                        onClick={() => setShowIframe(!showIframe)}
-                        className={`flex items-center justify-center text-white rounded-full lg:flex-col p-4 shadow-lg transition-all transform ease-in-out duration-500 
-                                ${showIframe ? 'bg-gray-400 hover:bg-gray-500  hover:scale-105' : 'bg-sky-500 hover:bg-sky-600 hover:scale-105'}`}>
-                        {showIframe ? <GiBrain className="mr-2 text-sm lg:text-5xl"/> : <GiArtificialIntelligence className="mr-2 lg:text-5xl"/>}
-                        <span className="text-3xl lg:text-lg hidden lg:inline">{showIframe ? 'Hide GPT' : 'Show GPT Helper'}</span>
-                    </button>
+        <div className="flex flex-col h-screen">
+            <div className="flex-grow flex flex-col md:flex-row overflow-auto">
+                <div className="flex-grow lg:w-1/4">
+                    <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
+                </div>
+                <div className="w-full lg:w-3/4">
+                    <RoomToolsBar users ={users} />
                 </div>
             </div>
-            <div className="fixed inset-x-0 bottom-0 bg-white p-4 shadow-md flex justify-around items-center">
-                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} />
+            <div className="bg-white p-4 shadow-md flex justify-around items-center">
+                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} users={users} />
+
             </div>
         </div>
     );
+
 };
 
 export default React.memo(Room);

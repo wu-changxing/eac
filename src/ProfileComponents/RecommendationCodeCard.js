@@ -6,7 +6,7 @@ import { FaCheck } from 'react-icons/fa';
 import {AiOutlineQrcode} from 'react-icons/ai'; // Added
 import config from "../config";
 import { QRCode } from 'react-qrcode-logo';
-import macaw6 from "../../assests/macaw6.svg";
+import macaw6 from "../../assets/macaw6.svg";
 import QRcodeShare from "./QRcodeShare";
 
 const RecommendationCodeCard = () => {
@@ -88,52 +88,46 @@ const RecommendationCodeCard = () => {
     };
 
     return (
-        <div className="m-4 mt-16 lg:my-2 p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full lg:max-w-md text-center">
-            <div className="flex items-center justify-evenly text-center border-solid border-t-2 pt-2 ">
-
+        <div className="m-2 mt-8 sm:m-4 sm:mt-16 lg:my-2 p-2 sm:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full text-center">
+            <div className="flex flex-col sm:items-center sm:justify-evenly text-center border-solid border-t-2 pt-2 ">
                 {isEditing ? (
-                    <input value={editValue} onChange={handleChange} className="mr-2 bg-sky-100 focus:border-sky-500"/>
+                    <input value={editValue} onChange={handleChange} className="mb-2 sm:mr-2 bg-sky-100 focus:border-sky-500"/>
                 ) : (
-                    <div className="flex items-center justify-between space-x-10 cursor-pointer hover:bg-gray-200" onClick={handleCopyClick}>
-                        <IoGitNetworkSharp className="text-green-400 text-6xl lg:text-lg"/>
-                        <span className="hidden lg:inline py-2">Recommend Code:</span>
+                    <div onClick={handleCopyClick} className="mb-2 sm:mb-0 flex items-center justify-between space-x-1 sm:space-x-10 cursor-pointer hover:bg-gray-200">
+                        <IoGitNetworkSharp className="text-green-400 text-2xl sm:text-6xl lg:text-lg"/>
+                        <span className="hidden sm:inline py-2">Recommend Code:</span>
                         <span className="font-bold overflow-auto py-2">{newRecommendCode}</span>
-                        <FiCopy className="ml-4 text-6xl lg:text-lg text-sky-500"/>
+                        <FiCopy className="ml-1 sm:ml-4 text-2xl sm:text-6xl lg:text-lg text-sky-500"/>
                     </div>
-
                 )}
                 {copied && <FaCheck className="text-green-500 ml-2"/>}
             </div>
-            <div className="flex items-center justify-evenly text-center border-solid border-t-2 pt-2 ">
-                {!isEditing && <AiFillEdit onClick={handleEditClick} className="ml-2 text-sky-500"/>}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-evenly text-center border-solid border-t-2 pt-2 ">
+                {!isEditing && <AiFillEdit onClick={handleEditClick} className="mb-2 sm:mb-0 sm:ml-2 text-sky-500"/>}
                 {isEditing && (
-                    <div onClick={handleSaveClick}>
-                        <AiOutlineCheck className="ml-2 bg-sky-500 text-white"/>
+                    <div onClick={handleSaveClick} className="mb-2 sm:mb-0 sm:ml-2 bg-sky-500 text-white">
+                        <AiOutlineCheck className="mb-2 sm:mb-0 sm:ml-2"/>
                         <span className="hidden lg:inline">Save</span>
                     </div>
                 )}
-
                 <AiOutlineVerticalAlignTop className="text-red-400 ml-4"/>
-
-                <div className="hidden lg:block">
+                <div className="mb-2 sm:mb-0 hidden sm:block">
                     <span className="mr-2">Limit:</span>
                     <span className="font-bold mr-2">{useLimit}</span>
                     <span className="mr-2">Used:</span>
                     <span className="font-bold">{useCount}</span>
                 </div>
-                <span className="hidden lg:inline mr-2">Left:</span>
+                <span className="hidden sm:inline mr-2">Left:</span>
                 <span className="font-bold">{leftCount}</span>
-                <button onClick={() => setShowQRCode(!showQRCode)} className="ml-2 bg-sky-500 text-white">
+                <button onClick={() => setShowQRCode(!showQRCode)} className="mt-2 sm:mt-0 sm:ml-2 bg-sky-500 text-white">
                     <AiOutlineQrcode className="ml-2"/>
                     <span className="hidden lg:inline">Share</span>
                 </button>
-
             </div>
             {copied && <div className="mt-2 bg-green-200 text-green-700 p-2 rounded">Copied to clipboard!</div>}
             {message && <div className="mt-2 bg-green-200 text-green-700 p-2 rounded">{message}</div>}
-            {showQRCode && <QRcodeShare value={newRecommendCode} />} {/* Updated */}
+            {showQRCode && <QRcodeShare value={newRecommendCode} />}
         </div>
-
     );
 };
 

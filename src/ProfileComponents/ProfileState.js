@@ -1,105 +1,38 @@
 // src/ProfileComponents/ProfileState.js
-import React, {useState, useContext, useEffect} from "react";
-import {FaAward, FaCoins, FaLevelUpAlt, FaStar, FaUserFriends, FaCheckCircle} from 'react-icons/fa';
-import {SocketContext} from '../SocketContext';  // Import SocketContext
+import React, {useState, useContext} from "react";
+import {FaAward, FaCoins, FaLevelUpAlt, FaStar, FaUserFriends} from 'react-icons/fa';
+import {SocketContext} from '../SocketContext';
+import CheckIn from './CheckIn';
 
 const ProfileState = ({level, credits, experience, invited_by}) => {
     const totalCredits = 100;
     const totalExperience = 3000;
-    const {state: {socket}} = useContext(SocketContext);
     const progressPercentageCredits = (credits / totalCredits) * 100;
     const progressPercentageExperience = (experience / totalExperience) * 100;
-    const [socketReady, setSocketReady] = useState(false);
-
-    const [checkedIn, setCheckedIn] = useState(false);  // track whether user has checked in today
-    const [message, setMessage] = useState('');  // track the check-in message
-
-    const token = localStorage.getItem('token');
-    const [exp, setExp] = useState(experience);  // track user's experience
-
-
-
-    const checkIn = () => {
-        if (!checkedIn) {
-            // Update user's experience in the backend here and reload user's data
-            // After successful backend call, update check-in state
-            setCheckedIn(true);
-            console.log('emitting check')
-            socket.emit('check', {token});
-            setMessage('Successfully checked in. Your experience has increased!');
-        } else {
-            setMessage("You've already checked in today!");
-        }
-
-        // Make the check-in message disappear after 3 seconds
-        setTimeout(() => {
-            setMessage('');
-        }, 3000);
-    };
-
-    useEffect(() => {
-        if (socket) {
-            console.log('socket ready');
-            setSocketReady(true);
-            // on event 'check', update checkedIn state
-            socket.emit('check_status', {token});
-            console.log('emitting check_status')
-            socket.on('check_status', (response) => {
-                console.log('check_status:', response);
-                if (response.status){
-                    setCheckedIn(false);
-                } else {
-                    setCheckedIn(true);
-                }
-
-                setMessage(response.message);
-                setTimeout(() => {
-                    setMessage('');
-                }, 3000);
-                // If you need to use the "time" property, you can access it like so:
-            });
-
-            socket.on('exp_updated', ({exp}) => {
-                console.log('exp_updated:', exp);
-                console.log('exp_updated:', exp);
-                setExp(exp);
-                setCheckedIn(true);
-            })
-        }
-    }, [socket]);
 
     return (
-        <div
-            className="m-4 mt-16 lg:my-2 p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full lg:max-w-md text-center">
+        <div className="m-2 md:m-4 mt-8 md:mt-16 lg:my-2 p-2 md:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full lg:max-w-md text-center">
 
-            <div
-                className="grid grid-cols-3 gap-4 items-center justify-center text-center border-solid border-t-2 pt-2">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 items-center justify-center text-center border-solid border-t-2 pt-2">
                 <div className="flex items-center col-span-2">
-                    <FaCoins className="text-yellow-400 mr-2"/>
-                    <div className="flex-grow relative h-4 rounded-lg bg-gray-200">
+                    <FaCoins className="text-yellow-400 mr-1 md:mr-2"/>
+                    <div className="flex-grow relative h-3 md:h-4 rounded-lg bg-gray-200">
                         <div style={{width: `${progressPercentageCredits}%`}}
-                             className="absolute h-4 bg-yellow-400 rounded-lg"></div>
+                             className="absolute h-3 md:h-4 bg-yellow-400 rounded-lg"></div>
                     </div>
-                    <span className="font-bold ml-2">{credits} credits</span>
+                    <span className="text-sm md:text-base font-bold ml-1 md:ml-2">{credits} credits</span>
                 </div>
                 <div className="flex items-center col-span-2">
-                    <FaStar className="text-blue-400 mr-2"/>
-                    <div className="flex-grow relative h-4 rounded-lg bg-gray-200">
+                    <FaStar className="text-sky-400 mr-1 md:mr-2"/>
+                    <div className="flex-grow relative h-3 md:h-4 rounded-lg bg-gray-200">
                         <div style={{width: `${progressPercentageExperience}%`}}
-                             className="absolute h-4 bg-blue-400 rounded-lg"></div>
+                             className="absolute h-3 md:h-4 bg-sky-400 rounded-lg"></div>
                     </div>
-                    <span className="font-bold ml-2">{exp} exp {level}</span>
+                    <span className="text-sm md:text-base font-bold ml-1 md:ml-2">{experience} exp {level}</span>
                 </div>
             </div>
-            <div className="flex justify-between text-center border-solid border-t-2 p-8 lg:p-4">
-
-                {socketReady && <button
-                    className={`mt-8 text-white font-bold py-2 px-4 rounded flex items-center ${checkedIn ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700'}`}
-                    onClick={checkIn} disabled={checkedIn}>
-                    <FaCheckCircle className="mr-2"/>
-                    Check In
-                </button>}
-                {message && <div className="mt-4 text-green-500">{message}</div>}
+            <div className="flex justify-between text-center border-solid border-t-2 p-4 md:p-8">
+                <CheckIn experience={experience}/>
             </div>
         </div>
     );

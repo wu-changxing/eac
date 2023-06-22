@@ -5,6 +5,7 @@ import CreateRoomModal from "./components/CreateRoomModal";
 import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
 import {RiVoiceprintFill} from 'react-icons/ri';
 import Dialog from "./components/Dialog";
+import Loading from "./components/Loading";
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
@@ -75,40 +76,42 @@ const RoomList = () => {
         navigate(`/eac/${selectedRoomId}`, { state: { openVideo, openAudio } }); // Navigate to room with user choices
     };
     if (loading) {
-        return <div>Loading...</div>; // Replace with your own loading spinner
+        return <div><Loading></Loading></div>; // Replace with your own loading spinner
     }
 
     return (
-        <div className="p-4 text-5xl lg:text-lg">
-            <h1 className="font-bold text-2xl mb-4">Room List</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="p-2 sm:p-4 text-xl sm:text-2xl lg:text-2xl lg:mt-20">
+            <h1 className="font-bold text-xl sm:text-2xl  lg:text-xl mb-4">Room List</h1>
+            <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4">
                 {rooms.map(room => (
-                    <div key={room.roomId} className="bg-white shadow-lg rounded-tr-3xl lg:rounded-br-8xl rounded-br-7xl overflow-hidden">
-                        <div className="p-4">
-                            <h5 className="lg:text-lg text-5xl font-bold mb-2">{room.name}</h5>
-                            <p className="lg:text-sm text-4xl text-gray-500 mb-2"><IoMdPeople
-                                className="inline mr-2"/>主理人: {room.admin}</p>
-                            <p className="lg:text-sm text-4xl text-gray-500"><IoIosTime
-                                className="inline mr-2"/>{room.created_at}</p>
+                    <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden max-w-sm">
+                        <div className="p-2 sm:p-4">
+                            <h5 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{room.name}</h5>
+                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500 mb-2">
+                                <IoMdPeople className="inline mr-2"/>主理人: {room.admin}
+                            </p>
+                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
+                                <IoIosTime className="inline mr-2"/>{room.created_at}
+                            </p>
                         </div>
-                        <div className="p-4 bg-gray-100">
-                            <button className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-16 lg:px-4 text-center rounded"
-                                    onClick={() => joinRoom(room.roomId)}><RiVoiceprintFill className="inline mr-2"/><span
-                                className="lg:inline hidden">Join Room</span>
+                        <div className="p-2 sm:p-4 bg-gray-100">
+                            <button
+                                className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-12 text-center rounded"
+                                onClick={() => joinRoom(room.roomId)}>
+                                <RiVoiceprintFill className="inline mr-2"/>
+                                <span className="hidden sm:inline">Join Room</span>
                             </button>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="fixed bottom-10 left-0 w-full flex justify-center pb-4">
+            <div className="fixed bottom-16 sm:bottom-24 md:bottom-28 lg:bottom-32 left-0 w-full flex justify-center pb-2 sm:pb-4">
                 <button
-                    className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-24 h-24 flex items-center justify-center rounded-full"
+                    className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-12 sm:w-16 md:w-20 lg:w-24 h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center rounded-full"
                     onClick={createRoom}>
-                    <IoIosAddCircle className="md:text-4xl"/>
+                    <IoIosAddCircle className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl"/>
                 </button>
             </div>
-
-
 
 
             <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>

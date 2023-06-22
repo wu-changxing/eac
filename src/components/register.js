@@ -59,32 +59,32 @@ const Register = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-blue-500 p-4 w-full text-4xl lg:text-lg">
-            <div className="bg-white w-full rounded shadow-2xl p-4 md:p-8 lg:p-16 mx-2 sm:mx-4 md:mx-20 lg:max-w-xl">
-                <h2 className="text-3xl text-center font-bold mb-10 text-gray-800">Register</h2>
+        <div className="min-h-screen flex items-center justify-center bg-blue-500 p-4 w-full max-w-xs sm:max-w-md md:max-w-lg mx-auto text-xl sm:text-2xl lg:text-lg">
+            <div className="bg-white w-full rounded shadow-2xl p-4 sm:p-6 lg:p-8">
+                <h2 className="text-2xl sm:text-3xl text-center font-bold mb-10 text-gray-800">Register</h2>
                 <p className="text-red-400 text-center">请不要使用微信内置浏览器进行注册。 建议使用Chrome Firefox 浏览器</p> {/* The new line */}
                 {error && <div className="bg-red-500 p-2 rounded-sm text-white mb-2">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="my-4">
-                        <label htmlFor="username" className="block mb-8 lg:mb-2 font-bold text-gray-700">Username:</label>
-                        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} className="w-full bg-gray-100 px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                        <label htmlFor="username" className="block mb-2 font-bold text-gray-700">Username:</label>
+                        <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">
-                        <label htmlFor="password1" className="block mb-8 lg:mb-2 font-bold text-gray-700">Password:</label>
-                        <input type="password" id="password1" value={password1} onChange={e => setPassword1(e.target.value)} className="w-full bg-gray-100  px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                        <label htmlFor="password1" className="block mb-2 font-bold text-gray-700">Password:</label>
+                        <input type="password" id="password1" value={password1} onChange={e => setPassword1(e.target.value)} className="w-full bg-gray-100  px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">
-                        <label htmlFor="password2" className="block mb-8 lg:mb-2 font-bold text-gray-700">Confirm Password:</label>
-                        <input type="password" id="password2" value={password2} onChange={e => setPassword2(e.target.value)} className="w-full bg-gray-100 px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                        <label htmlFor="password2" className="block mb-2 font-bold text-gray-700">Confirm Password:</label>
+                        <input type="password" id="password2" value={password2} onChange={e => setPassword2(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">
-                        <label htmlFor="recommendationCode" className="block mb-8 lg:mb-2 font-bold text-gray-700">Recommendation Code:</label>
-                        <input type="text" id="recommendationCode" value={recommendationCode} onChange={e => setRecommendationCode(e.target.value)} className="w-full bg-gray-100 px-3 py-8 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
+                        <label htmlFor="recommendationCode" className="block mb-2 font-bold text-gray-700">Recommendation Code:</label>
+                        <input type="text" id="recommendationCode" value={recommendationCode} onChange={e => setRecommendationCode(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
-                    <button type="submit" className="w-full py-8 lg:py-4 px-4 mt-4 lg:text-2xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Register</button>
+                    <button type="submit" className="w-full py-2 lg:py-4 px-4 mt-4 lg:text-xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Register</button>
                 </form>
-                <p className="mt-8 text-center text-4xl lg:text-xl">Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-700">Login here</Link>.</p>
-                <p className="mt-8 text-center text-4xl lg:text-xl">  邀请码获取请查看 <a href="https://aaron404.com/zh/eac-log/%E4%B8%80%E4%B8%AA%E7%AE%80%E7%9F%AD%E7%9A%84%E9%82%80%E8%AF%B7/" className="text-blue-500 hover:text-blue-700">这个说明</a></p>
+                <p className="mt-8 text-center text-xl sm:text-2xl">Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-700">Login here</Link>.</p>
+                <p className="mt-8 text-center text-xl sm:text-2xl">  邀请码获取请查看 <a href="https://aaron404.com/zh/eac-log/%E4%B8%80%E4%B8%AA%E7%AE%80%E7%9F%AD%E7%9A%84%E9%82%80%E8%AF%B7/" className="text-blue-500 hover:text-blue-700">这个说明</a></p>
             </div>
         </div>
     );

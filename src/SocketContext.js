@@ -5,10 +5,10 @@ import Peer from 'peerjs';
 import config from "./config";
 
 export const SocketContext = createContext();
-
 const initialState = {
     socket: null,
     peer: null,
+    unreadMessages: [], // initialize unreadMessages as an empty array
 };
 
 const reducer = (state, action) => {
@@ -23,6 +23,11 @@ const reducer = (state, action) => {
                 ...state,
                 peer: action.payload,
             };
+        case "SET_UNREAD_MESSAGES": // new case to update unreadMessages
+            return {
+                ...state,
+                unreadMessages: action.payload,
+            };
         case "CLEAR_SOCKET":
             return {
                 ...state,
@@ -33,10 +38,16 @@ const reducer = (state, action) => {
                 ...state,
                 peer: null,
             };
+        case "CLEAR_UNREAD_MESSAGES": // new case to clear unreadMessages
+            return {
+                ...state,
+                unreadMessages: [],
+            };
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }
 };
+
 export const SocketProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [loading, setLoading] = useState(true); // New loading state

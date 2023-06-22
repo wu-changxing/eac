@@ -31,81 +31,83 @@ function App() {
     };
 
     return (
-        <div className="App flex flex-col min-h-screen text-5xl lg:text-lg">
+        <div className="App flex flex-col min-h-screen relative pt-16 lg:pt-20">
             <Router>
                 <SocketProvider>
                     <Header authenticated={authenticated}/>
-                    <main className="flex-grow flex flex-col justify-center overflow-auto">
-                            <Routes>
-                                <Route
-                                    path="/login"
-                                    element={
-                                        authenticated ? (
-                                            <RoomList onLogout={handleLogout}/>
-                                        ) : (
-                                            <Login onLogin={handleLogin}/>
-                                        )
-                                    }
-                                />
-                                <Route
-                                    path="/register/*"
-                                    element={
-                                        authenticated ? (
-                                            <RoomList onLogout={handleLogout}/>
-                                        ) : (
-                                            <Register/>
-                                        )
-                                    }
-                                />
+                    {/*<main className="flex-grow flex flex-col  overflow-auto w-screen">*/}
 
-                                <Route
-                                    path="/roomlists"
-                                    element={
-                                        authenticated ? (
-                                            <RoomList onLogout={handleLogout}/>
-                                        ) : (
-                                            <Login onLogin={handleLogin}/>
-                                        )
-                                    }
-                                />
-                                <Route
-                                    path="/eac/:roomId"
-                                    element={
-                                        authenticated ? (
-                                            <Room onLogout={handleLogout}/>
-                                        ) : (
-                                            <Login onLogin={handleLogin}/>
-                                        )
-                                    }
-                                />
-                                <Route
-                                    path="/"
-                                    element={
-                                        authenticated ? (
-                                            <RoomList onLogout={handleLogout}/>
-                                        ) : (
-                                            <Login onLogin={handleLogin}/>
-                                        )
-                                    }
-                                />
-                                <Route path="/logout" element={<Logout onLogout={handleLogout}/>}/>
-                                <Route path="/profile" element={
+                    <div className="flex-grow  w-screen">
+                    <Routes>
+                            <Route
+                                path="/login"
+                                element={
                                     authenticated ? (
-                                            <Profile/>)
-                                        : (
-                                            <Login onLogin={handleLogin}/>
+                                        <RoomList onLogout={handleLogout}/>
+                                    ) : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/register/*"
+                                element={
+                                    authenticated ? (
+                                        <RoomList onLogout={handleLogout}/>
+                                    ) : (
+                                        <Register/>
+                                    )
+                                }
+                            />
 
-                                        )
-                                }/>
-                                <Route path="/editprofile" element={
+                            <Route
+                                path="/roomlists"
+                                element={
                                     authenticated ? (
-                                            <EditProfile/>)
-                                        : (
-                                            <Login onLogin={handleLogin}/>
-                                        )
-                                }/>
-                            </Routes>
-                    </main>
+                                        <RoomList onLogout={handleLogout}/>
+                                    ) : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/eac/:roomId"
+                                element={
+                                    authenticated ? (
+                                        <Room onLogout={handleLogout}/>
+                                    ) : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/"
+                                element={
+                                    authenticated ? (
+                                        <RoomList onLogout={handleLogout}/>
+                                    ) : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                                }
+                            />
+                            <Route path="/logout" element={<Logout onLogout={handleLogout}/>}/>
+                            <Route path="/profile" element={
+                                authenticated ? (
+                                        <Profile/>)
+                                    : (
+                                        <Login onLogin={handleLogin}/>
+
+                                    )
+                            }/>
+                            <Route path="/editprofile" element={
+                                authenticated ? (
+                                        <EditProfile/>)
+                                    : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                            }/>
+                        </Routes>
+                    </div>
                     <Footer/>
 
                 </SocketProvider>

@@ -63,7 +63,7 @@ const Profile = () => {
         isLoading ?
             <div>Loading...</div>
             :
-            <div className="flex flex-col items-start lg:items-center h-screen mt-24 text-5xl lg:text-lg">
+            <div className="flex flex-col items-start lg:items-center h-screen mt-24 text-xl lg:text-lg">
 
                 <ProfileBio bio={bio} />
                 <ProfileCard username={username} level={level} invited_by={invited_by} badge={badge} avatar={avatar}/>

@@ -5,8 +5,7 @@ import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import { IoMicOff, IoMic } from "react-icons/io5";
-const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVideo}) => {
-    const [users, setUsers] = useState(null);
+const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVideo, users}) => {
     const [showModal, setShowModal] = useState(false);
     const username = localStorage.getItem("username");
     const navigate = useNavigate();
@@ -23,11 +22,6 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
             track.stop();
         });
 
-        // Notify the server that the user is leaving
-
-        // Disconnect the socket and peer
-        // socket.disconnect();
-        // peerRef.disconnect();
     }
 
     const backToRoomList = () => {
@@ -76,40 +70,17 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
         socket.emit("toggle_video", { user: username, status: videoTrack.enabled, room_id: roomId });
     };
 
-
-
-    useEffect(() => {
-        const handleRoomUsers = (data) => {
-            console.log("room_users:", data);
-            if (data.users) {
-                console.log("data.users is an array:", data.users)
-                setUsers(Object.values(data.users));
-            } else {
-                console.error("data.users is not an array:", data.users);
-            }
-        };
-
-        if (socket) {
-            socket.emit("fetch_users", {room_id: roomId});
-
-            socket.on('update_users', handleRoomUsers);
-            return () => {
-                socket.removeListener("room_users", handleRoomUsers);
-            };
-        }
-    }, [socket]);
-
     return (
-        <div className="border-b pb-4 mb-4 text-5xl lg:text-lg">
+        <div className="border-b pb-4  text-lg sm:text-4xl md:text-lg lg:text-lg">
             <div className="flex items-end space-x-4">
                 <button
-                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 md:p-4 lg:p-2 rounded"
                     onClick={backToRoomList}>
                     <IoMdReturnLeft className="mr-2 font-bold"/>
                     <span className="lg:inline hidden">leave</span>
                 </button>
                 <button
-                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 lg:p-2 rounded"
                     onClick={toggleAudio}
                 >
                     {audioStatus ?  <IoMic className="mr-2 font-bold"/> :<IoMicOff className="mr-2 font-bold"/> }
@@ -117,7 +88,7 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
                 </button>
 
                 <button
-                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-8 lg:p-2 rounded"
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 lg:p-2 rounded"
                     onClick={toggleVideo}
                 >
                     {videoStatus ?  <IoVideocam className="mr-2 font-bold"/> :  <IoVideocamOff className="mr-2 font-bold"/>}
@@ -126,7 +97,7 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
                 {isAdmin && (
                     <>
                         <button
-                            className="flex items-center p-8 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                            className="flex items-center p-4 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
                             onClick={dismissRoom}
                         >
                             <IoIosRemoveCircle className="mr-2 text-red-500"/>
@@ -134,7 +105,7 @@ const RoomControl = ({socket, roomId, isAdmin,localStream, openVideo, setOpenVid
                         </button>
 
                         <button
-                            className="flex items-center p-8 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                            className="flex items-center p-4 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
                             onClick={() => setShowModal(true)}
                         >
                             <GiHighKick className="mr-2 text-red-500"/>

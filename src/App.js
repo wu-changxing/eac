@@ -31,13 +31,13 @@ function App() {
     };
 
     return (
-        <div className="App flex flex-col min-h-screen relative pt-16 lg:pt-20">
+        <div className="App flex flex-col min-h-screen pt-16 lg:pt-20">
             <Router>
                 <SocketProvider>
                     <Header authenticated={authenticated}/>
                     {/*<main className="flex-grow flex flex-col  overflow-auto w-screen">*/}
 
-                    <div className="flex-grow  w-screen">
+                    <div className="flex-grow w-screen">
                     <Routes>
                             <Route
                                 path="/login"

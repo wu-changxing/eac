@@ -88,7 +88,7 @@ const RecommendationCodeCard = () => {
     };
 
     return (
-        <div className="m-2 mt-8 sm:m-4 sm:mt-16 lg:my-2 p-2 sm:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full text-center">
+        <div className="m-2 mt-8 sm:m-4 sm:mt-16 lg:my-2 p-2 sm:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full text-center lg:max-w-lg">
             <div className="flex flex-col sm:items-center sm:justify-evenly text-center border-solid border-t-2 pt-2 ">
                 {isEditing ? (
                     <input value={editValue} onChange={handleChange} className="mb-2 sm:mr-2 bg-sky-100 focus:border-sky-500"/>

@@ -4,14 +4,29 @@ import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/i
 import {GiHighKick} from "react-icons/gi";
 import {useNavigate} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
-import { IoMicOff, IoMic } from "react-icons/io5";
+import {IoMicOff, IoMic} from "react-icons/io5";
+import Modal from "../components/Modals/Modal";
+import { Prompt } from 'react-router-dom';
+
 const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVideo, users}) => {
     const [showModal, setShowModal] = useState(false);
+    const [leaveRoomModal, setLeaveRoomModal] = useState(false);
     const username = localStorage.getItem("username");
     const navigate = useNavigate();
     const [videoStatus, setVideoStatus] = useState(false);
     const [audioStatus, setAudioStatus] = useState(true);
+    const [isLeaving, setIsLeaving] = useState(false);
+
+    const handleBeforeUnload = (event) => {
+        if (!isLeaving) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    };
+
+
     const leaveRoom = () => {
+        setIsLeaving(true);
         // Stop all tracks in the stream
         socket.emit("leave", {room_id: roomId, username: username});
         if (!localStream) {
@@ -30,15 +45,23 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
         navigate('/roomlists');
     };
     const dismissRoom = () => {
+        setIsLeaving(true);
         socket.emit("dismiss_room", {room_id: roomId});
+        navigate('/roomlists');
     };
-
+    const confirmLeavePage = () => {
+        if (isAdmin) {
+            dismissRoom();
+        } else {
+            leaveRoom();
+        }
+        setShowModal(false);
+    };
     const kickUser = (user) => {
         socket.emit("kick_user", {room_id: roomId, user: user});
 
         setShowModal(false);
     };
-
 
 
     const toggleAudio = () => {
@@ -54,7 +77,7 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
         let videoTrack = localStream.getVideoTracks()[0];
         if (!videoTrack) {
             try {
-                const newStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const newStream = await navigator.mediaDevices.getUserMedia({video: true});
                 videoTrack = newStream.getVideoTracks()[0];
                 localStream.addTrack(videoTrack);
             } catch (error) {
@@ -67,11 +90,15 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
         setVideoStatus(videoTrack.enabled);
         setOpenVideo(videoTrack.enabled);
 
-        socket.emit("toggle_video", { user: username, status: videoTrack.enabled, room_id: roomId });
+        socket.emit("toggle_video", {user: username, status: videoTrack.enabled, room_id: roomId});
     };
 
     return (
         <div className="border-b pb-4  text-lg sm:text-4xl md:text-lg lg:text-lg">
+            {/*<Prompt*/}
+            {/*    when={!isLeaving}*/}
+            {/*    message="Are you sure you want to leave this room?"*/}
+            {/*/>*/}
             <div className="flex items-end space-x-4">
                 <button
                     className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 md:p-4 lg:p-2 rounded"
@@ -83,7 +110,7 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                     className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 lg:p-2 rounded"
                     onClick={toggleAudio}
                 >
-                    {audioStatus ?  <IoMic className="mr-2 font-bold"/> :<IoMicOff className="mr-2 font-bold"/> }
+                    {audioStatus ? <IoMic className="mr-2 font-bold"/> : <IoMicOff className="mr-2 font-bold"/>}
                     <span className="lg:inline hidden">{audioStatus ? "Mute Audio" : "Unmute Audio"}</span>
                 </button>
 
@@ -91,7 +118,8 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                     className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 lg:p-2 rounded"
                     onClick={toggleVideo}
                 >
-                    {videoStatus ?  <IoVideocam className="mr-2 font-bold"/> :  <IoVideocamOff className="mr-2 font-bold"/>}
+                    {videoStatus ? <IoVideocam className="mr-2 font-bold"/> :
+                        <IoVideocamOff className="mr-2 font-bold"/>}
                     <span className="lg:inline hidden">{videoStatus ? "Disable Video" : "Enable Video"}</span>
                 </button>
                 {isAdmin && (
@@ -114,6 +142,13 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                     </>
                 )}
             </div>
+            <Modal
+                cancelText={"Cancel"}
+                confirmText={"Confirm"}
+                show={leaveRoomModal}
+                setShow={() => setLeaveRoomModal(false)} // Corrected here
+                title={"Leave Room"}
+                onConfirm={confirmLeavePage}/>
             {showModal && (
                 <div className="fixed inset-0 flex items-center justify-center z-10 bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-xl max-w-xl mx-auto text-gray-800">

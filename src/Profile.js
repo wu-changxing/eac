@@ -2,16 +2,14 @@ import React from "react";
 import React, { useState, useEffect } from "react";
 
 import {useState} from "react";
-import {FaUserFriends, FaLevelUpAlt, FaAward, FaCoins, FaStar, FaCheck} from 'react-icons/fa';
-import {FiEdit, FiGift, FiCopy} from 'react-icons/fi';
-import {AiOutlineVerticalAlignTop} from 'react-icons/ai';
-import {IoGitNetworkSharp} from 'react-icons/io5';
+
 import config from "./config";
 import ProfileCard from "./ProfileComponents/ProfileCard";
 import ProfileState from "./ProfileComponents/ProfileState";
 import RecommendationCodeCard from "./ProfileComponents/RecommendationCodeCard";
 import ProfileBio from "./ProfileComponents/ProfileBio";
 import InvitedUsersCard from "./ProfileComponents/InvitedUsersCard";
+import Loading from "./components/Loading";
 const Profile = () => {
     // fetch data from API
     const [profileData, setProfileData] = useState(null);
@@ -61,9 +59,9 @@ const Profile = () => {
 
     return (
         isLoading ?
-            <div>Loading...</div>
+           <Loading />
             :
-            <div className="flex flex-col items-start lg:items-center h-screen mt-24 text-xl lg:text-lg">
+            <div className="flex flex-col items-start lg:items-center mt-24 text-xl lg:text-lg">
 
                 <ProfileBio bio={bio} />
                 <ProfileCard username={username} level={level} invited_by={invited_by} badge={badge} avatar={avatar}/>

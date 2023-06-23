@@ -11,7 +11,7 @@ const ProfileState = ({level, credits, experience, invited_by}) => {
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
     return (
-        <div className="m-2 md:m-4 mt-8 md:mt-16 lg:my-2 p-2 md:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full lg:max-w-md text-center">
+        <div className="m-2 md:m-4 mt-8 md:mt-16 lg:my-2 p-2 md:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full lg:max-w-lg text-center">
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 items-center justify-center text-center border-solid border-t-2 pt-2">
                 <div className="flex items-center col-span-2">

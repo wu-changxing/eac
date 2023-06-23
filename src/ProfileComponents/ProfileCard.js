@@ -6,7 +6,7 @@ import config from "../config";
 
 
 const ProfileCard = ({username, level, invited_by, badge, avatar}) => (
-    <div className="m-2 md:m-4 mt-4 md:mt-10 p-2 md:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full md:max-w-md">
+    <div className="m-2 md:m-4 mt-4 md:mt-10 p-2 md:p-4 bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full md:max-w-md lg:max-w-lg">
         <div className="relative w-28 md:w-72 h-28 md:h-72 mx-auto mb-2 md:mb-4 -mt-8 md:-mt-16 -mb-14 md:-mb-28">
             <img className="rounded-full w-full h-full" src={`${config.DJ_END}${avatar}`} alt={username} />
         </div>

@@ -1,32 +1,31 @@
 // src/Room.js
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import useSocket from './components/useSocket';
 import Streams from './RoomComponents/Streams';
 import RoomControl from "./RoomComponents/RoomControl";
 import config from "./config";
-import { useContext } from 'react';
-import { SocketContext } from './SocketContext';
+import {useContext} from 'react';
+import {SocketContext} from './SocketContext';
 import useLocalStream from './RoomComponents/useLocalStream';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import the icons
-import {GiArtificialIntelligence, GiBrain} from 'react-icons/gi'; // Import the AI icon
-import AIChatToggle from './RoomComponents/AIChatToggle';
-import FeedList from './RoomComponents/FeedList';
 import RoomToolsBar from './RoomComponents/RoomToolsBar';
+
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
-    const { state: socketState } = useContext(SocketContext);
+    const {state: socketState} = useContext(SocketContext);
     const socket = socketState.socket;
     const peer = socketState.peer;
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
     const username = localStorage.getItem('username');
-    const { openVideo: initialOpenVideo, openAudio: initialOpenAudio } = location.state || { openVideo: false, openAudio: true };
+    const {openVideo: initialOpenVideo, openAudio: initialOpenAudio} = location.state || {
+        openVideo: false,
+        openAudio: true
+    };
     // rest of the useState declarations
     const [openVideo, setOpenVideo] = useState(initialOpenVideo);
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
-    const { localStream, isStreamReady } = useLocalStream(openVideo, openAudio);
+    const {localStream, isStreamReady} = useLocalStream(openVideo, openAudio);
     const [users, setUsers] = useState([]);
 
     const backToRoomList = () => {
@@ -72,7 +71,7 @@ const Room = ({onLogout}) => {
             });
 
         }
-    }, [socket,roomId,peer]);
+    }, [socket, roomId, peer]);
     useEffect(() => {
         // Other socket event handlers
 
@@ -100,8 +99,7 @@ const Room = ({onLogout}) => {
                 socket.removeListener("update_users", handleRoomUsers);
             };
         }
-    }, [socket,isAdmin, roomId]);
-
+    }, [socket, isAdmin, roomId]);
 
 
     // src/Room.js
@@ -109,14 +107,16 @@ const Room = ({onLogout}) => {
         <div className="flex flex-col h-screen">
             <div className="flex-grow flex flex-col md:flex-row overflow-auto">
                 <div className="flex-grow lg:w-1/4">
-                    <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} isStreamReady={isStreamReady}/>
+                    <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}
+                             isStreamReady={isStreamReady}/>
                 </div>
                 <div className="w-full lg:w-3/4">
-                    <RoomToolsBar users ={users} />
+                    <RoomToolsBar users={users}/>
                 </div>
             </div>
             <div className="bg-white p-4 shadow-md flex justify-around items-center">
-                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo} setOpenVideo={setOpenVideo} users={users} />
+                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}
+                             openVideo={openVideo} setOpenVideo={setOpenVideo} users={users}/>
 
             </div>
         </div>

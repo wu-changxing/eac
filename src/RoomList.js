@@ -44,10 +44,10 @@ const RoomList = () => {
 
     const handleCreateRoom = (roomName) => {
         console.log("after click handle room the  socket is: ", socket)
-        if (!socket || !roomName) return;
-
-        socket.emit('create_room', {room_name: roomName, username});
         setModalOpen(false);
+        if (!socket || !roomName) return;
+        socket.emit('create_room', {room_name: roomName, username});
+
     };
 
     useEffect(() => {
@@ -55,10 +55,12 @@ const RoomList = () => {
 
         const handleRoomCreated = (data) => {
             setRooms((prevRooms) => [...prevRooms, {...data}]);
-            joinRoom(data.room_id);
         };
 
         socket.on('room_created', handleRoomCreated);
+        socket.on('your_room_id', (data) => {
+            navigate(`/eac/${data.room_id}`)
+        });
 
         return () => {
             socket.off('room_created', handleRoomCreated);

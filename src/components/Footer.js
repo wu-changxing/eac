@@ -1,7 +1,8 @@
 import React from 'react';
+
 const Footer = () => {
     return (
-        <footer className="w-full h-12 bg-sky-500 flex items-center justify-center transition-all duration-300 hover:bg-sky-700">
+        <footer className="w-full h-12 bg-sky-500 flex items-center justify-center transition-all duration-300 hover:bg-sky-700 mb-1">
             <div className="text-white text-xl p-4 text-center">
                 Echo Atrium Chat
             </div>

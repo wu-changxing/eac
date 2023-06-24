@@ -125,7 +125,7 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
 
     return transitions((style, item) => item && <animated.div
         style={style}
-        className={`flex flex-col h-[600px] lg:w-[599] lg:h-[756] p-4 bg-gray-50 border border-gray-300 rounded-md`}
+        className={`flex flex-col mt-4 h-[600px] lg:w-[599] lg:h-[756] p-4 bg-gray-50 border border-gray-300 rounded-md`}
     >
         <div className="overflow-auto mb-4 flex flex-col space-y-4 flex-grow">
             <div className="flex items-center font-bold text-lg mb-2">

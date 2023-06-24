@@ -28,7 +28,7 @@ const InvitedUsersCard = () => {
     }, []);
 
     return (
-        <div className="m-2 md:m-4 mt-4 md:mt-16 p-2 md:p-4 text-lg md:text-xl bg-white rounded-lg shadow-lg transform transition-all ease-in-out duration-350 w-full md:max-w-md lg:max-w-lg text-center">
+        <div className="p-6 my-4 bg-white rounded-lg shadow-xl  w-full md:max-w-md lg:max-w-lg text-center">
             <h2 className="font-bold mb-4 md:mb-8">Invited with by Me</h2>
             <div className="flex flex-wrap justify-center items-center gap-1 md:gap-2 text-white">
                 {invitedUsers.map((user, index) => (
@@ -42,7 +42,7 @@ const InvitedUsersCard = () => {
                     </span>
                 ))}
             </div>
-            <div className="flex flex-wrap justify-center items-center gap-1 md:gap-2 text-slate-400">
+            <div className="flex mt-10 flex-wrap justify-center items-center gap-1 md:gap-2 text-slate-400 max-w-sm">
                 收集一万片不同的羽毛，可以兑换一只鹦鹉
             </div>
         </div>

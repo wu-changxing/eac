@@ -85,17 +85,17 @@ const Room = ({onLogout}) => {
             }
         };
 
-        let intervalId;
+        let timeoutId;
 
         if (socket) {
             socket.on('update_users', handleRoomUsers);
 
-            intervalId = setInterval(() => {
+            timeoutId = setTimeout(() => {
                 socket.emit("fetch_users", {room_id: roomId});
-            }, 5000); // Every 5 seconds
+            }, 3000); // After 5 seconds
 
             return () => {
-                clearInterval(intervalId); // Clear the interval when component unmounts
+                clearTimeout(timeoutId); // Clear the timeout when component unmounts
                 socket.removeListener("update_users", handleRoomUsers);
             };
         }

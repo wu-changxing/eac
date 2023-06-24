@@ -156,14 +156,14 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                         {users &&
                             users.map((user) => (
                                 <div
-                                    className="flex items-center space-x-4 mb-4 cursor-pointer"
-                                    onClick={() => kickUser(user.user)}
+                                    className="flex items-center space-x-4 mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
+                                    onClick={() => kickUser(user.username)}
                                 >
-                                    <div className="h-14 w-14 rounded-full overflow-hidden">
+                                    {/*<div className="h-14 w-14 rounded-full overflow-hidden">*/}
                                         {/*<img src={user.avatar} alt={user.sid}*/}
                                         {/*     className="h-full w-full object-cover"/>*/}
-                                    </div>
-                                    <div>{user.user}</div>
+                                    {/*</div>*/}
+                                    <div>{user.username}</div>
                                 </div>
                             ))}
                         <button

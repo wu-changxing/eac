@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {SocketContext} from './SocketContext';
 import CreateRoomModal from "./components/CreateRoomModal";
 import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
 import {RiVoiceprintFill} from 'react-icons/ri';
 import Dialog from "./components/Dialog";
 import Loading from "./components/Loading";
+
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
@@ -13,10 +14,6 @@ const RoomList = () => {
     const username = localStorage.getItem('username');
     const [modalOpen, setModalOpen,] = useState(false);
 
-    const [openDialog, setOpenDialog] = useState(false);
-    const [openVideo, setOpenVideo] = useState(false);
-    const [openAudio, setOpenAudio] = useState(false);
-    const [selectedRoomId, setSelectedRoomId] = useState(null);
     useEffect(() => {
         console.log("socket is: ", socket)
         if (!socket) return;
@@ -68,15 +65,10 @@ const RoomList = () => {
     }, [socket]);
 
     const joinRoom = (roomId) => {
-        setSelectedRoomId(roomId); // Store roomId to join after confirm
         navigate(`/eac/${roomId}`); // Navigate to room
     };
 
-    const handleDialogConfirm = () => {
-        setOpenDialog(false); // Close the dialog
-        console.log("opevide and openaudio is: ", openVideo, openAudio)
-        navigate(`/eac/${selectedRoomId}`, { state: { openVideo, openAudio } }); // Navigate to room with user choices
-    };
+
     if (loading) {
         return <div><Loading></Loading></div>; // Replace with your own loading spinner
     }
@@ -92,22 +84,23 @@ const RoomList = () => {
                             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500 mb-2">
                                 <IoMdPeople className="inline mr-2"/>主理人: {room.admin}
                             </p>
+
                             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
                                 <IoIosTime className="inline mr-2"/>{room.created_at}
                             </p>
                         </div>
                         <div className="p-2 sm:p-4 bg-gray-100">
-                            <button
-                                className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-12 text-center rounded"
-                                onClick={() => joinRoom(room.roomId)}>
+                            <Link to={`/eac/${room.roomId}`}
+                                  className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-12 text-center rounded">
                                 <RiVoiceprintFill className="inline mr-2"/>
                                 <span className="hidden sm:inline">Join Room</span>
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="fixed bottom-16 sm:bottom-24 md:bottom-28 lg:bottom-32 left-0 w-full flex justify-center pb-2 sm:pb-4">
+            <div
+                className="fixed bottom-16 sm:bottom-24 md:bottom-28 lg:bottom-32 left-0 w-full flex justify-center pb-2 sm:pb-4">
                 <button
                     className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-12 sm:w-16 md:w-20 lg:w-24 h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center rounded-full"
                     onClick={createRoom}>

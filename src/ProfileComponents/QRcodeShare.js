@@ -34,7 +34,7 @@ const QRcodeShare = ({ value }) => {
             </div>
             <button
                 onClick={handleClick}
-                className="mt-2 px-3 py-1 rounded bg-blue-500 text-sm md:text-base md:px-4 md:py-2 text-white"
+                className="px-3 py-1 rounded bg-blue-500 text-sm md:text-base md:px-4 md:py-2 text-white"
             >
                 Download QR Code
             </button>

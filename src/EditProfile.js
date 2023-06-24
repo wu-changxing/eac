@@ -95,7 +95,7 @@ const EditProfile = () => {
     };
 
     return (
-        <div className="flex flex-col items-start mt-2  text-xl lg:items-center lg:text-lg">
+        <div className="flex flex-col items-start mt-2 px-4 text-xl lg:items-center lg:text-lg">
             <form onSubmit={handleSubmit} className="w-full lg:max-w-lg mx-auto">
                 <div className="my-8 lg:mb-4 text-xl lg:text-2xl">
                     <label className="block">

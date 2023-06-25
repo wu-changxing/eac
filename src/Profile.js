@@ -10,6 +10,7 @@ import RecommendationCodeCard from "./ProfileComponents/RecommendationCodeCard";
 import ProfileBio from "./ProfileComponents/ProfileBio";
 import InvitedUsersCard from "./ProfileComponents/InvitedUsersCard";
 import Loading from "./components/Loading";
+import AddToCalendarCard from "./ProfileComponents/AddToCalendarCard";
 const Profile = () => {
     // fetch data from API
     const [profileData, setProfileData] = useState(null);
@@ -57,6 +58,7 @@ const Profile = () => {
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
 
+
     return (
         isLoading ?
            <Loading />
@@ -64,10 +66,13 @@ const Profile = () => {
             <div className="flex flex-col items-start px-2 lg:items-center mt-24 text-xl lg:text-lg">
 
                 <ProfileBio bio={bio} />
+
                 <ProfileCard username={username} level={level} invited_by={invited_by} badge={badge} avatar={avatar}/>
                 <ProfileState level={level} credits={credits} experience={experience} invited_by={invited_by} />
+                <AddToCalendarCard />
                 <RecommendationCodeCard />
                 <InvitedUsersCard />
+
             </div>
     );
 };

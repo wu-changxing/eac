@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
-import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome} from 'react-icons/fa';
+import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaUserCircle} from 'react-icons/fa';
 import Navbar from "./Navbar";
 import logo  from "../logo.svg";
 import macaw6 from "../../assets/macaw6.svg";
@@ -18,12 +18,7 @@ const Header = ({authenticated}) => {
         <header className="fixed top-0 text-lg w-full bg-gray-200 h-16 sm:h-20 lg:h-16">
             <div className="flex flex-row justify-between items-center h-full px-2 sm:px-4 md:px-10 lg:px-20">
                 <div className="flex items-center justify-start ">
-                    <div className={`h-6 w-6 sm:h-8 sm:w-8 lg:h-12 lg:w-12 rounded-8xl border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center mr-1`}>
-                        <div className={`h-4 w-4 sm:h-6 sm:w-6 rounded-8xl ${isPeerReady ? 'bg-green-500' : 'bg-red-500'} flex items-center justify-center`}>
-                            <div className={`h-3 w-3 sm:h-4 sm:w-4 rounded-8xl ${isPeerConnected ? 'bg-green-500' : 'bg-blue-500'}`}>
-                            </div>
-                        </div>
-                    </div>
+
                     <Link to="/" className="relative">
                         <img className="h-20 w-20 sm:h-20 sm:w-20 lg:h-30 lg:w-30 z-10 -mb-10 " src={macaw6} alt="logo" />
                     </Link>
@@ -31,12 +26,24 @@ const Header = ({authenticated}) => {
 
                 <nav className="text-lg">
                     <ul className="flex flex-row items-center text-2xl sm:text-3xl">
+                        <div className={`h-7 w-7 sm:h-8 sm:w-8 lg:h-12 lg:w-12 rounded-8xl border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center mr-1`}>
+                            <div className={`h-5 w-5 sm:h-6 sm:w-6 rounded-8xl ${isPeerReady ? 'bg-green-500' : 'bg-red-500'} p-1 flex items-center justify-center`}>
+                                <div className={`h-3 w-3 sm:h-4 sm:w-4 rounded-8xl ${isPeerConnected ? 'bg-green-500' : 'bg-sky-400'}`}>
+                                </div>
+                            </div>
+                        </div>
                         {authenticated ? (
                             <>
+
                                 <li className="mx-2 my-0">
                                     <Link to="/">
                                         <FaHome className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Home</span></Link>
+                                </li>
+                                <li className="mx-2 my-0">
+                                    <Link to="/profile">
+                                        <FaUserCircle className="inline sm:mr-2 text-sky-500"/><span
+                                        className="hidden sm:inline">Profile</span></Link>
                                 </li>
                                 <li className="mx-2 my-0">
                                     <Link to="/logout"><FaSignOutAlt className="inline sm:mr-2 text-sky-500"/><span

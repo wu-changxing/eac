@@ -2,7 +2,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import Streams from './RoomComponents/Streams';
-import RoomControl from "./RoomComponents/RoomControl";
 import config from "./config";
 import {useContext} from 'react';
 import {SocketContext} from './SocketContext';
@@ -111,14 +110,10 @@ const Room = ({onLogout}) => {
                              isStreamReady={isStreamReady}/>
                 </div>
                 <div className="w-full lg:w-3/4">
-                    <RoomToolsBar users={users}/>
+                    <RoomToolsBar users={users} isAdmin={isAdmin} localStream={localStream}
+                                  openVideo={openVideo} setOpenVideo={setOpenVideo}/>
                 </div>
-            </div>
-            <div className="bg-white p-4 shadow-md flex justify-around items-center">
-                <RoomControl roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}
-                             openVideo={openVideo} setOpenVideo={setOpenVideo} users={users}/>
-
-            </div>
+                </div>
         </div>
     );
 

@@ -1,15 +1,17 @@
 // src/RoomComponents/RoomToolsBar.js
 import React, {useState, useContext} from 'react';
 import {GiArtificialIntelligence, GiBrain} from 'react-icons/gi';
-import {FaRssSquare, FaComments, FaUsers} from 'react-icons/fa';
+import {GiGears, Gi3DGlasses,GiAutoRepair,GiWalkingBoot} from 'react-icons/gi';
+import {SiRocketdotchat, SiNewjapanprowrestling,SiGooglenews} from 'react-icons/si';
+import {FaRssSquare, FaComments, FaUsers, FaRegAngry, FaTeamspeak, FaInfoCircle} from 'react-icons/fa';
+import {FaRobot, FaSatelliteDish, FaRegComments, FaUserFriends,} from 'react-icons/fa';
 import AIChatToggle from './AIChatToggle';
 import FeedList from './FeedList';
 import ChatBox from './ChatBox';
 import UnreadMessages from './UnreadMessages';
 import RoomPanel from './RoomPanel'; // Make sure the path is correct
-import {SocketContext} from '../SocketContext';
-
-const RoomToolsBar = ({users}) => {
+import { SocketContext } from '../SocketContext';
+const RoomToolsBar = ({users, isAdmin, localStream, openVideo, setOpenVideo}) => {
     const {state, dispatch} = useContext(SocketContext);
     const {unreadMessages} = state;
 
@@ -88,8 +90,8 @@ const RoomToolsBar = ({users}) => {
                     onClick={handleFeedListToggle}
                     className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
                                 ${showFeedList ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}>
-                    {showFeedList ? <FaRssSquare className="mr-2 lg:text-5xl"/> :
-                        <FaRssSquare className="mr-2 lg:text-5xl"/>}
+                    {showFeedList ? <Gi3DGlasses className="mr-2 lg:text-5xl"/> :
+                        <SiGooglenews className="mr-2 lg:text-5xl"/>}
                     <span
                         className="lg:text-lg hidden lg:inline">{showFeedList ? '' : (showIframe || showChatBox) ? '' : 'Show Feeds'}</span>
                 </button>
@@ -97,8 +99,8 @@ const RoomToolsBar = ({users}) => {
                     onClick={handleChatBoxToggle}
                     className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
                                 ${showChatBox ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}>
-                    {showChatBox ? <FaComments className="mr-2 lg:text-5xl"/> :
-                        <FaComments className="mr-2 lg:text-5xl"/>}
+                    {showChatBox ? <FaTeamspeak className="mr-2 lg:text-5xl"/> :
+                        <SiRocketdotchat className="mr-2 lg:text-5xl"/>}
                     <span
                         className="lg:text-lg hidden lg:inline">{showChatBox ? '' : (showIframe || showFeedList) ? '' : 'Show Chat'}</span>
                 </button>
@@ -106,7 +108,8 @@ const RoomToolsBar = ({users}) => {
                     onClick={handleRoomPanelToggle}
                     className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
                                 ${showRoomPanel ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}>
-                    <FaUsers className="mr-2 lg:text-5xl"/>
+                    {showRoomPanel? <GiAutoRepair className="mr-2 lg:text-5xl"/>:
+                        <GiGears className="mr-2 lg:text-5xl"/>}
                     <span
                         className="lg:text-lg hidden lg:inline">{showRoomPanel ? '' : (showIframe || showFeedList || showChatBox) ? '' : 'Room Panel'}</span>
                 </button>
@@ -114,7 +117,7 @@ const RoomToolsBar = ({users}) => {
             {showIframe && <AIChatToggle showIframe={showIframe}/>}
             {showFeedList && <FeedList/>}
              <ChatBox showChatBox={showChatBox} dispatch={dispatch} unreadMessages={unreadMessages}/>
-            {showRoomPanel && <RoomPanel users={users}/>}
+            {showRoomPanel && <RoomPanel users={users} isAdmin = {isAdmin} localStream = {localStream} openVideo={openVideo} setOpenVideo={setOpenVideo}/>}
             {!showChatBox && <UnreadMessages/>}
         </div>
     );

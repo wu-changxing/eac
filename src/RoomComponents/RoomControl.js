@@ -1,14 +1,17 @@
 // src/components/RoomControl.js
-import React, {useState, useEffect} from "react";
+import { useState, useEffect, useContext } from "react";
+import { SocketContext } from '../SocketContext';
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
-import {GiHighKick} from "react-icons/gi";
-import {useNavigate} from "react-router-dom";
+import {GiHighKick,GiWalkingBoot} from "react-icons/gi";
+import {useNavigate, useParams} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import {IoMicOff, IoMic} from "react-icons/io5";
 import Modal from "../components/Modals/Modal";
-import { Prompt } from 'react-router-dom';
 
-const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVideo, users}) => {
+const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) => {
+    const roomId = useParams().roomId;
+    const { state: socketState } = useContext(SocketContext);
+    const { socket, peer } = socketState;
     const [showModal, setShowModal] = useState(false);
     const [leaveRoomModal, setLeaveRoomModal] = useState(false);
     const username = localStorage.getItem("username");
@@ -94,16 +97,13 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
     };
 
     return (
-        <div className="border-b pb-4  text-lg sm:text-4xl md:text-lg lg:text-lg">
-            {/*<Prompt*/}
-            {/*    when={!isLeaving}*/}
-            {/*    message="Are you sure you want to leave this room?"*/}
-            {/*/>*/}
-            <div className="flex items-end space-x-4">
+        <div className="border-b pt-4 text-lg md:text-lg lg:text-lg">
+
+            <div className="flex items-end lg:space-x-3">
                 <button
                     className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 md:p-4 lg:p-2 rounded"
                     onClick={backToRoomList}>
-                    <IoMdReturnLeft className="mr-2 font-bold"/>
+                    <GiWalkingBoot className="mr-2 font-bold"/>
                     <span className="lg:inline hidden">leave</span>
                 </button>
                 <button
@@ -111,7 +111,7 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                     onClick={toggleAudio}
                 >
                     {audioStatus ? <IoMic className="mr-2 font-bold"/> : <IoMicOff className="mr-2 font-bold"/>}
-                    <span className="lg:inline hidden">{audioStatus ? "Mute Audio" : "Unmute Audio"}</span>
+                    <span className="lg:inline hidden">{audioStatus ? "Mute" : "Unmute"}</span>
                 </button>
 
                 <button
@@ -120,7 +120,7 @@ const RoomControl = ({socket, roomId, isAdmin, localStream, openVideo, setOpenVi
                 >
                     {videoStatus ? <IoVideocam className="mr-2 font-bold"/> :
                         <IoVideocamOff className="mr-2 font-bold"/>}
-                    <span className="lg:inline hidden">{videoStatus ? "Disable Video" : "Enable Video"}</span>
+                    <span className="lg:inline hidden">{videoStatus ? "Disable" : "Enable"}</span>
                 </button>
                 {isAdmin && (
                     <>

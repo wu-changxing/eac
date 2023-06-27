@@ -8,6 +8,7 @@ import config from "../config";
 import { QRCode } from 'react-qrcode-logo';
 import macaw6 from "../../assets/macaw6.svg";
 import QRcodeShare from "./QRcodeShare";
+import {BiEdit} from "react-icons/bi";
 
 const RecommendationCodeCard = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -98,13 +99,13 @@ const RecommendationCodeCard = () => {
     };
 
     return (
-        <div className="p-6 my-4 bg-white rounded-lg shadow-xl  w-full md:max-w-md lg:max-w-lg text-center">
+        <div className="p-6 my-4 bg-white rounded-lg shadow-xl w-full md:max-w-md lg:max-w-lg text-center">
             <div className="flex flex-col justify-evenly text-center border-solid border-t-2 pt-2 ">
                 {isEditing ? (
                     <input value={editValue} onChange={handleChange} className="mb-2 sm:mr-2 bg-sky-100 focus:border-sky-500"/>
                 ) : (
                     <div onClick={handleCopyClick} className="mb-2 sm:mb-0 flex items-center justify-between space-x-1 sm:space-x-10 cursor-pointer hover:bg-gray-200">
-                        <IoGitNetworkSharp className="text-green-400 text-2xl sm:text-6xl lg:text-lg"/>
+                        <IoGitNetworkSharp className="text-pink-400 text-2xl sm:text-6xl lg:text-lg"/>
                         <span className="hidden sm:inline py-2">Recommend Code:</span>
                         <span className="font-bold overflow-auto py-2">{newRecommendCode}</span>
                         <FiCopy className="ml-1 sm:ml-4 text-2xl sm:text-6xl lg:text-lg text-sky-500"/>
@@ -113,14 +114,19 @@ const RecommendationCodeCard = () => {
                 {copied && <FaCheck className="text-green-500 ml-2"/>}
             </div>
             <div className="flex  flex-row justify-evenly text-center border-solid border-t-2 pt-2 ">
-                {!isEditing && <AiFillEdit onClick={handleEditClick} className="mb-2 sm:mb-0 sm:ml-2 text-sky-500"/>}
+                {!isEditing &&
+                    <div className=" mb-2 p-2 sm:mb-0 sm:ml-2 bg-sky-500 text-white rounded-xl">
+                    <BiEdit onClick={handleEditClick} className="mb-2 sm:mb-0 sm:ml-2 text-white  lg:text-4xl"/>
+                    <span className="hidden lg:inline">Edit</span>
+                </div>
+                }
                 {isEditing && (
                     <div onClick={handleSaveClick} className="mb-2 sm:mb-0 sm:ml-2 bg-sky-500 text-white">
                         <AiOutlineCheck className="mb-2 sm:mb-0 sm:ml-2"/>
                         <span className="hidden lg:inline">Save</span>
                     </div>
                 )}
-                <AiOutlineVerticalAlignTop className="text-red-400 ml-4"/>
+                <AiOutlineVerticalAlignTop className="text-red-400 mb-2 text-2xl mt-2"/>
                 <div className="mb-2 sm:mb-0 hidden sm:block">
                     <span className="mr-2">Limit:</span>
                     <span className="font-bold mr-2">{useLimit}</span>
@@ -128,9 +134,9 @@ const RecommendationCodeCard = () => {
                     <span className="font-bold">{useCount}</span>
                 </div>
                 <span className="hidden sm:inline mr-2">Left:</span>
-                <span className="font-bold">{leftCount}</span>
-                <button onClick={() => setShowQRCode(!showQRCode)} className="mt-2 sm:mt-0 sm:ml-2 bg-sky-500 text-white">
-                    <AiOutlineQrcode className="ml-2"/>
+                <span className="font-bold my-2">{leftCount}</span>
+                <button onClick={() => setShowQRCode(!showQRCode)} className="mb-2 p-1 sm:mt-0 sm:ml-2 bg-sky-500 text-white rounded-xl">
+                    <AiOutlineQrcode className="ml-2 lg:text-4xl"/>
                     <span className="hidden lg:inline">Share</span>
                 </button>
             </div>

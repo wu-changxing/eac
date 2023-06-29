@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
-import {FaComments, FaPaperPlane, FaFileImage} from 'react-icons/fa';
+import {FaComments, FaPaperPlane, FaFileImage, FaFileAlt} from 'react-icons/fa';
 import {SocketContext} from '../SocketContext';
 import {useParams} from 'react-router-dom';
 import {useTransition, animated} from 'react-spring';
@@ -9,11 +9,14 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
     const {socket} = state;
     const [inputValue, setInputValue] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [messages, setMessages] = useState([]);
     const [previewURL, setPreviewURL] = useState(null);
     const endOfChatRef = useRef(null);
     const {roomId} = useParams();
+    const imgInputRef = useRef();
     const fileInputRef = useRef();
+
     const transitions = useTransition(showChatBox, {
         from: {
             opacity: 0,
@@ -29,22 +32,37 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
             transform: 'perspective(600px) translate3d(100%,0,-4000px) rotateY(180deg) scale(0.1)',
             boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
             config: {duration: 5}
-        },
-
-        config: {mass: 1, tension: 280, friction: 20, precision: 0.00001},
+        }, config: {mass: 1, tension: 280, friction: 20, precision: 0.00001},
     });
 
-
     const handleImageSelect = (event) => {
-        if (previewURL) URL.revokeObjectURL(previewURL);  // If there is an old preview URL, revoke it
         const file = event.target.files[0];
         setSelectedImage(file);
-        setPreviewURL(URL.createObjectURL(file));  // Create a new preview URL
+        setPreviewURL(URL.createObjectURL(file));
     };
 
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        const maxFileSize = 1024 * 1024 * 50;
+        if (file.size > maxFileSize) {
+            alert('File size is too large. Please select a file that is less than 50MB.');
+            return;
+        }
+        setSelectedFile(file);
+    };
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
+    }
+
+    const handleSend = () => {
+        if (selectedImage) {
+            sendChatImage();
+        } else if (selectedFile) {
+            sendChatFile();
+        } else {
+            sendChatMessage();
+        }
     }
 
     const sendChatMessage = () => {
@@ -55,7 +73,8 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
             setMessages(prevMessages => [...prevMessages, message]);
         }
     }
-    const sendChatImage = async () => {
+
+    const sendChatImage = () => {
         if (socket && selectedImage) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -64,55 +83,71 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
                 socket.emit('room_chat_img', message);
                 setMessages(prevMessages => [...prevMessages, message]);
                 setSelectedImage(null);
-                setPreviewURL(null);  // Clear the preview URL after sending the image
+                setPreviewURL(null);
             };
             reader.readAsDataURL(selectedImage);
         }
     };
+
+    const sendChatFile = () => {
+        if (socket && selectedFile) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const blobData = reader.result;
+                const message = {
+                    user: 'You',
+                    file: blobData,
+                    filename: selectedFile.name,
+                    filetype: selectedFile.type,
+                    room_id: roomId
+                };
+                console.log(message);
+                socket.emit('room_chat_file', message);
+                setMessages(prevMessages => [...prevMessages, message]);
+                setSelectedFile(null);
+            };
+            reader.readAsArrayBuffer(selectedFile);
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSend();
+        }
+    }
+
     useEffect(() => {
         if (showChatBox && unreadMessages.length > 0) {
             setMessages(prevMessages => [...prevMessages, ...unreadMessages]);
-            dispatch({
-                type: 'SET_UNREAD_MESSAGES', payload: [],
-            });
+            dispatch({type: 'SET_UNREAD_MESSAGES', payload: []});
         }
     }, [showChatBox, dispatch, unreadMessages]);
-
-    const handleSend = () => {
-        if (selectedImage) {
-            sendChatImage();
-        } else {
-            sendChatMessage();
-        }
-    }
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            sendChatMessage();
-        }
-    }
 
     useEffect(() => {
         if (socket) {
             socket.on('room_chat_msg', (message) => {
-                console.log("message received: ", message);
                 if (!showChatBox) {
-                    dispatch({
-                        type: 'SET_UNREAD_MESSAGES', payload: [...unreadMessages, message],
-                    });
+                    dispatch({type: 'SET_UNREAD_MESSAGES', payload: [...unreadMessages, message]});
                 } else {
                     setMessages(prevMessages => [...prevMessages, message]);
                 }
             });
             socket.on('room_chat_img', (message) => {
-                // handle image messages
                 setMessages(prevMessages => [...prevMessages, message]);
-
             });
+            socket.on('room_chat_file', (message) => {
+                const {file, filename, filetype} = message;
+                const blob = new Blob([new Uint8Array(file).buffer], {type: filetype});
+                message.fileURL = URL.createObjectURL(blob);
+                setMessages(prevMessages => [...prevMessages, message]);
+            });
+
         }
         return () => {
             if (socket) {
                 socket.off('room_chat_msg');
-                socket.off('room_chat_img');  // Don't forget to clean up
+                socket.off('room_chat_img');
+                socket.off('room_chat_file');
             }
         };
     }, [socket, showChatBox, dispatch, unreadMessages]);
@@ -138,40 +173,74 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
                 <span className="text-sm font-bold text-sky-500">{message.user}</span>
                 {message.message && <span className="text-slate-700 text-lg">{message.message}</span>}
                 {message.image && <img src={message.image} alt="sent content"/>}
+                {message.file && (
+                    <div className="flex items-center space-x-2 border-2 shadow-lg p-2 rounded-md bg-white">
+                        <FaFileAlt className="text-sky-500" />
+                        <a
+                            href={message.fileURL}
+                            download={message.filename}
+                            className="underline text-sky-500 hover:text-sky-600 overflow-hidden whitespace-wrap break-all"
+                            style={{ maxWidth: '200px' }} // Set the maximum width to wrap long file names
+                        >
+                            {message.filename}
+                        </a>
+                    </div>
+                )}
+
             </div>))}
+
 
             <div ref={endOfChatRef}></div>
         </div>
         <div className="flex mt-auto">
-            <div className="flex items-center w-full rounded-l-md p-2 mr-1 bg-white">
+            <div className="flex items-center w-full rounded-l-md bg-white">
                 {previewURL && <img src={previewURL} alt="Preview"
                                     className="w-20 h-20 object-cover rounded-md mr-2"/>} {/* Thumbnail appears before the input field */}
-                <input
-                    className="flex-grow text-gray-900"
-                    type="text"
-                    value={inputValue}
-                    onChange={handleChange}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type your message..."
-                />
+                {selectedFile && (
+                    <span className="text-sky-500 w-28 text-sm truncate overflow-hidden whitespace-wrap break-all">
+                        {selectedFile.name}
+                    </span>)}
+                {!selectedFile && !selectedImage && (
+                    <input
+                        className="flex-grow text-gray-900"
+                        type="text"
+                        value={inputValue}
+                        onChange={handleChange}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Type your message..."
+                    />
+                )}
             </div>
-            <button
-                onClick={() => fileInputRef.current.click()}
-                className="bg-sky-500 hover:bg-sky-600 font-bold py-2 px-4 rounded-l-md cursor-pointer"
+            {!selectedFile && !selectedImage&& (<button
+                onClick={() => imgInputRef.current.click()}
+                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer "
             >
-                <FaFileImage className="text-white"/>
-            </button>
+                <FaFileImage className="text-white text-2xl lg:text-sm"/>
+            </button>)}
             <input
-                ref={fileInputRef}
+                ref={imgInputRef}
                 id="file-upload"
                 type="file"
                 accept="image/*"
                 onChange={handleImageSelect}
                 className="hidden"
             />
+            {!selectedFile && !selectedImage && (<button
+                onClick={() => fileInputRef.current.click()} // Link the file input to this button
+                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer "
+            >
+                <FaFileAlt className="text-white text-2xl lg:text-sm"/>
+            </button>)}
+            <input
+                ref={fileInputRef} // This ref was previously unused
+                id="file-upload"
+                type="file"
+                onChange={handleFileSelect} // Handle file selection with handleFileSelect
+                className="hidden"
+            />
             <button
                 onClick={handleSend} // call handleSend instead
-                className="bg-sky-500 hover:bg-sky-600 font-bold py-2 px-4 rounded-r-md"
+                className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-r-xl cursor-pointer"
             >
                 <FaPaperPlane className="text-white"/>
             </button>

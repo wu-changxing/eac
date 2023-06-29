@@ -91,7 +91,7 @@ const Room = ({onLogout}) => {
 
             timeoutId = setTimeout(() => {
                 socket.emit("fetch_users", {room_id: roomId});
-            }, 3000); // After 5 seconds
+            }, 2000); // After 5 seconds
 
             return () => {
                 clearTimeout(timeoutId); // Clear the timeout when component unmounts

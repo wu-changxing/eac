@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
-import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaUserCircle} from 'react-icons/fa';
+import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaUserCircle, FaCalendarAlt} from 'react-icons/fa';
+import {GiWoodenSign} from 'react-icons/gi';
 import Navbar from "./Navbar";
 import logo  from "../logo.svg";
 import macaw6 from "../../assets/macaw6.svg";
@@ -44,6 +45,11 @@ const Header = ({authenticated}) => {
                                     <Link to="/profile">
                                         <FaUserCircle className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Profile</span></Link>
+                                </li>
+                                <li className="mx-2 my-0">
+                                    <Link to="/events">
+                                        <GiWoodenSign className="inline sm:mr-2 text-sky-500"/><span
+                                        className="hidden sm:inline">Events</span></Link>
                                 </li>
                                 <li className="mx-2 my-0">
                                     <Link to="/logout"><FaSignOutAlt className="inline sm:mr-2 text-sky-500"/><span

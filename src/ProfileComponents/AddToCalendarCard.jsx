@@ -8,30 +8,8 @@ import config from "../config";
 let tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 
-const defaultEventData = {
-    "name": "提醒：EAC",
-    "startDate": tomorrow.toISOString().split('T')[0],  // tomorrow's date as a default value
-    "startTime": "10:10:00",
-    "endTime": "10:40:00",
-    "recurrence": "weekly",
-    "recurrence_interval": 1,
-    "recurrence_count": 4,
-    "recurrenceByDay": "FR",
-    "options": [
-        "Apple",
-        "Google",
-        "iCal",
-        "Outlook.com",
-        "Microsoft 365",
-        "Microsoft Teams"
-    ],
-    "timeZone": "currentBrowser",
-    "location": "web",
-    "buttonStyle": "date",
-    "size": 15,
-    "lightMode": "bodyScheme",
-    "description": "[p][strong]提醒：你订阅的时间已到[/strong] 你订阅的朋友 [u]已经[/u] 上线! 🚀[/p][p]💻 [em]点击链接来访问:[/em][br]&rarr; [url]https://eac.aaron404.com/"
-}
+
+
 
 const AddToCalendarCard = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -40,6 +18,30 @@ const AddToCalendarCard = () => {
     const [message, setMessage] = useState('');
     const [eventsData, setEventsData] = useState([]);
     const [isNewEvent, setIsNewEvent] = useState(false);
+    const defaultEventData = {
+        "name":username+ ":来ECA和我聊会儿天吧！",
+        "startDate": tomorrow.toISOString().split('T')[0],  // tomorrow's date as a default value
+        "startTime": "10:10:00",
+        "endTime": "10:40:00",
+        "recurrence": "weekly",
+        "recurrence_interval": 1,
+        "recurrence_count": 4,
+        "recurrenceByDay": "FR",
+        "options": [
+            "Apple",
+            "Google",
+            "iCal",
+            "Outlook.com",
+            "Microsoft 365",
+            "Microsoft Teams"
+        ],
+        "timeZone": "currentBrowser",
+        "location": "web",
+        "buttonStyle": "date",
+        "size": 15,
+        "lightMode": "bodyScheme",
+        "description": "[p][strong]提醒：你订阅的时间已到[/strong] 你订阅的朋友 [u]已经[/u] 上线! 🚀[/p][p]💻 [em]点击链接来访问:[/em][br]&rarr; [url]https://eac.aaron404.com/"
+    }
 
     useEffect(() => {
         const fetchEventData = async () => {

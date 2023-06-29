@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import {SocketProvider} from './SocketContext';
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
+import EventsWaterfall from "./EventsWaterfall";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -106,6 +107,13 @@ function App() {
                                         <Login onLogin={handleLogin}/>
                                     )
                             }/>
+                            <Route path="/events" element={
+                                authenticated ? (
+                                        <EventsWaterfall/>)
+                                    : (
+                                        <Login onLogin={handleLogin}/>
+                                    )
+                            } />
                         </Routes>
                     </div>
                     <Footer/>

@@ -27,7 +27,7 @@ const EventsWaterfall = () => {
             );
             console.log('response.data.results:', response.data.results);
             setEvents((prevEvents) => [...prevEvents, ...response.data.results]);
-            if (response.data.results.length > 0) {
+            if (response.data.results.length >= 20) {
                 setPage((prevPage) => prevPage + 1);
             } else {
                 setHasMore(false);

@@ -8,6 +8,11 @@ const FeedPage = ({ feedId, onPrevPage, onNextPage, onReturn }) => {
 
     useEffect(() => {
         fetchFeed();
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
     }, [feedId]);
 
     const fetchFeed = async () => {
@@ -19,6 +24,14 @@ const FeedPage = ({ feedId, onPrevPage, onNextPage, onReturn }) => {
     const handleNavigation = (navigationFunction) => {
         navigationFunction();
         window.scrollTo(0, 0);
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'ArrowLeft') {
+            handleNavigation(onPrevPage);
+        } else if (event.key === 'ArrowRight') {
+            handleNavigation(onNextPage);
+        }
     };
 
     const pageVariants = {
@@ -55,7 +68,8 @@ const FeedPage = ({ feedId, onPrevPage, onNextPage, onReturn }) => {
                 exit="out"
                 variants={pageVariants}
                 transition={pageTransition}
-                className="lg:flex-1 lg:ml-4 mt-10 w-full  lg:w-[599]  text-xl lg:text-lg border-2 p-2">
+                className="lg:flex-1 lg:ml-4 mt-10 w-full  lg:w-[599]  text-xl lg:text-lg border-2 p-2"
+            >
                 <h2 className="text-slate-900">{feed.title}</h2>
                 <div>
                     {feed.content.split('\n\n').map((paragraph, index) => (
@@ -65,9 +79,15 @@ const FeedPage = ({ feedId, onPrevPage, onNextPage, onReturn }) => {
                     ))}
                 </div>
                 <div className="flex justify-around mt-10">
-                    <button onClick={() => handleNavigation(onPrevPage)} className="p-2  rounded hover:bg-gray-100"><MdNavigateBefore className="text-sky-500"/></button>
-                    <button onClick={() => handleNavigation(onReturn)} className="p-2 border border-gray-200 rounded hover:bg-gray-100"><MdList /></button>
-                    <button onClick={() => handleNavigation(onNextPage)} className="p-2  rounded hover:bg-gray-100"><MdNavigateNext className='text-sky-500' /></button>
+                    <button onClick={() => handleNavigation(onPrevPage)} className="p-2  rounded hover:bg-gray-100">
+                        <MdNavigateBefore className="text-sky-500" />
+                    </button>
+                    <button onClick={() => handleNavigation(onReturn)} className="p-2 border border-gray-200 rounded hover:bg-gray-100">
+                        <MdList />
+                    </button>
+                    <button onClick={() => handleNavigation(onNextPage)} className="p-2  rounded hover:bg-gray-100">
+                        <MdNavigateNext className='text-sky-500' />
+                    </button>
                 </div>
             </motion.div>
         ) : <div>Loading...</div>

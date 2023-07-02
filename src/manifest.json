@@ -1,0 +1,20 @@
+{
+  "name": "Echo Atrium Community",
+  "short_name": "EAC",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1454ec",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "../assets/macaw6.svg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "../assets/macaw6.svg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

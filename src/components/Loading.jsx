@@ -4,6 +4,8 @@ import { AiOutlineReload } from 'react-icons/ai';  // import the icon
 import Macaw from '../../assets/macaw-logo-circle3.svg';
 import Macaw1 from '../../assets/macaw-logo-cloud-2.svg';
 import Macaw2 from '../../assets/macaw-logo-circle.svg';
+import installButton from "./InstallButton";
+import InstallButton from "./InstallButton";
 
 function Loading() {
     const bounce = useSpring({
@@ -35,7 +37,6 @@ function Loading() {
         loop: true,
         config: { tension: 200, friction: 5 },
     });
-
     // Add function to refresh the page
     const refreshPage = () => {
         window.location.reload();
@@ -70,7 +71,7 @@ function Loading() {
             <div className="my-4 text-lg text-gray-500">Loading... </div>
             <div className="my-4 text-lg text-gray-500">You can refresh manually! </div>
             <div className="my-4 text-lg text-gray-500 flex-wrap max-w-xs">Concentric circles display the status. </div>
-
+           <InstallButton />
             <button
                 onClick={refreshPage}
                 className="mt-4 flex items-center text-lg text-sky-500 hover:text-sky-700"

@@ -4,9 +4,8 @@ import {SocketContext} from '../SocketContext';
 import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaUserCircle, FaCalendarAlt} from 'react-icons/fa';
 import {GiWoodenSign} from 'react-icons/gi';
 import Navbar from "./Navbar";
-import logo  from "../logo.svg";
 import macaw6 from "../../assets/macaw6.svg";
-
+import InstallButton from "./InstallButton";
 const Header = ({authenticated}) => {
     const {state: socketState} = useContext(SocketContext);
     const socket = socketState.socket;
@@ -26,13 +25,16 @@ const Header = ({authenticated}) => {
                 </div>
 
                 <nav className="text-lg">
+
                     <ul className="flex flex-row items-center text-2xl sm:text-3xl">
+
                         <div className={`h-7 w-7 sm:h-8 sm:w-8 lg:h-12 lg:w-12 rounded-8xl border-2 ${isSocketConnected ? 'border-green-500' : 'border-red-500'} p-1 flex items-center justify-center mr-1`}>
                             <div className={`h-5 w-5 sm:h-6 sm:w-6 rounded-8xl ${isPeerReady ? 'bg-green-500' : 'bg-red-500'} p-1 flex items-center justify-center`}>
                                 <div className={`h-3 w-3 sm:h-4 sm:w-4 rounded-8xl ${isPeerConnected ? 'bg-green-500' : 'bg-sky-400'}`}>
                                 </div>
                             </div>
                         </div>
+
                         {authenticated ? (
                             <>
 

@@ -10,12 +10,17 @@ const EventsWaterfall = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const token = localStorage.getItem('token');
-
+    const [isLoading, setIsLoading] = useState(false);  // 新增
     useEffect(() => {
         loadEvents();
     }, []);
 
     const loadEvents = async () => {
+        if (isLoading) {  // 新增
+            return;
+        }
+
+        setIsLoading(true);  // 新增
         try {
             const response = await axios.get(
                 `${config.DJ_END}/eac/api/get-all-events/?page=${page}`,
@@ -36,6 +41,7 @@ const EventsWaterfall = () => {
             console.error('Error fetching events:', error);
             setHasMore(false);
         }
+        setIsLoading(false);  // 新增
     };
 
     const getLevelColor = (level) => {

@@ -21,6 +21,11 @@ self.addEventListener("install", function (evt) {
 // from the server.
 self.addEventListener("fetch", function (evt) {
     console.log("The service worker is serving the asset.");
+    if (evt.request.method === 'POST' && evt.request.url.endsWith('/eac/api/login/')) {
+        // If it's a POST request to the login URL, don't use the service worker.
+        return;
+    }
+
     if (evt.request.method === 'GET') {
         evt.respondWith(fromNetwork(evt.request, 1000).catch(function () {
             return fromCache(evt.request);
@@ -29,6 +34,7 @@ self.addEventListener("fetch", function (evt) {
         evt.respondWith(fetch(evt.request));
     }
 });
+
 
 // notification permissions dialog.
 self.addEventListener('pushsubscriptionchange', function (event) {

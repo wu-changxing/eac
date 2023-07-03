@@ -71,6 +71,7 @@ function Loading() {
             <div className="my-4 text-lg text-gray-500">Loading... </div>
             <div className="my-4 text-lg text-gray-500">You can refresh manually! </div>
             <div className="my-4 text-lg text-gray-500 flex-wrap max-w-xs">Concentric circles display the status. </div>
+            <div className="my-4 text-gray-500 flex-wrap max-w-xs text-sm">如果你多次看到此页面，并一直loading，有两种可能1.我在后台测试或者升级某些功能，2.某个功能出bug了，请直接向我报告. </div>
            <InstallButton />
             <button
                 onClick={refreshPage}

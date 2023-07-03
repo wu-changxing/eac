@@ -21,10 +21,15 @@ self.addEventListener("install", function (evt) {
 // from the server.
 self.addEventListener("fetch", function (evt) {
     console.log("The service worker is serving the asset.");
-    evt.respondWith(fromNetwork(evt.request, 400).catch(function () {
-        return fromCache(evt.request);
-    }));
+    if (evt.request.method === 'GET') {
+        evt.respondWith(fromNetwork(evt.request, 1000).catch(function () {
+            return fromCache(evt.request);
+        }));
+    } else {
+        evt.respondWith(fetch(evt.request));
+    }
 });
+
 // notification permissions dialog.
 self.addEventListener('pushsubscriptionchange', function (event) {
     console.log('Subscription expired');

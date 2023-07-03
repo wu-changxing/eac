@@ -93,7 +93,7 @@ const RoomList = () => {
                             <Link to={`/eac/${room.roomId}`}
                                   className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-12 text-center rounded">
                                 <RiVoiceprintFill className="inline mr-2"/>
-                                <span className="hidden sm:inline">Join Room</span>
+                                <span className="hidden text-lg sm:inline">Join</span>
                             </Link>
                         </div>
                     </div>

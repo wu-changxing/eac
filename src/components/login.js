@@ -15,7 +15,14 @@ const Login = ({ onLogin }) => {
             const response = await axios.post(`${config.BACKEND}/eac/api/login/`, {
                 username: username,
                 password: password,
-            });
+            },
+            {
+                withCredentials: true, // 允许发送凭据，如 cookie
+                    headers: {
+                'Content-Type': 'application/json', // 设置请求头为 application/json
+            },
+            }
+            );
 
             if (response && response.data) {
                 console.log('Login successful:', response.data);
@@ -31,8 +38,15 @@ const Login = ({ onLogin }) => {
         } catch (error) {
             console.error('Error occurred during login:', error);
             if (error.response && error.response.data) {
-                setError('Error: ' + error.response.data.detail);
-            } else {
+                // Here we check if we received an error message from the server
+                let errorMsg = 'Error: ';
+                if (typeof error.response.data.error === 'object' && error.response.data.error.non_field_errors) {
+                    errorMsg += error.response.data.error.non_field_errors[0];
+                } else {
+                    errorMsg += error.response.data.error;
+                }
+                setError(errorMsg);
+            } else  {
                 setError('An error occurred.');
             }
         }

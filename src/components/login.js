@@ -21,7 +21,6 @@ const Login = ({ onLogin }) => {
                     username: username,
                     password: password,
                 }),
-                credentials: 'include', // Enable sending credentials like cookies
             });
 
             if (response.ok) {

@@ -2,6 +2,7 @@ import React from 'react';
 import CheckIn from '../ProfileComponents/CheckIn';
 import {useTransition, animated} from "react-spring";
 import RoomControl from "./RoomControl";
+import UserCard from "./UserCard";
 
 const RoomPanel = ({
                        users,
@@ -43,9 +44,9 @@ const RoomPanel = ({
                     <h2 className="text-lg font-semibold mb-4 text-indigo-700">Room Panel</h2>
                     <div className="space-y-2">
                         {users && users.map(user =>
-                            <p key={user.sid}
-                               className="text-sm text-gray-700 bg-gray-200 px-2 py-1 rounded">{user.username}</p>
+                            <UserCard key={user.sid} user={user} />
                         )}
+
                     </div>
                     <CheckIn className="mt-4" experience={0}/>
                 </div>

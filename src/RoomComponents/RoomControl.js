@@ -1,5 +1,5 @@
 // src/components/RoomControl.js
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { SocketContext } from '../SocketContext';
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
 import {GiHighKick,GiWalkingBoot} from "react-icons/gi";
@@ -7,6 +7,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import {IoMicOff, IoMic} from "react-icons/io5";
 import Modal from "../components/Modals/Modal";
+import UserCard from "./UserCard";
+import config from "../config";
 
 const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) => {
     const roomId = useParams().roomId;
@@ -156,14 +158,20 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
                         {users &&
                             users.map((user) => (
                                 <div
-                                    className="flex items-center space-x-4 mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
+                                    className="flex items-center space-x-4 mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 border-b"
                                     onClick={() => kickUser(user.username)}
                                 >
-                                    {/*<div className="h-14 w-14 rounded-full overflow-hidden">*/}
-                                        {/*<img src={user.avatar} alt={user.sid}*/}
-                                        {/*     className="h-full w-full object-cover"/>*/}
-                                    {/*</div>*/}
-                                    <div>{user.username}</div>
+                                    <div className="flex items-center space-x-4">
+                                        {user.avatar ? (
+                                            <img className="rounded-full w-12 h-12" src={`${config.DJ_END}${user.avatar}`} alt={user.username} />
+                                        ) : (
+                                            <div className="w-12 h-12 rounded-full bg-gray-300" />
+                                        )}
+                                        <div className="flex flex-row space-x-2">
+                                            <div className="text-lg font-medium text-gray-900">{user.username}</div>
+                                            <div className="text-sm text-gray-500">{user.badge.name}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             ))}
                         <button

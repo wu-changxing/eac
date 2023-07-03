@@ -1,5 +1,5 @@
+// src/components/login.js
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import config from '../config';
 
@@ -12,24 +12,25 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`${config.BACKEND}/eac/api/login/`, {
-                username: username,
-                password: password,
-            },
-            {
-                withCredentials: true, // 允许发送凭据，如 cookie
-                    headers: {
-                'Content-Type': 'application/json', // 设置请求头为 application/json
-            },
-            }
-            );
+            const response = await fetch(`${config.BACKEND}/eac/api/login/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+                credentials: 'include', // Enable sending credentials like cookies
+            });
 
-            if (response && response.data) {
-                console.log('Login successful:', response.data);
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('username',username);
-                document.cookie = `token=${response.data.token};path=/;domain=.aaron404.com;`;
-                document.cookie = `username=${username};path=/;domain=.aaron404.com;`;
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login successful:', data);
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', username);
+                document.cookie = `token=${data.token}; path=/; domain=.aaron404.com;`;
+                document.cookie = `username=${username}; path=/; domain=.aaron404.com;`;
                 onLogin();
             } else {
                 console.log('Login failed');
@@ -37,18 +38,7 @@ const Login = ({ onLogin }) => {
             }
         } catch (error) {
             console.error('Error occurred during login:', error);
-            if (error.response && error.response.data) {
-                // Here we check if we received an error message from the server
-                let errorMsg = 'Error: ';
-                if (typeof error.response.data.error === 'object' && error.response.data.error.non_field_errors) {
-                    errorMsg += error.response.data.error.non_field_errors[0];
-                } else {
-                    errorMsg += error.response.data.error;
-                }
-                setError(errorMsg);
-            } else  {
-                setError('An error occurred.');
-            }
+            setError('An error occurred.');
         }
     }
 
@@ -72,4 +62,4 @@ const Login = ({ onLogin }) => {
     );
 };
 
-export default Login
+export default Login;

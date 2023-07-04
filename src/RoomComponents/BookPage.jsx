@@ -104,7 +104,7 @@ const BookPage = ({ bookId, onPrevPage, onNextPage, onReturn }) => {
                     </p>
                 ))}
             </div>
-            <button className="flex items-center cursor-pointer hover:text-white">
+            <button className="flex items-center cursor-pointer hover:text-white shadow-md shadow-pink-400">
                 <a
                     href={book.attachment.download_url}
                     download

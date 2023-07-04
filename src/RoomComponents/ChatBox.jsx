@@ -4,7 +4,8 @@ import {SocketContext} from '../SocketContext';
 
 import ChatFeatures from "./ChatFeatures";
 import {useTransition, animated} from 'react-spring';
-const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
+import GiftMessage from "./GiftMessage";
+const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
     const {state} = useContext(SocketContext);
     const {socket} = state;
     const [messages, setMessages] = useState([]);
@@ -52,6 +53,10 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
                 message.fileURL = URL.createObjectURL(blob);
                 setMessages(prevMessages => [...prevMessages, message]);
             });
+            socket.on('receive_gift', (message) => {
+                setMessages(prevMessages => [...prevMessages, message]);
+            });
+
 
         }
         return () => {
@@ -78,11 +83,16 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
                 <FaComments className="mr-2 text-sky-500 "/>
                 Chat
             </div>
-            {messages.map((message, index) => (<div key={index}
-                                                    className={`flex flex-col border-2 border-sky-500 gap-1 my-2  text-gray-800 p-2 rounded-md ${message.user === 'You' ? 'bg-sky-300 text-white ml-auto' : 'bg-white text-gray-500 mr-auto'}`}
-                                                    style={{maxWidth: '70%'}}>
+            {messages.map((message, index) => (
+                <div
+                    key={index}
+                    className={`flex flex-col border-2 border-sky-500 gap-1 my-2 text-gray-800 p-2 rounded-md ${
+                        message.user === 'You' ? 'bg-sky-300 text-white ml-auto' : 'bg-white text-gray-500 mr-auto'
+                    } ${message.user === 'You' ? 'max-w-70' : 'max-w-99'} sm:max-w-70`}
+                >
                 <span className="text-sm font-bold text-sky-500">{message.user}</span>
                 {message.message && <span className="text-slate-700 text-lg">{message.message}</span>}
+                {message.gift && <GiftMessage message={message}/>}
                 {message.image && <img src={message.image} alt="sent content"/>}
                 {message.file && (
                     <div className="flex items-center space-x-2 border-2 shadow-lg p-2 rounded-md bg-white">
@@ -103,7 +113,7 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages}) => {
 
             <div ref={endOfChatRef}></div>
         </div>
-        <ChatFeatures messages={messages} setMessages={setMessages} socket={socket}/>
+        <ChatFeatures messages={messages} setMessages={setMessages} socket={socket} users={users}/>
     </animated.div>);
 };
 

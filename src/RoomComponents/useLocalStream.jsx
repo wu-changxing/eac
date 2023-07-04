@@ -9,7 +9,12 @@ const useLocalStream = (video = false, audio = true, videoWidth = 640, videoHeig
     useEffect(() => {
         const initializeStream = async () => {
             try {
-                let mediaStreamConstraints = { audio };
+                let mediaStreamConstraints = {
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true
+                    }
+                };
                 if (video) {
                     mediaStreamConstraints.video = {
                         echoCancellation: true,

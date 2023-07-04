@@ -13,13 +13,23 @@ const UserCard = ({ user }) => {
                 )}
                 <div className="flex flex-col">
                     <div className="text-lg font-medium text-gray-900">{user.username}</div>
-                    <div className="text-sm text-gray-500">{user.badge.name}</div>
+                    {user.badge ?
+                        <div className="text-sm text-gray-500">{user.badge.name}</div>
+                        :
+                        <div className="text-sm text-gray-500">No badge</div>
+
+                    }
                 </div>
             </div>
             <div className="flex justify-between text-sm text-gray-600">
                 <div>Lv {user.level}</div>
                 <div>Exp {user.exp}</div>
-                <div>Invited by {user.invited_by}</div>
+                {user.invited_by ?
+                    <div>Invited by {user.invited_by}</div>
+                    :
+                    <div>Invited by Admin</div>
+                }
+
             </div>
         </div>
     );

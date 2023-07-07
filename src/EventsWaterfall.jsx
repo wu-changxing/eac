@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+import {FaLevelUpAlt, FaMedal, FaRegCalendarAlt} from 'react-icons/fa';
 import config from './config';
 import getRandomBackgroundImage from "./components/RandomBackgroundImage";
 const EventsWaterfall = () => {
@@ -99,7 +99,8 @@ const EventsWaterfall = () => {
                                     </h3>
                                     <div className="flex items-center mt-2">
                                         {event.user_profile.badge ? (
-                                            <div className="rounded-full py-1 px-2 text-white text-xs font-semibold bg-sky-400">
+                                            <div className="flex items-center text-sm text-white bg-pink-500 shadow-sm shadow-sky-700 rounded-full px-2 py-1">
+                                                <FaMedal className="mr-1" />
                                                 {event.user_profile.badge.name}
                                             </div>
                                         ) : (
@@ -108,10 +109,11 @@ const EventsWaterfall = () => {
                                             </div>
                                         )}
                                         <div
-                                            className={`rounded-full py-1 px-2 ${getLevelColor(
+                                            className={`rounded-full py-1 px-2  ${getLevelColor(
                                                 event.user_profile.level
-                                            )} text-xs font-semibold text-gray-800 ml-2`}
+                                            )} text-xs font-semibold text-white ml-2`}
                                         >
+                                           <FaLevelUpAlt/>
                                             lv{event.user_profile.level}
                                         </div>
                                         <div className="rounded-full py-1 px-2 bg-gray-200 text-xs font-semibold text-gray-800 ml-2">

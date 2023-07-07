@@ -29,7 +29,7 @@ const UserList = ({ users, clickHandler, setShowModal }) => {
                                 <div className="flex flex-row space-x-2">
                                     <div className="text-lg font-medium text-gray-900">{user.username}</div>
                                     {user.badge ? (
-                                        <div className="text-sm text-gray-500">{user.badge.name}</div>
+                                        <div className="text-sm text-pink-500">{user.badge.name}</div>
                                     ) : (
                                         <div className="text-sm text-gray-500">No badge</div>
                                     )}

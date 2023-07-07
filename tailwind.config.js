@@ -28,7 +28,11 @@ module.exports = {
           '0%': { left: '100%' },
           '100%': { left: '-100%' },
         }
-      }
+      },
+      fontSize: {
+        xxs: '0.625rem', // Add the 'xxs' text size variant here
+        xxxs: '0.5rem',
+      },
     },
   },
   plugins: [],

@@ -1,7 +1,4 @@
-import React from "react";
 import React, { useState, useEffect } from "react";
-
-import {useState} from "react";
 
 import config from "./config";
 import ProfileCard from "./ProfileComponents/ProfileCard";
@@ -11,6 +8,7 @@ import ProfileBio from "./ProfileComponents/ProfileBio";
 import InvitedUsersCard from "./ProfileComponents/InvitedUsersCard";
 import Loading from "./components/Loading";
 import AddToCalendarCard from "./ProfileComponents/AddToCalendarCard";
+
 const Profile = () => {
     // fetch data from API
     const [profileData, setProfileData] = useState(null);
@@ -37,12 +35,12 @@ const Profile = () => {
             console.error('Error fetching profile:', error);
         }
     }
+
     useEffect(() => {
         fetchProfile();
     }, []);
 
     const username = profileData ? profileData.username : 'No one';
-
     const level = profileData ? profileData.level : 0;
     const credits = profileData ? profileData.credits : 0;
     const totalCredits = 100;
@@ -57,11 +55,13 @@ const Profile = () => {
     const progressPercentageCredits = (credits / totalCredits) * 100;
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
+    const invitedByList = ["吴长星", "CC", "nimba"]; // 可以从后端获取或根据需要更改
 
+    const shouldShowAddToCalendar = invitedByList.includes(invited_by); // 检查邀请者是否在列表内
 
     return (
         isLoading ?
-           <Loading />
+            <Loading />
             :
             <div className="flex flex-col items-start px-2 lg:items-center mt-24 text-xl lg:text-lg">
 
@@ -69,7 +69,7 @@ const Profile = () => {
 
                 <ProfileCard username={username} level={level} invited_by={invited_by} badge={badge} avatar={avatar}/>
                 <ProfileState level={level} credits={credits} experience={experience} invited_by={invited_by} />
-                <AddToCalendarCard />
+                {shouldShowAddToCalendar && <AddToCalendarCard />}
                 <RecommendationCodeCard />
                 <InvitedUsersCard />
 

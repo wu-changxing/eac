@@ -15,9 +15,11 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
     const [showGifPicker, setShowGifPicker] = useState(false);
     const [testFeature, setTestFeature] = useState(false);
     const username = localStorage.getItem('username');
+    const badgeName = localStorage.getItem('badge');
 
     useEffect(() => {
-        if(username === 't' || username === '吴长星') {
+        console.log("user badgeName is", badgeName)
+        if (badgeName ==='singer!') {
             setTestFeature(true);
         }
     },[username]);

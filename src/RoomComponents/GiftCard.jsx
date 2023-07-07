@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {FaCoins, FaHourglass, FaMoneyBill, FaMoneyBillAlt} from 'react-icons/fa';
+import { FaCoins, FaHourglass, FaMoneyBill, FaMoneyBillAlt } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
 import config from '../config';
-import {GiPayMoney, GiRobotGrab} from "react-icons/gi";
-import {FcEngineering} from "react-icons/fc";
+import { GiPayMoney, GiRobotGrab } from "react-icons/gi";
+import { FcEngineering } from "react-icons/fc";
 
 const GiftCard = ({ id, setSelectedGift }) => {
     const [gift, setGift] = useState(null);
@@ -31,7 +31,8 @@ const GiftCard = ({ id, setSelectedGift }) => {
             className="bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 ease-in-out"
             onClick={() => setSelectedGift(gift)}
         >
-            <h2 className="font-bold text-lg mb-2">{gift.name}</h2>
+            <h2 className="font-bold text-lg mb-2 text-center">{gift.name}</h2>
+            {/*<img*/}
             <div className="flex flex-col items-center justify-center">
                 <img
                     className="w-full h-auto object-contain rounded-full border-b-2 border-pink-500 shadow-md shadow-pink-400 mb-4"

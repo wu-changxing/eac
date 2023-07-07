@@ -1,11 +1,10 @@
-// src/RoomComponents/SendGift.jsx:
-import React, {useEffect, useState} from 'react';
-import UserList from "./UserList"; // Import a modal component for user selection
+import React, { useEffect, useState } from 'react';
+import UserList from "./UserList";
 import { FaTimes } from 'react-icons/fa';
 import config from "../config";
 import GiftCard from "./GiftCard";
 
-const SendGift = ({ socket, setMessages, roomId, users}) => {
+const SendGift = ({ socket, setMessages, roomId, users }) => {
     const [selectedGift, setSelectedGift] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -23,7 +22,6 @@ const SendGift = ({ socket, setMessages, roomId, users}) => {
     };
 
     const sendGiftMessage = (user, gift) => {
-
         console.log("username and gift is", user, gift)
         if (socket) {
             const message = {
@@ -53,19 +51,17 @@ const SendGift = ({ socket, setMessages, roomId, users}) => {
 
     return (
         <>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="flex py-4 space-x-1 overflow-x-auto">
                 {gifts.map((gift) => (
                     <div
                         key={gift.id}
-                        className="flex  rounded-lg bg-white shadow-md hover:shadow-xl cursor-pointer"
+                        className="flex rounded-lg bg-white shadow-md hover:shadow-xl cursor-pointer mr-4"
+                        style={{ minWidth: '200px' }} // Set the minimum width here
                         onClick={() => handleGiftSelect(gift.id)}
                     >
-
                         <GiftCard id={gift.id} setSelectedGift={setSelectedGift} />
-
                     </div>
                 ))}
-
             </div>
 
             {showModal && (

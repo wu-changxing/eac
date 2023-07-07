@@ -162,7 +162,7 @@ const RoomToolsBar = ({users, isAdmin, localStream, openVideo, setOpenVideo}) =>
             </div>
             {showIframe && <AIChatToggle showIframe={showIframe}/>}
             {showFeedList && <FeedList/>}
-            {showChatBox && <ChatBox showChatBox={showChatBox} dispatch={dispatch} unreadMessages={unreadMessages} users={users}/>}
+             <ChatBox showChatBox={showChatBox} dispatch={dispatch} unreadMessages={unreadMessages} users={users}/>
             {showRoomPanel && <RoomPanel users={users} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo}
                                          setOpenVideo={setOpenVideo}/>}
             {showBookList && <BookList/>}

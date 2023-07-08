@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaUser, FaMedal } from 'react-icons/fa';
-import config from '../config';
+import config from '../../config';
 
 const UserCard = ({ user }) => {
     console.log(user);

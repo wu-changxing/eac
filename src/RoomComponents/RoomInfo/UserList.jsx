@@ -2,7 +2,7 @@
 import React from 'react';
 import { GiHighKick } from 'react-icons/gi';
 import { IoIosCloseCircle } from 'react-icons/io';
-import config from '../config';
+import config from '../../config';
 
 const UserList = ({ users, clickHandler, setShowModal }) => {
     return (

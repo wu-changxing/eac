@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaCoins, FaHourglass, FaMoneyBill, FaMoneyBillAlt } from 'react-icons/fa';
 import { BiUserCircle } from 'react-icons/bi';
-import config from '../config';
+import config from '../../config';
 import { GiPayMoney, GiRobotGrab } from "react-icons/gi";
 import { FcEngineering } from "react-icons/fc";
 

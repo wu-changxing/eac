@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import UserList from "./UserList";
+import UserList from "../RoomInfo/UserList";
 import { FaTimes } from 'react-icons/fa';
-import config from "../config";
+import config from "../../config";
 import GiftCard from "./GiftCard";
 
 const SendGift = ({ socket, setMessages, roomId, users }) => {

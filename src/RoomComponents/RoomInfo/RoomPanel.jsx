@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckIn from '../ProfileComponents/CheckIn';
+import CheckIn from '../../ProfileComponents/CheckIn';
 import {useTransition, animated} from "react-spring";
 import RoomControl from "./RoomControl";
 import UserCard from "./UserCard";

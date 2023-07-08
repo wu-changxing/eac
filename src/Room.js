@@ -1,11 +1,11 @@
 // src/Room.js
 import React, {useState, useEffect} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
-import Streams from './RoomComponents/Streams';
+import Streams from './RoomComponents/StreamCards/Streams';
 import config from "./config";
 import {useContext} from 'react';
 import {SocketContext} from './SocketContext';
-import useLocalStream from './RoomComponents/useLocalStream';
+import useLocalStream from './RoomComponents/StreamCards/useLocalStream';
 import RoomToolsBar from './RoomComponents/RoomToolsBar';
 
 const Room = ({onLogout}) => {

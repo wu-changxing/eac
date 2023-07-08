@@ -6,9 +6,9 @@ import {FaRssSquare, FaComments, FaUsers, FaRegAngry, FaTeamspeak, FaInfoCircle}
 import {FaRobot, FaSatelliteDish, FaRegComments, FaUserFriends, FaListUl, FaListOl} from 'react-icons/fa'; // Updated icons
 import AIChatToggle from './AIChatToggle';
 import FeedList from './FeedList';
-import ChatBox from './ChatBox';
+import ChatBox from './ChatBoxComponents/ChatBox';
 import UnreadMessages from './UnreadMessages';
-import RoomPanel from './RoomPanel';
+import RoomPanel from './RoomInfo/RoomPanel';
 import BookList from './BookList';
 import {SocketContext} from '../SocketContext';
 import {BiLibrary} from 'react-icons/bi'; // Added BiLibrary icon

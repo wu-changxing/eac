@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import config from "../config";
+import config from "../../config";
 
 const Video = ({stream, userLabel, isLocal, socket}) => {
     const videoRef = useRef();

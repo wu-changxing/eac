@@ -1,14 +1,14 @@
 // src/components/RoomControl.js
 import React, { useState, useEffect, useContext } from "react";
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '../../SocketContext';
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
 import {GiHighKick,GiWalkingBoot} from "react-icons/gi";
 import {useNavigate, useParams} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import {IoMicOff, IoMic} from "react-icons/io5";
-import Modal from "../components/Modals/Modal";
+import Modal from "../../components/Modals/Modal";
 import UserCard from "./UserCard";
-import config from "../config";
+import config from "../../config";
 import UserList from "./UserList";
 
 const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) => {

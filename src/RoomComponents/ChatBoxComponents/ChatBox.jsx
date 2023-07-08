@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import {FaComments, FaPaperPlane, FaFileImage, FaFileAlt} from 'react-icons/fa';
-import {SocketContext} from '../SocketContext';
+import {SocketContext} from '../../SocketContext';
 
 import ChatFeatures from "./ChatFeatures";
 import {useTransition, animated} from 'react-spring';
@@ -54,7 +54,12 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
                 setMessages(prevMessages => [...prevMessages, message]);
             });
             socket.on('receive_gift', (message) => {
-                setMessages(prevMessages => [...prevMessages, message]);
+                if (!showChatBox) {
+                    console.log('unreadMessages', unreadMessages);
+                    dispatch({type: 'SET_UNREAD_MESSAGES', payload: [...unreadMessages, message]});
+                } else {
+                    setMessages(prevMessages => [...prevMessages, message]);
+                }
             });
 
 

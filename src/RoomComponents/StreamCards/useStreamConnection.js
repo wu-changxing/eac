@@ -1,6 +1,6 @@
 // src/RoomComponents/useStreamConnection.js
 import { useState, useEffect, useContext } from "react";
-import { SocketContext } from '../SocketContext';
+import { SocketContext } from '../../SocketContext';
 
 const useStreamConnection = ({ roomId, localStream, isStreamReady }) => {
     const [streams, setStreams] = useState([]);

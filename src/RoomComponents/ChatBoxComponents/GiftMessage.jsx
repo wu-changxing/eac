@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillHeart, AiOutlineUser, AiOutlineTrophy, AiOutlineDollarCircle } from 'react-icons/ai';
-import config from '../config';
+import config from '../../config';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const GiftMessage = ({ message }) => {
@@ -19,7 +19,7 @@ const GiftMessage = ({ message }) => {
             setTimeout(() => {
                 setAnimationPlayed(false);
                 setZIndex('relative z-0');
-            }, 2000); // 2 seconds delay before it returns to original size and z-index
+            }, 200); // 2 seconds delay before it returns to original size and z-index
         }
     }, [receiver]);
 

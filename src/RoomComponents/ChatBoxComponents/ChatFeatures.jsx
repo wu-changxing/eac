@@ -3,6 +3,9 @@ import {FaFileAlt, FaFileImage, FaGift, FaPaperPlane, FaPlus} from 'react-icons/
 import { useParams } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import SendGift from "./SendGift";
+import {IoMdCloseCircleOutline} from "react-icons/io";
+import {GrClose} from "react-icons/gr";
+import {ImCross} from "react-icons/im";
 const ChatFeatures = ({ messages, setMessages, socket, users }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
@@ -107,7 +110,14 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
     };
 
     const toggleSendButtons = () => {
+        if (showSendButtons) {
+
+            setSelectedFile(null);
+            setSelectedImage(null);
+            setPreviewURL(null)
+        }
         setShowSendButtons((prevShowSendButtons) => !prevShowSendButtons);
+
     };
 
     const handleSendGift = () => {
@@ -190,7 +200,7 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
                     onClick={toggleSendButtons} // Toggle the display of send buttons
                     className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-full cursor-pointer"
                 >
-                    <AiOutlineClose className="text-white" />
+                    <ImCross className="text-white " />
                 </button>
             ) : (
                 <>

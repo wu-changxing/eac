@@ -10,6 +10,7 @@ import Modal from "../../components/Modals/Modal";
 import UserCard from "./UserCard";
 import config from "../../config";
 import UserList from "./UserList";
+import {RiShutDownLine} from "react-icons/ri";
 
 const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) => {
     const roomId = useParams().roomId;
@@ -128,21 +129,22 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
                 {isAdmin && (
                     <>
                         <button
-                            className="flex items-center p-4 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                            className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-700 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
                             onClick={dismissRoom}
                         >
-                            <IoIosRemoveCircle className="mr-2 text-red-500"/>
-                            <span className="lg:inline hidden text-red-500">Dismiss</span>
+                            <RiShutDownLine className="mr-2"/>
+                            <span className="lg:inline hidden">Dismiss</span>
                         </button>
 
                         <button
-                            className="flex items-center p-4 lg:p-2 font-semibold text-white transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                            className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
                             onClick={() => setShowModal(true)}
                         >
-                            <GiHighKick className="mr-2 text-red-500"/>
-                            <span className="lg:inline hidden text-red-500">Kick</span>
+                            <GiHighKick className="mr-2"/>
+                            <span className="lg:inline hidden">Kick</span>
                         </button>
                     </>
+
                 )}
             </div>
             <Modal

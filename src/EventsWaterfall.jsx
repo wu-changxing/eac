@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
-import {FaLevelUpAlt, FaMedal, FaRegCalendarAlt} from 'react-icons/fa';
+import { FaLevelUpAlt, FaMedal, FaRegCalendarAlt } from 'react-icons/fa';
 import config from './config';
-import getRandomBackgroundImage from "./components/RandomBackgroundImage";
+import getRandomBackgroundImage from './components/RandomBackgroundImage';
+
 const EventsWaterfall = () => {
     const [events, setEvents] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const token = localStorage.getItem('token');
-    const [isLoading, setIsLoading] = useState(false);  // 新增
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         loadEvents();
     }, []);
 
     const loadEvents = async () => {
-        if (isLoading) {  // 新增
+        if (isLoading) {
             return;
         }
 
-        setIsLoading(true);  // 新增
+        setIsLoading(true);
         try {
-            const response = await axios.get(
+            const response = await fetch(
                 `${config.DJ_END}/eac/api/get-all-events/?page=${page}`,
                 {
                     headers: {
@@ -30,9 +31,10 @@ const EventsWaterfall = () => {
                     },
                 }
             );
-            console.log('response.data.results:', response.data.results);
-            setEvents((prevEvents) => [...prevEvents, ...response.data.results]);
-            if (response.data.results.length >= 20) {
+            const data = await response.json();
+            console.log('response.data.results:', data.results);
+            setEvents((prevEvents) => [...prevEvents, ...data.results]);
+            if (data.results.length >= 20) {
                 setPage((prevPage) => prevPage + 1);
             } else {
                 setHasMore(false);
@@ -41,7 +43,7 @@ const EventsWaterfall = () => {
             console.error('Error fetching events:', error);
             setHasMore(false);
         }
-        setIsLoading(false);  // 新增
+        setIsLoading(false);
     };
 
     const getLevelColor = (level) => {
@@ -60,7 +62,6 @@ const EventsWaterfall = () => {
                 return 'bg-gray-500';
         }
     };
-
 
     return (
         <div className="p-4 flex justify-center">
@@ -113,7 +114,7 @@ const EventsWaterfall = () => {
                                                 event.user_profile.level
                                             )} text-xs font-semibold text-white ml-2`}
                                         >
-                                           <FaLevelUpAlt/>
+                                            <FaLevelUpAlt />
                                             lv{event.user_profile.level}
                                         </div>
                                         <div className="rounded-full py-1 px-2 bg-gray-200 text-xs font-semibold text-gray-800 ml-2">

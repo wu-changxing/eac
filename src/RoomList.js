@@ -6,7 +6,10 @@ import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
 import {RiVoiceprintFill} from 'react-icons/ri';
 import Dialog from "./components/Dialog";
 import Loading from "./components/Loading";
-
+import Banner from './Banner';
+import {FaPeopleRobbery, FaPeoplePulling} from "react-icons/fa"; // import Banner
+import {FaPeopleRoof} from "react-icons/fa"; // import Banner
+import {MdRoofing} from "react-icons/md"; // import Banner
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
@@ -74,6 +77,8 @@ const RoomList = () => {
     }
 
     return (
+        <>
+        <Banner />
         <div className="p-2 sm:p-4 text-xl sm:text-2xl lg:text-2xl lg:mt-20">
             <h1 className="font-bold text-xl sm:text-2xl  lg:text-xl mb-4">Room List</h1>
             <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4">
@@ -87,6 +92,10 @@ const RoomList = () => {
 
                             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
                                 <IoIosTime className="inline mr-2"/>{room.created_at}
+                            </p>
+                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
+                                <MdRoofing className="inline mr-2"/>
+                                {room.members.length} 人
                             </p>
                         </div>
                         <div className="p-2 sm:p-4 bg-gray-100">
@@ -111,6 +120,7 @@ const RoomList = () => {
 
             <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>
         </div>
+        </>
     );
 };
 

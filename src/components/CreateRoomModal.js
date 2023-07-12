@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa'; // Font Awesome
-import { MdCancel } from 'react-icons/md'; // Material Design
+import { MdCancel } from 'react-icons/md';
+import {GiWaveSurfer} from "react-icons/gi"; // Material Design
 
 const CreateRoomModal = ({ isOpen, onClose, onCreate }) => {
     const [roomName, setRoomName] = useState("");
@@ -37,7 +38,7 @@ const CreateRoomModal = ({ isOpen, onClose, onCreate }) => {
                                 type="submit"
                                 className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-sky-500 text-xl font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 sm:ml-3 sm:w-auto "
                             >
-                                <FaPlusCircle className="mr-3 text-5xl" />
+                                <GiWaveSurfer className="mr-3 text-5xl" />
                             </button>
                             <button
                                 type="button"

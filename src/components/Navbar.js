@@ -29,11 +29,11 @@ const Navbar = () => {
             onClick={handleNavClick}
         />
         <label
-            className="fixed top-0 right-0 z-20 flex items-center w-16 h-10 mt-4 mr-2 mt-2 text-pink-500 nav__trigger-finger"
+            className="fixed top-0 right-0 z-[100] flex items-center w-16 h-10 mt-4 mr-2 mt-2 text-pink-500 nav__trigger-finger"
             htmlFor="trigger">
             <span></span>
         </label>
-        <ul className={`nav__list ${isNavOpen ? 'nav__list-open' : ''}`}>
+        <ul className={`nav__list ${isNavOpen ? 'nav__list-open' : ''} z-[99]`}>
             <li className="nav__item mt-8">
                 <Link to="/roomlists" className="nav__link" onClick={closeNavbar}>
                     <FaHome /> <span className="nav__text">Home</span>

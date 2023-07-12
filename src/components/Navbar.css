@@ -130,6 +130,7 @@
 
 .nav__item + .nav__item {
     margin-top: 20px;
+    z-index: 99;
 }
 
 .nav__submenu-trigger-input:checked + .nav__submenu-trigger-finger::after {

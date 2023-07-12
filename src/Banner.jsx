@@ -122,7 +122,14 @@ const Banner = () => {
                     <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
                     <div className="relative bg-white rounded-lg shadow-lg overflow-y-auto max-h-full md:max-h-96 w-full md:w-2/3 lg:w-1/2">
                         <div className="flex justify-between items-center sticky top-0 bg-white px-4 py-2 sm:px-6 md:px-8">
-                            <h2 className="text-xl sm:text-2xl font-bold">{modalContent.title}</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold">{modalContent.title}
+                                <a href={modalContent.meta.html_url}>
+                                <span className="text-xs sm:text-base text-gray-600 ml-2">
+                                   点此查看公告原文链接
+                                </span>
+                                </a>
+                            </h2>
+
                             <button className="text-gray-500 hover:text-red-500 p-3" onClick={handleCloseModal}>
                                 <MdClose size={24} className="text-xl"/>
                             </button>

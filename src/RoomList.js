@@ -108,8 +108,7 @@ const RoomList = () => {
                     </div>
                 ))}
             </div>
-            <div
-                className="fixed bottom-16 sm:bottom-24 md:bottom-28 lg:bottom-32 left-0 w-full flex justify-center pb-2 sm:pb-4">
+            <div className="flex justify-center mt-10 py-2 sm:py-4">
                 <button
                     className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-12 sm:w-16 md:w-20 lg:w-24 h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center rounded-full"
                     onClick={createRoom}>

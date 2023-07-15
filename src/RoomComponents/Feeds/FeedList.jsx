@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import { motion } from 'framer-motion';
-import config from "../config";
+import config from "../../config";
 import FeedPage from "./FeedPage";
 
 const FeedList = () => {

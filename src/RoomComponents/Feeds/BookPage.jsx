@@ -10,7 +10,7 @@ import {
 import { AiFillFilePdf } from 'react-icons/ai';
 import { FcKindle } from 'react-icons/fc';
 import { MdOutlineAttachFile } from 'react-icons/md';
-import config from "../config";
+import config from "../../config";
 
 const BookPage = ({ bookId, onPrevPage, onNextPage, onReturn }) => {
     const [book, setBook] = useState(null);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MdNavigateBefore, MdNavigateNext, MdList } from 'react-icons/md';
-import config from "../config";
+import config from "../../config";
 
 const FeedPage = ({ feedId, onPrevPage, onNextPage, onReturn }) => {
     const [feed, setFeed] = useState(null);

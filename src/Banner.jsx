@@ -125,7 +125,7 @@ const Banner = () => {
                             <h2 className="text-xl sm:text-2xl font-bold">{modalContent.title}
                                 <a href={modalContent.meta.html_url}>
                                 <span className="text-xs sm:text-base text-gray-600 ml-2">
-                                   点此查看公告原文链接
+                                   点此查看告原文链接
                                 </span>
                                 </a>
                             </h2>
@@ -160,9 +160,6 @@ const Banner = () => {
                     </div>
                 </div>
             )}
-
-
-
 
             {!isModalOpen && (
                 <div className="absolute bottom-10 left-10 right-10 flex justify-center space-x-4 p-4">

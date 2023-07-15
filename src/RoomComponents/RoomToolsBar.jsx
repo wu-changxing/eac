@@ -5,11 +5,11 @@ import {SiRocketdotchat, SiNewjapanprowrestling, SiGooglenews} from 'react-icons
 import {FaRssSquare, FaComments, FaUsers, FaRegAngry, FaTeamspeak, FaInfoCircle} from 'react-icons/fa';
 import {FaRobot, FaSatelliteDish, FaRegComments, FaUserFriends, FaListUl, FaListOl} from 'react-icons/fa'; // Updated icons
 import AIChatToggle from './AIChatToggle';
-import FeedList from './FeedList';
+import FeedList from './Feeds/FeedList';
 import ChatBox from './ChatBoxComponents/ChatBox';
 import UnreadMessages from './UnreadMessages';
 import RoomPanel from './RoomInfo/RoomPanel';
-import BookList from './BookList';
+import BookList from './Feeds/BookList';
 import {SocketContext} from '../SocketContext';
 import {BiLibrary} from 'react-icons/bi'; // Added BiLibrary icon
 

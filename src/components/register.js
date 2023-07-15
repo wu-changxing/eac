@@ -1,5 +1,4 @@
-import React, { useState,useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import config from '../config';
 
@@ -19,11 +18,9 @@ const Register = () => {
         }
     }, [searchParams]);
 
+    console.log(recommendationCode);
 
-    console.log(recommendationCode)
-
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (password1 !== password2) {
@@ -31,31 +28,39 @@ const Register = () => {
             return;
         }
 
-        axios.post(`${config.BACKEND}/eac/api/register/`, {
-            username,
-            password: password1,
-            password2,
-            recommendation_code: recommendationCode,
-        })
-            .then(response => {
-                // Save username and token to local storage
-                localStorage.setItem('username', username);
-                localStorage.setItem('token', response.data.token);
-                // Redirect to home page
-                window.location.href = '/';
-            })
-            .catch(error => {
-                if (error.response && error.response.data) {
-                    let errorMessage = "";
-                    for (let key in error.response.data) {
-                        errorMessage += `${key}: ${error.response.data[key]}\n`;
-                    }
-                    setError(errorMessage);
-                } else {
-                    setError('An unknown error occurred');
-                }
+        try {
+            const response = await fetch(`${config.BACKEND}/eac/api/register/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password: password1,
+                    password2,
+                    recommendation_code: recommendationCode,
+                })
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } else {
+                const data = await response.json();
+                localStorage.setItem('username', username);
+                localStorage.setItem('token', data.token);
+                window.location.href = '/';
+            }
+        } catch (error) {
+            if (error instanceof TypeError) {
+                let errorMessage = "";
+                for (let key in error) {
+                    errorMessage += `${key}: ${error[key]}\n`;
+                }
+                setError(errorMessage);
+            } else {
+                setError('An unknown error occurred');
+            }
+        }
     }
 
     return (

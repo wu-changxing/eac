@@ -1,12 +1,13 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {FaFileAlt, FaFileImage, FaGift, FaPaperPlane, FaPlus} from 'react-icons/fa';
+// src/RoomComponents/ChatBoxComponents/ChatFeatures.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import {FaFileAlt, FaFileImage, FaGift, FaPaperPlane, FaPlus, FaQuora} from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import SendGift from "./SendGift";
-import {IoMdCloseCircleOutline} from "react-icons/io";
-import {GrClose} from "react-icons/gr";
-import {ImCross} from "react-icons/im";
-const ChatFeatures = ({ messages, setMessages, socket, users }) => {
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import { GrClose } from "react-icons/gr";
+import { ImCross } from "react-icons/im";
+const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [previewURL, setPreviewURL] = useState(null);
@@ -22,10 +23,10 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
 
     useEffect(() => {
         console.log("user badgeName is", badgeName)
-        if (badgeName ==='singer!') {
+        if (badgeName === 'singer!') {
             setTestFeature(true);
         }
-    },[username]);
+    }, [username]);
 
     const handleImageSelect = (event) => {
         const file = event.target.files[0];
@@ -103,6 +104,10 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
         setShowSendButtons(false);
     };
 
+    const handleStartQuiz = () => {
+        setShowQuiz(true);
+    };
+
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             handleSend();
@@ -111,13 +116,11 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
 
     const toggleSendButtons = () => {
         if (showSendButtons) {
-
             setSelectedFile(null);
             setSelectedImage(null);
-            setPreviewURL(null)
+            setPreviewURL(null);
         }
         setShowSendButtons((prevShowSendButtons) => !prevShowSendButtons);
-
     };
 
     const handleSendGift = () => {
@@ -127,104 +130,105 @@ const ChatFeatures = ({ messages, setMessages, socket, users }) => {
     };
 
     return (
-
-
         <div className="flex mt-auto">
             {showGifPicker && (
                 <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300">
                     <SendGift roomId={roomId} socket={socket} setMessages={setMessages} users={users} />
-                        <button onClick={() => setShowGifPicker(false)} className="p-2">
-                            <AiOutlineClose className="text-gray-900 text-2xl" />
-                        </button>
+                    <button onClick={() => setShowGifPicker(false)} className="p-2">
+                        <AiOutlineClose className="text-gray-900 text-2xl" />
+                    </button>
                 </div>
             )}
             <div className="flex flex-row flex-grow">
-            <div className="flex items-center rounded-l-md bg-white w-full">
-                {previewURL && (
-                    <img src={previewURL} alt="Preview" className="w-20 h-20 object-cover rounded-md mr-2" />
-                )}
-                {selectedFile && (
-                    <span className="text-sky-500 w-28 text-sm truncate overflow-hidden whitespace-wrap break-all">
-            {selectedFile.name}
-          </span>
-                )}
-                {!showSendButtons && (
-                    <input
-                        className="flex-grow text-gray-900"
-                        type="text"
-                        value={inputValue}
-                        onChange={handleChange}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Type your message..."
-                    />
-                )}
-            </div>
-            {showSendButtons && (
-                <div className="flex flex-row flex-grow">
-                    {!selectedFile && !selectedImage && (
-                        <button
-                            onClick={() => imgInputRef.current.click()}
-                            className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
-                        >
-                            <FaFileImage className="text-white text-2xl lg:text-sm" />
-                        </button>
+                <div className="flex items-center rounded-l-md bg-white w-full">
+                    {previewURL && (
+                        <img src={previewURL} alt="Preview" className="w-20 h-20 object-cover rounded-md mr-2" />
                     )}
-                    <input
-                        ref={imgInputRef}
-                        id="file-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageSelect}
-                        className="hidden"
-                    />
-                    {!selectedFile && !selectedImage && (
-                        <button
-                            onClick={() => fileInputRef.current.click()}
-                            className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
-                        >
-                            <FaFileAlt className="text-white text-2xl lg:text-sm" />
-                        </button>
+                    {selectedFile && (
+                        <span className="text-sky-500 w-28 text-sm truncate overflow-hidden whitespace-wrap break-all">
+              {selectedFile.name}
+            </span>
                     )}
-                    <input
-                        ref={fileInputRef}
-                        id="file-upload"
-                        type="file"
-                        onChange={handleFileSelect}
-                        className="hidden"
-                    />
+                    {!showSendButtons && (
+                        <input
+                            className="flex-grow text-gray-900"
+                            type="text"
+                            value={inputValue}
+                            onChange={handleChange}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Type your message..."
+                        />
+                    )}
                 </div>
-            )}
+                {showSendButtons && (
+                    <div className="flex flex-row flex-grow">
+                        {testFeature && (
+                            <button
+                                onClick={handleStartQuiz} // start the quiz when the button is clicked
+                                className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
+                            >
+                              <FaQuora className="text-white text-2xl" />
+                            </button>
+                        )}
+                        {!selectedFile && !selectedImage && (
+                            <button
+                                onClick={() => imgInputRef.current.click()}
+                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
+                            >
+                                <FaFileImage className="text-white text-2xl lg:text-sm" />
+                            </button>
+                        )}
+                        <input
+                            ref={imgInputRef}
+                            id="file-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageSelect}
+                            className="hidden"
+                        />
+                        {!selectedFile && !selectedImage && (
+                            <button
+                                onClick={() => fileInputRef.current.click()}
+                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
+                            >
+                                <FaFileAlt className="text-white text-2xl lg:text-sm" />
+                            </button>
+                        )}
+                        <input
+                            ref={fileInputRef}
+                            id="file-upload"
+                            type="file"
+                            onChange={handleFileSelect}
+                            className="hidden"
+                        />
+                    </div>
+                )}
 
-            {showSendButtons ? (
-                <button
-                    onClick={toggleSendButtons} // Toggle the display of send buttons
-                    className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-full cursor-pointer"
-                >
-                    <ImCross className="text-white " />
-                </button>
-            ) : (
-                <>
+                {showSendButtons ? (
                     <button
-                        onClick={toggleSendButtons}
-                        className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
+                        onClick={toggleSendButtons} // Toggle the display of send buttons
+                        className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-full cursor-pointer"
                     >
-                        <FaPlus className="text-white" />
+                        <ImCross className="text-white " />
                     </button>
-                    {testFeature && <button
-                        onClick={handleSendGift}
-                        className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
-                    >
-                       <FaGift className="text-white" />
-                    </button>}
-                </>
-            )}
+                ) : (
+                    <>
+                        <button
+                            onClick={toggleSendButtons}
+                            className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
+                        >
+                            <FaPlus className="text-white" />
+                        </button>
 
-            <button
-                onClick={handleSend} // call handleSend instead
-                className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-r-xl cursor-pointer"
-            >
-                <FaPaperPlane className="text-white" />
-            </button>
+                    </>
+                )}
+
+                <button
+                    onClick={handleSend} // call handleSend instead
+                    className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-r-xl cursor-pointer"
+                >
+                    <FaPaperPlane className="text-white" />
+                </button>
             </div>
         </div>
     );

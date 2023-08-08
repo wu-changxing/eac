@@ -7,7 +7,6 @@ import {SocketContext} from "../../SocketContext";
 
 const RoomPanel = ({
                        users,
-                       isAdmin,
                        localStream,
                        openVideo,
                        setOpenVideo,
@@ -52,7 +51,6 @@ const RoomPanel = ({
                     <CheckIn className="mt-4" experience={0} />
                 </div>
                 <RoomControl
-                    isAdmin={isAdmin}
                     localStream={localStream}
                     openVideo={openVideo}
                     setOpenVideo={setOpenVideo}

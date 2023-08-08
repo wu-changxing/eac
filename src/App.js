@@ -14,6 +14,7 @@ import EditProfile from "./EditProfile";
 import EventsWaterfall from "./EventsWaterfall";
 
 function App() {
+
     const [authenticated, setAuthenticated] = useState(false);
 
     useEffect(() => {

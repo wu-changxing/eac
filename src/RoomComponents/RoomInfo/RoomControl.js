@@ -1,8 +1,8 @@
 // src/components/RoomControl.js
-import React, { useState, useEffect, useContext } from "react";
-import { SocketContext } from '../../SocketContext';
+import React, {useState, useEffect, useContext} from "react";
+import {SocketContext} from '../../SocketContext';
 import {IoMdReturnLeft, IoIosCloseCircle, IoIosRemoveCircle} from "react-icons/io";
-import {GiHighKick,GiWalkingBoot} from "react-icons/gi";
+import {GiHidden, GiHighKick, GiWalkingBoot} from "react-icons/gi";
 import {useNavigate, useParams} from "react-router-dom";
 import {IoVideocamOff, IoVideocam} from "react-icons/io5";
 import {IoMicOff, IoMic} from "react-icons/io5";
@@ -11,11 +11,15 @@ import UserCard from "./UserCard";
 import config from "../../config";
 import UserList from "./UserList";
 import {RiShutDownLine} from "react-icons/ri";
+import useRoomStore from "../../useRoomStore";
+import AdminControls from "./AdminControls";
 
-const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) => {
+const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
     const roomId = useParams().roomId;
-    const { state: socketState } = useContext(SocketContext);
-    const { socket, peer } = socketState;
+    const isAdmin = useRoomStore(state => state.isAdmin);
+    const isRoomHidden = useRoomStore(state => state.isRoomHidden);
+    const {state: socketState} = useContext(SocketContext);
+    const {socket, peer} = socketState;
     const [showModal, setShowModal] = useState(false);
     const [leaveRoomModal, setLeaveRoomModal] = useState(false);
     const username = localStorage.getItem("username");
@@ -24,6 +28,13 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
     const [audioStatus, setAudioStatus] = useState(true);
     const [isLeaving, setIsLeaving] = useState(false);
 
+    // Function to handle the click event of the "Hide" button
+    const handleHideRoom = () => {
+        // Emit a socket event to hide the room
+        socket.emit("hide_room", { room_id: roomId, hidden: !isRoomHidden })
+    };
+
+    const level = localStorage.getItem("level");
     const handleBeforeUnload = (event) => {
         if (!isLeaving) {
             event.preventDefault();
@@ -102,8 +113,7 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
 
     return (
         <div className="border-b pt-4 text-lg md:text-lg lg:text-lg">
-
-            <div className="flex items-end lg:space-x-3">
+            <div className="flex items-end justify-center flex-wrap lg:space-x-3">
                 <button
                     className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 md:p-4 lg:p-2 rounded"
                     onClick={backToRoomList}>
@@ -126,27 +136,19 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
                         <IoVideocamOff className="mr-2 font-bold"/>}
                     <span className="lg:inline hidden">{videoStatus ? "Disable" : "Enable"}</span>
                 </button>
-                {isAdmin && (
-                    <>
-                        <button
-                            className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-700 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
-                            onClick={dismissRoom}
-                        >
-                            <RiShutDownLine className="mr-2"/>
-                            <span className="lg:inline hidden">Dismiss</span>
-                        </button>
 
-                        <button
-                            className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
-                            onClick={() => setShowModal(true)}
-                        >
-                            <GiHighKick className="mr-2"/>
-                            <span className="lg:inline hidden">Kick</span>
-                        </button>
-                    </>
-
-                )}
             </div>
+            {isAdmin && (
+                <div className="flex items-end justify-center flex-wrap lg:space-x-3">
+                    <AdminControls
+                        roomId={roomId}
+                        setShowModal={setShowModal}
+                        level={level}
+                        localStream={localStream}
+                        socket={socket}
+                    />
+                </div>
+            )}
             <Modal
                 cancelText={"Cancel"}
                 confirmText={"Confirm"}
@@ -154,11 +156,14 @@ const RoomControl = ({ isAdmin, localStream, openVideo, setOpenVideo, users}) =>
                 setShow={() => setLeaveRoomModal(false)} // Corrected here
                 title={"Leave Room"}
                 onConfirm={confirmLeavePage}/>
-            {showModal && (
-               <UserList users={users} clickHandler={kickUser} setShowModal={setShowModal}/>
-            )}
+            {
+                showModal && (
+                    <UserList users={users} clickHandler={kickUser} setShowModal={setShowModal}/>
+                )
+            }
         </div>
-    );
+    )
+        ;
 };
 
 export default RoomControl;

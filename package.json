@@ -5,7 +5,7 @@
   "private": true,
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel src/index.html -p 3000",
+    "start": "rm -rf .cache dist && parcel src/index.html -p 3000",
     "build": "parcel build src/index.html",
     "d": "./rename_build.sh",
     "test": "jest"
@@ -21,7 +21,7 @@
     "buffer": "^5.7.1",
     "cssnano": "^6.0.1",
     "os-browserify": "^0.3.0",
-    "parcel": "^2.9.1",
+    "parcel": "^2.9.3",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.24",
     "process": "^0.11.10",
@@ -45,7 +45,9 @@
     "react-qrcode-logo": "^2.9.0",
     "react-router-dom": "^6.11.2",
     "react-spring": "^9.7.1",
+    "recharts": "^2.7.2",
     "socket.io-client": "^4.6.1",
-    "web-vitals": "^3.3.1"
+    "web-vitals": "^3.3.1",
+    "zustand": "^4.3.9"
   }
 }

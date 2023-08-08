@@ -50,7 +50,8 @@ const RecommendationCodeCard = () => {
 
 在你决定加入我们之前，请阅读并理解我们的社区公约：https://aaron404.com/zh/eac-log/%E7%A4%BE%E5%8C%BA%E5%85%AC%E7%BA%A6/
 
-你的专属邀请码是：${newRecommendCode}。为了保障你的权益，我们希望你在接收到邀请的三天内使用此邀请码在 EAC 社区进行注册。注册链接为：https://eac.aaron404.com/#/register?recommendation_code=${newRecommendCode}。
+你的专属邀请码是：${newRecommendCode} 为了保障你的权益，我们希望你在接收到邀请的三天内使用此邀请码在 EAC 社区进行注册。注册链接为：https://eac.aaron404.com/#/register?recommendation_code=${newRecommendCode}
+
 
 如果你在三天内没有使用此邀请码注册 EAC，邀请码可能会失效。因此，请尽快行动，我们期待你的加入。
 

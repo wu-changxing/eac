@@ -7,6 +7,7 @@ import {useContext} from 'react';
 import {SocketContext} from './SocketContext';
 import useLocalStream from './RoomComponents/StreamCards/useLocalStream';
 import RoomToolsBar from './RoomComponents/RoomToolsBar';
+import useRoomStore from './useRoomStore';
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -14,7 +15,7 @@ const Room = ({onLogout}) => {
     const socket = socketState.socket;
     const peer = socketState.peer;
     const navigate = useNavigate();
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden } = useRoomStore();
     const username = localStorage.getItem('username');
     const {openVideo: initialOpenVideo, openAudio: initialOpenAudio} = location.state || {
         openVideo: false,
@@ -50,6 +51,11 @@ const Room = ({onLogout}) => {
             socket.emit('is_room_admin', {
                 room_id: roomId,
                 username: username,
+            });
+            socket.on('room_hidden', (data) => {
+                if (data.room_id === roomId) {
+                    setIsRoomHidden(data.hidden);
+                }
             });
             socket.on('is_admin', (data) => {
                 console.log('Room admin:', data);
@@ -105,15 +111,17 @@ const Room = ({onLogout}) => {
     return (
         <div className="flex flex-col h-screen">
             <div className="flex-grow flex flex-col md:flex-row overflow-auto">
+                {/*<div>random </div>*/}
+
                 <div className="flex-grow lg:w-1/4">
                     <Streams roomId={roomId} socket={socket} isAdmin={isAdmin} localStream={localStream}
                              isStreamReady={isStreamReady}/>
                 </div>
                 <div className="w-full lg:w-3/4">
-                    <RoomToolsBar users={users} isAdmin={isAdmin} localStream={localStream}
+                    <RoomToolsBar users={users} localStream={localStream}
                                   openVideo={openVideo} setOpenVideo={setOpenVideo}/>
                 </div>
-                </div>
+            </div>
         </div>
     );
 

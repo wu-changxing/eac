@@ -5,6 +5,7 @@ import {SocketContext} from '../../SocketContext';
 import ChatFeatures from "./ChatFeatures";
 import {useTransition, animated} from 'react-spring';
 import GiftMessage from "./GiftMessage";
+import Quiz from "./QuizComponents/Quiz";
 const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
     const {state} = useContext(SocketContext);
     const {socket} = state;
@@ -27,7 +28,7 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
             config: {duration: 5}
         }, config: {mass: 1, tension: 280, friction: 20, precision: 0.00001},
     });
-
+    const [showQuiz, setShowQuiz] = useState(false);
     useEffect(() => {
         if (showChatBox && unreadMessages.length > 0) {
             setMessages(prevMessages => [...prevMessages, ...unreadMessages]);
@@ -61,8 +62,10 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
                     setMessages(prevMessages => [...prevMessages, message]);
                 }
             });
-
-
+            socket.on('showQuiz', () => {
+                console.log('showQuiz');
+                setShowQuiz(true);
+            });
         }
         return () => {
             if (socket) {
@@ -114,11 +117,19 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
                 )}
 
             </div>))}
+            {showQuiz && (
+                <Quiz
+                    QuizClose={() => setShowQuiz(false)} // so you can close the quiz
+                    setMessages={setMessages}
+                    socket={socket}
+                    users={users}
+                />
+            )}
 
 
             <div ref={endOfChatRef}></div>
         </div>
-        <ChatFeatures messages={messages} setMessages={setMessages} socket={socket} users={users}/>
+        <ChatFeatures messages={messages} setMessages={setMessages} socket={socket} users={users} setShowQuiz={setShowQuiz} />
     </animated.div>);
 };
 

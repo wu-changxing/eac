@@ -82,7 +82,9 @@ const RoomList = () => {
         <div className="p-2 sm:p-4 text-xl sm:text-2xl lg:text-2xl lg:mt-20">
             <h1 className="font-bold text-xl sm:text-2xl  lg:text-xl mb-4">Room List</h1>
             <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4">
-                {rooms.map(room => (
+                {rooms
+                    .filter(room => !room.hidden)
+                    .map(room => (
                     <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden max-w-sm">
                         <div className="p-2 sm:p-4">
                             <h5 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{room.name}</h5>

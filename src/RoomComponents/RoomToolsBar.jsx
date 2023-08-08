@@ -13,7 +13,7 @@ import BookList from './Feeds/BookList';
 import {SocketContext} from '../SocketContext';
 import {BiLibrary} from 'react-icons/bi'; // Added BiLibrary icon
 
-const RoomToolsBar = ({users, isAdmin, localStream, openVideo, setOpenVideo}) => {
+const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
     const {state, dispatch} = useContext(SocketContext);
     const {unreadMessages} = state;
 
@@ -163,7 +163,7 @@ const RoomToolsBar = ({users, isAdmin, localStream, openVideo, setOpenVideo}) =>
             {showIframe && <AIChatToggle showIframe={showIframe}/>}
             {showFeedList && <FeedList/>}
              <ChatBox showChatBox={showChatBox} dispatch={dispatch} unreadMessages={unreadMessages} users={users}/>
-            {showRoomPanel && <RoomPanel users={users} isAdmin={isAdmin} localStream={localStream} openVideo={openVideo}
+            {showRoomPanel && <RoomPanel users={users}  localStream={localStream} openVideo={openVideo}
                                          setOpenVideo={setOpenVideo}/>}
             {showBookList && <BookList/>}
             {!showChatBox && <UnreadMessages/>}

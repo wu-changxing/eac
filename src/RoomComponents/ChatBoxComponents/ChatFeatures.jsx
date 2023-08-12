@@ -1,17 +1,18 @@
 // src/RoomComponents/ChatBoxComponents/ChatFeatures.jsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {FaFileAlt, FaFileImage, FaGift, FaPaperPlane, FaPlus, FaQuora} from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
-import { AiOutlineClose } from 'react-icons/ai';
+import {useParams} from 'react-router-dom';
+import {AiOutlineClose} from 'react-icons/ai';
 import SendGift from "./SendGift";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import { GrClose } from "react-icons/gr";
-import { ImCross } from "react-icons/im";
-const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => {
+import {IoMdCloseCircleOutline} from "react-icons/io";
+import {GrClose} from "react-icons/gr";
+import {ImCross} from "react-icons/im";
+
+const ChatFeatures = ({messages, setMessages, socket, users, setShowQuiz}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [previewURL, setPreviewURL] = useState(null);
-    const { roomId } = useParams();
+    const {roomId} = useParams();
     const imgInputRef = useRef();
     const [inputValue, setInputValue] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -23,8 +24,11 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
 
     useEffect(() => {
         console.log("user badgeName is", badgeName)
-        if (badgeName === 'singer!') {
-            setTestFeature(true);
+        if (username === "test" || username === "t") {
+            setTestFeature(true)
+        }
+        if (badgeName === "single!") {
+            setShowSendButtons(true)
         }
     }, [username]);
 
@@ -49,7 +53,7 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64data = reader.result;
-                const message = { user: 'You', image: base64data, room_id: roomId };
+                const message = {user: 'You', image: base64data, room_id: roomId};
                 socket.emit('room_chat_img', message);
                 setMessages((prevMessages) => [...prevMessages, message]);
                 setSelectedImage(null);
@@ -86,7 +90,7 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
 
     const sendChatMessage = () => {
         if (socket) {
-            const message = { user: 'You', message: inputValue, room_id: roomId };
+            const message = {user: 'You', message: inputValue, room_id: roomId};
             socket.emit('room_chat_msg', message);
             setInputValue('');
             setMessages((prevMessages) => [...prevMessages, message]);
@@ -133,16 +137,16 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
         <div className="flex mt-auto">
             {showGifPicker && (
                 <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300">
-                    <SendGift roomId={roomId} socket={socket} setMessages={setMessages} users={users} />
+                    <SendGift roomId={roomId} socket={socket} setMessages={setMessages} users={users}/>
                     <button onClick={() => setShowGifPicker(false)} className="p-2">
-                        <AiOutlineClose className="text-gray-900 text-2xl" />
+                        <AiOutlineClose className="text-gray-900 text-2xl"/>
                     </button>
                 </div>
             )}
             <div className="flex flex-row flex-grow">
                 <div className="flex items-center rounded-l-md bg-white w-full">
                     {previewURL && (
-                        <img src={previewURL} alt="Preview" className="w-20 h-20 object-cover rounded-md mr-2" />
+                        <img src={previewURL} alt="Preview" className="w-20 h-20 object-cover rounded-md mr-2"/>
                     )}
                     {selectedFile && (
                         <span className="text-sky-500 w-28 text-sm truncate overflow-hidden whitespace-wrap break-all">
@@ -161,23 +165,28 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
                     )}
                 </div>
                 {showSendButtons && (
-                    <div className="flex flex-row flex-grow">
+                    <div className="flex flex-row flex-grow space-x-4 text-white">
                         {testFeature && (
                             <button
-                                onClick={handleStartQuiz} // start the quiz when the button is clicked
-                                className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
-                            >
-                              <FaQuora className="text-white text-2xl" />
+                                onClick={handleSendGift}
+                                className="bg-sky-500 hover:bg-sky-600 font-bold m-1 p-1 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer">
+                                <FaGift className="text-2xl lg:text-xl"/>
                             </button>
                         )}
+                        <button
+                            onClick={handleStartQuiz}
+                            className="bg-sky-500 hover:bg-sky-600 font-bold p-1 m-1 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer">
+                            <FaQuora className="text-2xl lg:text-xl"/>
+                        </button>
+
                         {!selectedFile && !selectedImage && (
                             <button
                                 onClick={() => imgInputRef.current.click()}
-                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
-                            >
-                                <FaFileImage className="text-white text-2xl lg:text-sm" />
+                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer">
+                                <FaFileImage className="text-2xl lg:text-lg"/>
                             </button>
                         )}
+
                         <input
                             ref={imgInputRef}
                             id="file-upload"
@@ -186,14 +195,15 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
                             onChange={handleImageSelect}
                             className="hidden"
                         />
+
                         {!selectedFile && !selectedImage && (
                             <button
                                 onClick={() => fileInputRef.current.click()}
-                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer"
-                            >
-                                <FaFileAlt className="text-white text-2xl lg:text-sm" />
+                                className="bg-sky-500 hover:bg-sky-600 font-bold m-2 lg:m-1 lg:p-4 lg:rounded-full cursor-pointer">
+                                <FaFileAlt className="text-2xl lg:text-lg"/>
                             </button>
                         )}
+
                         <input
                             ref={fileInputRef}
                             id="file-upload"
@@ -204,12 +214,13 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
                     </div>
                 )}
 
+
                 {showSendButtons ? (
                     <button
                         onClick={toggleSendButtons} // Toggle the display of send buttons
-                        className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-full cursor-pointer"
+                        className="bg-sky-500 hover:bg-red-400 font-bold p-3 m-2 rounded-full cursor-pointer"
                     >
-                        <ImCross className="text-white " />
+                        <ImCross className="text-white text-lg"/>
                     </button>
                 ) : (
                     <>
@@ -217,7 +228,7 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
                             onClick={toggleSendButtons}
                             className="bg-sky-500 hover:bg-sky-600 font-bold p-3 rounded-full cursor-pointer"
                         >
-                            <FaPlus className="text-white" />
+                            <FaPlus className="text-white"/>
                         </button>
 
                     </>
@@ -227,7 +238,7 @@ const ChatFeatures = ({ messages, setMessages, socket, users, setShowQuiz }) => 
                     onClick={handleSend} // call handleSend instead
                     className="bg-sky-500 hover:bg-sky-600 font-bold p-3 mx-2 rounded-r-xl cursor-pointer"
                 >
-                    <FaPaperPlane className="text-white" />
+                    <FaPaperPlane className="text-white"/>
                 </button>
             </div>
         </div>

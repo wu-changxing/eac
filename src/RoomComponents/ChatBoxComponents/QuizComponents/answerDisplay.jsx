@@ -12,7 +12,7 @@ const AnswerDisplay = ({ answer, correct, handleNextQuestion }) => {
     };
 
     return (
-        <div className="p-5 rounded space-y-4">
+        <div className="p-5 rounded space-y-4 bg-white text-slate-700">
             <div className={`flex items-center space-x-2 ${correct ? 'text-green-500' : 'text-red-500'}`}>
                 {correct ? <FaCheckCircle /> : <FaTimesCircle />}
                 <h2 className="font-bold text-xl">{correct ? 'Correct answer!' : 'Wrong answer!'}</h2>

@@ -4,7 +4,7 @@ import AnswerDisplay from './answerDisplay';
 import QuestionStatistics from "./QuestionStatistics";
 import QuestionDisplay from './QuestionDisplay';
 
-const QuizQuestion = ({question,onClose, socket, roomId, mode}) => {
+const QuizQuestion = ({question, onClose, socket, roomId, mode}) => {
     const [answer, setAnswer] = useState(null);
     const [selectedOption, setSelectedOption] = useState(null);
     const [stats, setStats] = useState(null);
@@ -22,6 +22,7 @@ const QuizQuestion = ({question,onClose, socket, roomId, mode}) => {
             return () => clearTimeout(timeout);
         } else if (question && socket) {
             // socket.emit('nextQuestion');
+            // submit a blank answer and get the stats
             setTimer(timeLength);
         }
     }, [timer, question, socket]);
@@ -46,11 +47,7 @@ const QuizQuestion = ({question,onClose, socket, roomId, mode}) => {
         });
         socket.on('stats', statsData => {
             setStats(statsData);
-            if (mode === 'single') {
-                setView('question');
-            } else {
-                setView('stats');
-            }
+            setView('stats');
         });
         return () => {
             // clean up the listener when the component is unmounted
@@ -89,9 +86,13 @@ const QuizQuestion = ({question,onClose, socket, roomId, mode}) => {
         >
             <FaTimes/>
         </button>
-        {view === 'stats' && (
-            <QuestionStatistics stats={stats} setShowAnswer={setView.bind(null, 'answer')} answer={answer}
-                                handleNextQuestion={nextQuestion}/>)}
+        {view === 'stats' && (<QuestionStatistics stats={stats}
+                                                  tab={mode === 'single' ? 'answer' : (mode === 'public' ? 'statistics' : '')}
+                                                  setShowAnswer={setView.bind(null, 'answer')}
+                                                  answer={answer}
+                                                  handleNextQuestion={nextQuestion}/>
+
+        )}
         {view === 'answer' && (<AnswerDisplay answer={answer.answer} correct={answer.isCorrect}
                                               handleNextQuestion={nextQuestion}/>)}
         {view === 'question' && question && (<QuestionDisplay

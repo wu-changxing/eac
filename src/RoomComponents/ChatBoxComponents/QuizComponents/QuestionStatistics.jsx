@@ -3,27 +3,27 @@ import AnswerDisplay from "./answerDisplay";
 import {FaCheckCircle, FaTimesCircle, FaCrown, FaQuestionCircle} from 'react-icons/fa';
 import useRoomStore from "../../../useRoomStore";
 
-const QuestionStatistics = ({ stats, answer, handleNextQuestion }) => {
-    const [activeTab, setActiveTab] = useState('statistics');
+const QuestionStatistics = ({ stats,tab, answer, handleNextQuestion }) => {
+    const [activeTab, setActiveTab] = useState(tab);
     const { isAdmin } = useRoomStore();
 
     // sort the stats array by score in descending order
     const sortedStats = [...stats].sort((a, b) => b.score - a.score);
 
     return (
-        <div className="px-8 py-6 bg-sky-600 text-white rounded-lg shadow-md max-h-96 overflow-auto">
+        <div className="px-8 py-6 bg-sky-600 text-white rounded-lg shadow-md max-h-96 overflow-auto mx-2">
             <div className="flex mb-4 bg-white rounded-md shadow-md overflow-hidden">
                 <button
                     onClick={() => setActiveTab('statistics')}
                     className={`mr-1 text-xl font-bold transition-colors duration-200 ease-in-out 
-                    ${activeTab === 'statistics' ? 'text-sky-500 bg-white px-4 py-2' : 'text-sky-400 hover:text-sky-900 bg-gray-100 px-2 py-1'}`}
+                    ${activeTab === 'statistics' ? 'text-sky-500 bg-white px-4 py-2 border-sky-500 border-2' : 'text-sky-400 hover:text-sky-900  px-2 py-1'}`}
                 >
                     Statistics
                 </button>
                 <button
                     onClick={() => setActiveTab('answer')}
                     className={`text-xl font-bold transition-colors duration-200 ease-in-out 
-                    ${activeTab === 'answer' ? 'text-sky-500 bg-white px-4 py-2' : 'text-sky-400 hover:text-sky-900 bg-gray-100 px-2 py-1 '}`}
+                    ${activeTab === 'answer' ? 'text-sky-500 bg-white px-4 py-2 border-sky-500 border-2' : 'text-sky-400 hover:text-sky-900 px-2 py-1 '}`}
                 >
                     Answer
                 </button>

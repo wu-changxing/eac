@@ -20,12 +20,15 @@ const QuizQuestion = ({question, onClose, socket, roomId, mode}) => {
         if (timer > 0 && question) {
             const timeout = setTimeout(() => setTimer(timer - 1), 1000);
             return () => clearTimeout(timeout);
+        } else if (timer === 0 && question && !selectedOption) {
+            // Submit "time is up" answer if no answer has been selected yet
+            handleSubmit("time is up");
+            setTimer(timeLength);
         } else if (question && socket) {
-            // socket.emit('nextQuestion');
-            // submit a blank answer and get the stats
             setTimer(timeLength);
         }
-    }, [timer, question, socket]);
+    }, [timer, question, socket, selectedOption]);  // Add selectedOption as a dependency
+
     useEffect(() => {
         socket.on('question', data => {
             setTimeLength(data.timer || 30);
@@ -79,9 +82,9 @@ const QuizQuestion = ({question, onClose, socket, roomId, mode}) => {
     };
 
     return (<div
-        className="relative bg-white shadow-md rounded-lg p-6 w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-3xl mx-auto">
+        className="relative bg-white shadow-md rounded-lg p-0 m-[-10] sm:p-5 w-full md:max-w-xl lg:max-w-3xl mx-auto">
         <button
-            className="absolute top-2 right-2 bg-gray-800 hover:bg-red-700 text-white font-bold p-1 rounded"
+            className="absolute top-2 right-2 bg-gray-800 hover:bg-red-700 text-white font-bold p-1 rounded-full"
             onClick={onClose}
         >
             <FaTimes/>

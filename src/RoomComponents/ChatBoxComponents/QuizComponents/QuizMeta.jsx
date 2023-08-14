@@ -1,10 +1,10 @@
 // src/RoomComponents/ChatBoxComponents/QuizMeta.jsx
-import React, { useState } from 'react';
-import { FaClock, FaTrophy, FaChalkboardTeacher, FaUserFriends, FaPlay, FaTimes } from 'react-icons/fa';
-import { GiCheckMark, GiTimeBomb, GiSpearHook, GiSwordsPower, GiBookshelf, GiGraduateCap } from 'react-icons/gi';
-import { useParams } from "react-router-dom";
+import React, {useState} from 'react';
+import {FaClock, FaTrophy, FaChalkboardTeacher, FaUserFriends, FaPlay, FaTimes} from 'react-icons/fa';
+import {GiCheckMark, GiTimeBomb, GiSpearHook, GiSwordsPower, GiBookshelf, GiGraduateCap} from 'react-icons/gi';
+import {useParams} from "react-router-dom";
 
-const QuizMeta = ({ socket, onClose, setMode }) => {
+const QuizMeta = ({socket, onClose, setMode}) => {
     const roomId = useParams().roomId;
     const [localSelection, setLocalSelection] = useState({
         level: "1",
@@ -33,10 +33,10 @@ const QuizMeta = ({ socket, onClose, setMode }) => {
                 className="absolute top-2 right-2 bg-gray-800 hover:bg-red-700 text-white font-bold p-1 rounded"
                 onClick={onClose}
             >
-                <FaTimes />
+                <FaTimes/>
             </button>
             <div className="w-full max-w-sm p-2 flex items-center space-x-2">
-                <GiGraduateCap className="text-sky-500 text-3xl mr-2" />
+                <GiGraduateCap className="text-sky-500 text-3xl mr-2"/>
                 <select
                     name="level"
                     onChange={handleLocalChange}
@@ -52,7 +52,7 @@ const QuizMeta = ({ socket, onClose, setMode }) => {
             </div>
 
             <div className="w-full max-w-sm p-2 flex items-center space-x-2">
-                <GiBookshelf className="text-sky-500 text-3xl mr-2" />
+                <GiBookshelf className="text-sky-500 text-3xl mr-2"/>
                 <select
                     name="category"
                     onChange={handleLocalChange}
@@ -60,13 +60,20 @@ const QuizMeta = ({ socket, onClose, setMode }) => {
                     value={localSelection.category}
                 >
                     <option value="IELTS">IELTS</option>
-                    <option value="CET">CET</option>
+                    <option value="CET6">CET6</option>
+                    <option value="考研">考研</option>
                     <option value="PTE">PTE</option>
+                    <option value="TOEFL">TOEFL</option>
+                    <option value="GRE">GRE</option>
+                    <option value="GMAT">GMAT</option>
+                    <option value="SAT">SAT</option>
+                    <option value="高考">高考</option>`
+
                 </select>
             </div>
 
             <div className="w-full max-w-sm p-2 flex items-center space-x-2">
-                <GiSwordsPower className="text-sky-500 text-3xl mr-2" />
+                <GiSwordsPower className="text-sky-500 text-3xl mr-2"/>
                 <select
                     name="mode"
                     onChange={handleLocalChange}
@@ -80,7 +87,7 @@ const QuizMeta = ({ socket, onClose, setMode }) => {
 
             <div className="w-full max-w-sm p-2 flex items-center justify-between space-x-2">
                 <label htmlFor="timer" className="flex items-center space-x-2">
-                    <GiTimeBomb className="text-sky-500 text-3xl mr-2" />
+                    <GiTimeBomb className="text-sky-500 text-3xl mr-2"/>
                     <span className="text-gray-800">Timer (for each Question)</span>
                 </label>
                 <input
@@ -100,7 +107,7 @@ const QuizMeta = ({ socket, onClose, setMode }) => {
                 onClick={handleSubmit}
                 className="flex items-center justify-center bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded mt-4"
             >
-                <GiCheckMark className="mr-2" />
+                <GiCheckMark className="mr-2"/>
                 Start Quiz
             </button>
         </div>

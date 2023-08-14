@@ -104,7 +104,7 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-center px-5 py-5 lg:px-5 lg:py-5 lg:justify-end"
+        <div className="flex flex-col lg:flex-row justify-center px-2 md:px-3 py-5 lg:px-5 lg:py-5 lg:justify-end"
              style={{perspective: '1000px'}}>
             <div
                 className="flex flex-row lg:flex-col space-x-2 justify-center lg:space-x-0 lg:space-y-2 border-b border-gray-200">

@@ -46,7 +46,7 @@ const AnswerDisplay = ({ answer, correct, handleNextQuestion }) => {
                 </p>
 
                 {answer.meanings.map((meaning, index) => (
-                    <div key={index} className="space-y-2">
+                    <div key={index} className="space-y-2 border-t-2">
                         <h4 className="font-semibold text-sky-500">{meaning.partOfSpeech}:</h4>
                         {meaning.definitions.map((definition, defIndex) => (
                             <div key={defIndex} className="space-y-2">

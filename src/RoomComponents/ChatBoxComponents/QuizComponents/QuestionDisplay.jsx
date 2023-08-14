@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaBook, FaHeadphones, FaFlag, FaClock } from 'react-icons/fa';
+import {FaBook, FaHeadphones, FaFlag, FaClock, FaWordpress, FaFeather, FaFeatherAlt} from 'react-icons/fa';
 
 const QuestionDisplay = ({ question, handleOptionClick, timer, timeLength, selectedOption }) => {
     return (
@@ -32,7 +32,7 @@ const QuestionDisplay = ({ question, handleOptionClick, timer, timeLength, selec
                         className={`py-2 px-4 rounded ${selectedOption === optionObj.option ? 'bg-sky-500 text-white' : 'border border-sky-500 text-sky-500'} hover:bg-sky-700 hover:text-white`}
                         onClick={() => handleOptionClick(optionObj.option)}
                     >
-                        <FaHeadphones className="mr-1" /> {optionObj.option}
+                        <FaFeatherAlt className="mr-1" /> {optionObj.option}
                     </button>
                 ))}
             </div>

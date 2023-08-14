@@ -33,6 +33,7 @@ const QuizQuestion = ({question, onClose, socket, roomId, mode}) => {
         socket.on('question', data => {
             setTimeLength(data.timer || 30);
             setTimer(data.timer || 30);
+            console.log('timer', data.timer);
             setAnswer(null);
             setSelectedOption(null);
             setView('question');

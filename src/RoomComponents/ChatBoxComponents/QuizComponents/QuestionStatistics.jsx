@@ -18,7 +18,7 @@ const QuestionStatistics = ({stats, tab, answer, handleNextQuestion}) => {
     const sortedStats = [...stats].sort((a, b) => b.score - a.score);
 
     return (
-        <div className="px-2 sm:px-8 py-6 bg-sky-600 text-white rounded-lg shadow-md max-h-96 overflow-auto mx-2">
+        <div className="px-2 sm:px-8 py-6 bg-sky-600 text-white rounded-lg shadow-md max-h-96 lg:h-full overflow-auto mx-2">
             <div className="flex mb-4 bg-white rounded-md shadow-md overflow-hidden">
                 <button
                     onClick={() => setActiveTab('statistics')}

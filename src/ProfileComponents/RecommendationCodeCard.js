@@ -48,12 +48,12 @@ const RecommendationCodeCard = () => {
     const handleCopyClick = () => {
         let text = `${username}诚挚地邀请你加入 EAC 社区。这里你不仅可以找到丰富的与ChatGPT相关的英语学习工具，更有一群相互了解和支持的朋友。我们欢迎你作为一名社区的建设者加入我们，而不仅仅是作为一个消费者。
 
-在你决定加入我们之前，请阅读并理解我们的社区公约：https://aaron404.com/zh/eac-log/%E7%A4%BE%E5%8C%BA%E5%85%AC%E7%BA%A6/
+在你决定加入我们之前，请阅读并理解我们的社区公约：https://aaron404.com/eac-log/%E7%A4%BE%E5%8C%BA%E5%85%AC%E7%BA%A6/
 
-你的专属邀请码是：${newRecommendCode} 为了保障你的权益，我们希望你在接收到邀请的三天内使用此邀请码在 EAC 社区进行注册。注册链接为：https://eac.aaron404.com/#/register?recommendation_code=${newRecommendCode}
+你的专属邀请码是：${newRecommendCode} 为了保障你的权益，我们希望你在接收到邀请的24h内使用此邀请码在 EAC 社区进行注册。注册链接为：https://eac.aaron404.com/#/register?recommendation_code=${newRecommendCode}
 
 
-如果你在三天内没有使用此邀请码注册 EAC，邀请码可能会失效。因此，请尽快行动，我们期待你的加入。
+如果你在24h内没有使用此邀请码注册 EAC，邀请码可能会失效。因此，请尽快行动，我们期待你的加入。
 
 期待在 EAC 社区与你相遇！`;
 

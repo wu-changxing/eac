@@ -60,14 +60,14 @@ const QuizMeta = ({socket, onClose, setMode}) => {
                     value={localSelection.category}
                 >
                     <option value="IELTS">IELTS</option>
-                    <option value="CET6">CET6</option>
-                    <option value="考研">考研</option>
+                    {/*<option value="CET6">CET6</option>*/}
+                    {/*<option value="考研">考研</option>*/}
                     <option value="PTE">PTE</option>
-                    <option value="TOEFL">TOEFL</option>
-                    <option value="GRE">GRE</option>
-                    <option value="GMAT">GMAT</option>
+                    {/*<option value="TOEFL">TOEFL</option>*/}
+                    {/*<option value="GRE">GRE</option>*/}
+                    {/*<option value="GMAT">GMAT</option>*/}
                     <option value="SAT">SAT</option>
-                    <option value="高考">高考</option>`
+                    {/*<option value="高考">高考</option>`*/}
 
                 </select>
             </div>

@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {MdClose} from 'react-icons/md';
+import React, { useState, useEffect } from 'react';
+import { MdClose } from 'react-icons/md';
 import config from "./config";
-import {motion, AnimatePresence} from 'framer-motion';
-import {FaCalendar} from "react-icons/fa";
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaCalendar } from "react-icons/fa";
+import bannerBG from "../assets/background/allparrots.webp";
 
 const Banner = () => {
     const [banners, setBanners] = useState([]);
@@ -12,9 +13,9 @@ const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const variants = {
-        hidden: {opacity: 0, x: 200, rotateY: -90},
-        visible: {opacity: 1, x: 0, rotateY: 0},
-        exit: {opacity: 0, x: -200, rotateY: 90}
+        hidden: { opacity: 0, x: 200, rotateY: -90 },
+        visible: { opacity: 1, x: 0, rotateY: 0 },
+        exit: { opacity: 0, x: -200, rotateY: 90 }
     };
 
     useEffect(() => {
@@ -33,17 +34,18 @@ const Banner = () => {
     }, [banners, activeBanner, isModalOpen]);
 
     useEffect(() => {
-        fetch(`${config.DJ_END}/api/v2/pages/75/`)
+        fetch(`${config.DJ_END}/api/v2/pages/?child_of=75`)
             .then((res) => res.json())
             .then((data) => {
-                const sortedChildren = data.children.sort((a, b) => new Date(b.date) - new Date(a.date));
-                setBanners(sortedChildren.slice(0, 4));
+                const sortedItems = data.items.sort((a, b) => new Date(b.meta.first_published_at) - new Date(a.meta.first_published_at));
+                setBanners(sortedItems.slice(0, 4));
             })
             .catch((error) => console.log(error));
     }, []);
 
+
     const handleBannerClick = (url) => {
-        const bannerId = banners[activeBanner].id; // Store the current active banner id
+        const bannerId = banners[activeBanner].id;
 
         fetch(`${config.DJ_END}/api/v2/pages/${bannerId}/`)
             .then((res) => res.json())
@@ -64,6 +66,10 @@ const Banner = () => {
         setIsModalOpen(false);
     };
 
+    const getBackgroundImage = (banner) => {
+        return banner && banner.cover_image ? `url(${banner.cover_image})` : `url(${bannerBG})`;
+    };
+
     if (!banners.length) {
         return null;
     }
@@ -76,15 +82,14 @@ const Banner = () => {
                         <motion.div
                             key={previousBanner.id}
                             className="absolute w-full h-full bg-cover bg-center"
-                            style={{backgroundImage: `url(${previousBanner.cover_image})`}}
+                            style={{ backgroundImage: getBackgroundImage(previousBanner) }}
                             variants={variants}
                             initial="visible"
                             animate="exit"
                             exit="exit"
-                            transition={{duration: 0.5}}
+                            transition={{ duration: 0.5 }}
                         >
-                            <div
-                                className="absolute inset-0 bg-gradient-to-r from-sky-600 shadow-sky-700 shadow-md to-transparent p-6 md:p-10 lg:p-16">
+                            <div className="absolute inset-0 bg-gradient-to-r from-sky-600 shadow-sky-700 shadow-md to-transparent p-6 md:p-10 lg:p-16">
                                 <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white">{banners[activeBanner].title}</h1>
                                 <p className="mt-2 text-lg md:text-xl lg:text-2xl text-white">{new Date(banners[activeBanner].date).toLocaleDateString()}</p>
                             </div>
@@ -93,13 +98,13 @@ const Banner = () => {
                     <motion.div
                         key={banners[activeBanner].id}
                         className="absolute w-full h-full bg-cover bg-center"
-                        style={{backgroundImage: `url(${banners[activeBanner].cover_image})`}}
+                        style={{ backgroundImage: getBackgroundImage(banners[activeBanner]) }}
                         onClick={() => handleBannerClick(banners[activeBanner].meta.html_url)}
                         variants={variants}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        transition={{duration: 0.5}}
+                        transition={{ duration: 0.5 }}
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-sky-500 shadow-sky-700 border-b border-pink-500 shadow-lg to-transparent p-6 md:p-10 lg:p-16">
                             <h1 className="text-2xl md:text-4xl lg:text-6xl font-bold text-white">
@@ -108,25 +113,25 @@ const Banner = () => {
                             <div className="flex items-center mt-2">
                                 <FaCalendar className="mr-2 text-xl text-white" />
                                 <p className="text-lg md:text-xl lg:text-2xl text-white">
-                                    {new Date(banners[activeBanner].date).toLocaleDateString()}
+                                    {new Date(banners[activeBanner].meta.first_published_at).toLocaleDateString()}
                                 </p>
                             </div>
-                        </div>
 
+                        </div>
                     </motion.div>
                 </AnimatePresence>
             )}
-
             {isModalOpen && modalContent && (
                 <div className="fixed inset-0 flex items-center justify-center z-1 p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12">
                     <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
                     <div className="relative bg-white rounded-lg shadow-lg overflow-y-auto max-h-full md:max-h-96 w-full md:w-2/3 lg:w-1/2">
                         <div className="flex justify-between items-center sticky top-0 bg-white px-4 py-2 sm:px-6 md:px-8">
-                            <h2 className="text-xl sm:text-2xl font-bold">{modalContent.title}
+                            <h2 className="text-xl sm:text-2xl font-bold">
+                                {modalContent.title}
                                 <a href={modalContent.meta.html_url}>
-                                <span className="text-xs sm:text-base text-gray-600 ml-2">
-                                   点此查看告原文链接
-                                </span>
+                    <span className="text-xs sm:text-base text-gray-600 ml-2">
+                        点此查看告原文链接
+                    </span>
                                 </a>
                             </h2>
 

@@ -15,7 +15,6 @@ const CheckIn = ({experience}) => {
     const checkIn = () => {
         if (!checkedIn) {
             setCheckedIn(true);
-            console.log('emitting check')
             socket.emit('check', {token});
             setMessage('Successfully checked in. Your experience has increased!');
         } else {
@@ -28,12 +27,9 @@ const CheckIn = ({experience}) => {
 
     useEffect(() => {
         if (socket) {
-            console.log('socket ready');
             setSocketReady(true);
             socket.emit('check_status', {token});
-            console.log('emitting check_status')
             socket.on('check_status', (response) => {
-                console.log('check_status:', response);
                 if (response.status){
                     setCheckedIn(false);
                 } else {
@@ -45,7 +41,6 @@ const CheckIn = ({experience}) => {
                 }, 3000);
             });
             socket.on('exp_updated', ({exp}) => {
-                console.log('exp_updated:', exp);
                 setExp(exp);
                 setCheckedIn(true);
             })

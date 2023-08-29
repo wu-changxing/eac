@@ -16,16 +16,20 @@ import AdminControls from "./AdminControls";
 
 const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
     const roomId = useParams().roomId;
-    const isAdmin = useRoomStore(state => state.isAdmin);
-    const isRoomHidden = useRoomStore(state => state.isRoomHidden);
+    const { isAdmin, isRoomHidden, videoStatus, audioStatus, setVideoStatus, setAudioStatus } = useRoomStore(state => ({
+        isAdmin: state.isAdmin,
+        isRoomHidden: state.isRoomHidden,
+        videoStatus: state.videoStatus,
+        audioStatus: state.audioStatus,
+        setVideoStatus: state.setVideoStatus,
+        setAudioStatus: state.setAudioStatus,
+    }));
     const {state: socketState} = useContext(SocketContext);
     const {socket, peer} = socketState;
     const [showModal, setShowModal] = useState(false);
     const [leaveRoomModal, setLeaveRoomModal] = useState(false);
     const username = localStorage.getItem("username");
     const navigate = useNavigate();
-    const [videoStatus, setVideoStatus] = useState(false);
-    const [audioStatus, setAudioStatus] = useState(true);
     const [isLeaving, setIsLeaving] = useState(false);
 
     // Function to handle the click event of the "Hide" button
@@ -87,6 +91,7 @@ const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
             track.enabled = !track.enabled;
             console.log('track.enabled:', track.enabled);
         });
+        console.log("audioStatus is:", audioStatus);
         setAudioStatus(localStream.getAudioTracks()[0]?.enabled ?? false);
     };
     const toggleVideo = async () => {

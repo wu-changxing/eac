@@ -52,7 +52,7 @@ const UserCard = ({user}) => {
                                         <div className="text-xxs text-sky-500"></div>
                                     </>
                                 ) : (
-                                    <div className="text-sm text-gray-500">Not connected</div>
+                                    <div className="text-sm text-gray-500">Not in room</div>
                                 )}
                             </div>
                         </>

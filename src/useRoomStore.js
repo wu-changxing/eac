@@ -6,6 +6,8 @@ const useRoomStore = create((set) => ({
     isRoomHidden: false,
     videoStatus: false,
     audioStatus: true,
+    users: [],
+    setUsers: (users) => set({ users }),
     setIsAdmin: (isAdmin) => set({ isAdmin }),
     setIsRoomHidden: (isRoomHidden) => set({ isRoomHidden }),
     setVideoStatus: (videoStatus) => set({ videoStatus }),

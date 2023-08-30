@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import InstallButton from "./InstallButton";
 import config from "../config";
-const Footer = () => {
+import {Link} from "react-router-dom";
+import {FaHome, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
+import {GiWoodenSign} from "react-icons/gi";
+const Footer = ({authenticated}) => {
     const [profileData, setProfileData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,7 +40,9 @@ const Footer = () => {
     }
 
     useEffect(() => {
-        fetchProfile();
+        if (authenticated) {
+            fetchProfile();
+        }
     }, []);
 
     const username = profileData ? profileData.username : 'No one';
@@ -57,10 +62,39 @@ const Footer = () => {
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
     return (
-        <footer className="w-full h-12 bg-sky-500 flex items-center justify-center transition-all duration-300 hover:bg-sky-700 mb-1">
-            <InstallButton/>
-            <div className="text-white text-xl p-4 text-center">
-                Echo Atrium Chat
+        <footer className="w-full transition-all duration-300 mb-1 bg-sky-500 h-13 md:h-12">
+            <div className="hidden md:flex flex-row items-center justify-center">
+                <span className="text-white text-xl p-2">Echo Atrium Chat</span>
+            </div>
+            <div className="flex items-center justify-around h-16 md:hidden">
+                {authenticated &&
+                    <>
+                        <div className="text-center p-3 rounded-full hover:bg-sky-600">
+                            <Link to="/" className="flex flex-col items-center">
+                                <FaHome className="text-2xl text-white"/>
+                                <span className="text-xs text-white">Home</span>
+                            </Link>
+                        </div>
+                        <div className="text-center p-3 rounded-full hover:bg-sky-600">
+                            <Link to="/profile" className="flex flex-col items-center">
+                                <FaUserCircle className="text-2xl text-white"/>
+                                <span className="text-xs text-white">Profile</span>
+                            </Link>
+                        </div>
+                        <div className="text-center p-3 rounded-full hover:bg-sky-600">
+                            <Link to="/events" className="flex flex-col items-center">
+                                <GiWoodenSign className="text-2xl text-white"/>
+                                <span className="text-xs text-white">Events</span>
+                            </Link>
+                        </div>
+                        <div className="text-center p-3 rounded-full hover:bg-sky-600">
+                            <Link to="/logout" className="flex flex-col items-center">
+                                <FaSignOutAlt className="text-2xl text-white"/>
+                                <span className="text-xs text-white">Logout</span>
+                            </Link>
+                        </div>
+                    </>
+                }
             </div>
         </footer>
     );

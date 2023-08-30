@@ -3,8 +3,12 @@ import React from 'react';
 import { GiHighKick } from 'react-icons/gi';
 import { IoIosCloseCircle } from 'react-icons/io';
 import config from '../../config';
+import useRoomStore from '../../useRoomStore';  // Update the path according to your project structure
 
-const UserList = ({ users, clickHandler, setShowModal }) => {
+
+const UserList = ({ clickHandler, setShowModal }) => {
+    const { users } = useRoomStore();
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-10 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-xl mx-auto text-gray-800">

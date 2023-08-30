@@ -2,7 +2,16 @@ import React, {useState, useContext} from 'react';
 import {GiArtificialIntelligence, GiBrain, GiFallingStar} from 'react-icons/gi';
 import {GiGears, Gi3DGlasses, GiAutoRepair, GiWalkingBoot} from 'react-icons/gi';
 import {SiRocketdotchat, SiNewjapanprowrestling, SiGooglenews} from 'react-icons/si';
-import {FaRssSquare, FaComments, FaUsers, FaRegAngry, FaTeamspeak, FaInfoCircle} from 'react-icons/fa';
+import {
+    FaRssSquare,
+    FaComments,
+    FaUsers,
+    FaRegAngry,
+    FaTeamspeak,
+    FaInfoCircle,
+    FaEllipsisH,
+    FaPowerOff
+} from 'react-icons/fa';
 import {FaRobot, FaSatelliteDish, FaRegComments, FaUserFriends, FaListUl, FaListOl} from 'react-icons/fa'; // Updated icons
 import AIChatToggle from './AIChatToggle';
 import FeedList from './Feeds/FeedList';
@@ -12,7 +21,9 @@ import RoomPanel from './RoomInfo/RoomPanel';
 import BookList from './Feeds/BookList';
 import {SocketContext} from '../SocketContext';
 import {BiLibrary} from 'react-icons/bi'; // Added BiLibrary icon
-
+import { IoMdExit } from 'react-icons/io';  // Importing a hypothetical Exit icon
+import { useNavigate } from 'react-router-dom';
+import {VscFold, VscFoldDown} from "react-icons/vsc";
 const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
     const {state, dispatch} = useContext(SocketContext);
     const {unreadMessages} = state;
@@ -22,7 +33,17 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
     const [showChatBox, setShowChatBox] = useState(false);
     const [showRoomPanel, setShowRoomPanel] = useState(false);
     const [showBookList, setShowBookList] = useState(false); // Added showBookList state
+    const navigate = useNavigate();
+    const backToRoomList = () => {
+        leaveRoom();  // Function to handle room leaving logic (Make sure to define this in your SocketContext)
+        socket.emit("leave", { room_id: roomId, username: username });
+        navigate('/roomlists');
+    };
+    const [showMoreOptions, setShowMoreOptions] = useState(false);  // New state to toggle More options
 
+    const handleMoreOptionsToggle = () => {  // New function to toggle More options
+        setShowMoreOptions(prevState => !prevState);
+    };
     const handleIframeToggle = () => {
         setShowIframe(prevState => !prevState);
         if (showFeedList) {
@@ -108,6 +129,8 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
              style={{perspective: '1000px'}}>
             <div
                 className="flex flex-row lg:flex-col space-x-2 justify-center lg:space-x-0 lg:space-y-2 border-b border-gray-200">
+
+
                 <button
                     onClick={handleIframeToggle}
                     className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
@@ -118,26 +141,8 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
                     <span
                         className="lg:text-lg hidden lg:inline">{showIframe ? '' : (showFeedList || showChatBox || showRoomPanel || showBookList) ? '' : 'GPT Helper'}</span>
                 </button>
-                <button
-                    onClick={handleFeedListToggle}
-                    className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
-            ${showFeedList ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}
-                >
-                    {showFeedList ? <Gi3DGlasses className="mr-2 lg:text-5xl"/> :
-                        <SiGooglenews className="mr-2 lg:text-5xl"/>}
-                    <span
-                        className="lg:text-lg hidden lg:inline">{showFeedList ? '' : (showIframe || showChatBox || showRoomPanel || showBookList) ? '' : 'Show Feeds'}</span>
-                </button>
-                <button
-                    onClick={handleBookListToggle}
-                    className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
-            ${showBookList ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}
-                >
-                    {showBookList ? <GiFallingStar className="mr-2 lg:text-5xl"/> :
-                        <BiLibrary className="mr-2 lg:text-5xl"/>}
-                    <span
-                        className="lg:text-lg hidden lg:inline">{showBookList ? '' : (showIframe || showFeedList || showChatBox || showRoomPanel) ? '' : 'Book List'}</span>
-                </button>
+
+
                 <button
                     onClick={handleChatBoxToggle}
                     className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
@@ -158,8 +163,51 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
                     <span
                         className="lg:text-lg hidden lg:inline">{showRoomPanel ? '' : (showIframe || showFeedList || showChatBox || showBookList) ? '' : 'Room Panel'}</span>
                 </button>
-
+                <button
+                    onClick={backToRoomList}
+                    className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
+        bg-red-500 hover:bg-red-600`}
+                >
+                    <FaPowerOff className="mr-2 lg:text-5xl"/>  {/* Hypothetical Exit icon */}
+                    <span className="lg:text-lg hidden lg:inline">{showFeedList ? '' : (showIframe || showChatBox || showRoomPanel || showBookList) ? '' : 'Leave'}</span>
+                </button>
+                <button
+                    onClick={handleMoreOptionsToggle}
+                    className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
+          bg-sky-500 hover:bg-sky-600`}
+                >
+                    { showMoreOptions ? <VscFold  className="mr-2 lg:text-5xl" /> : <VscFoldDown className="mr-2 lg:text-5xl"/> }
+                    <span className="lg:text-lg hidden lg:inline">{ showMoreOptions ? 'Less' : 'More' }</span>
+                </button>
             </div>
+            <div className="flex flex-row lg:flex-col space-x-2 justify-center lg:space-x-0 lg:space-y-2 mt-4 border-b border-gray-200">
+
+            { showMoreOptions && (
+                    <>
+                    <button
+                        onClick={handleFeedListToggle}
+                        className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
+            ${showFeedList ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}
+                    >
+                        {showFeedList ? <Gi3DGlasses className="mr-2 lg:text-5xl"/> :
+                            <SiGooglenews className="mr-2 lg:text-5xl"/>}
+                        <span
+                            className="lg:text-lg hidden lg:inline">{showFeedList ? '' : (showIframe || showChatBox || showRoomPanel || showBookList) ? '' : 'Show Feeds'}</span>
+                    </button>
+                    <button
+                        onClick={handleBookListToggle}
+                        className={`flex items-center justify-center text-white rounded-t p-4 shadow-lg transition-all transform ease-in-out duration-500 
+            ${showBookList ? 'bg-gray-400 hover:bg-gray-500' : 'bg-sky-500 hover:bg-sky-600'}`}
+                    >
+                        {showBookList ? <GiFallingStar className="mr-2 lg:text-5xl"/> :
+                            <BiLibrary className="mr-2 lg:text-5xl"/>}
+                        <span
+                            className="lg:text-lg hidden lg:inline">{showBookList ? '' : (showIframe || showFeedList || showChatBox || showRoomPanel) ? '' : 'Book List'}</span>
+                    </button>
+                    </>
+                )}
+            </div>
+
             {showIframe && <AIChatToggle showIframe={showIframe}/>}
             {showFeedList && <FeedList/>}
              <ChatBox showChatBox={showChatBox} dispatch={dispatch} unreadMessages={unreadMessages} users={users}/>
@@ -167,6 +215,8 @@ const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
                                          setOpenVideo={setOpenVideo}/>}
             {showBookList && <BookList/>}
             {!showChatBox && <UnreadMessages/>}
+
+
         </div>
     );
 };

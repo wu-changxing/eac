@@ -117,7 +117,7 @@ function App() {
                             } />
                         </Routes>
                     </div>
-                    <Footer/>
+                    <Footer authenticated={authenticated} />
 
                 </SocketProvider>
             </Router>

@@ -36,7 +36,7 @@ const Header = ({authenticated}) => {
                         </div>
 
                         {authenticated ? (
-                            <>
+                            <div className="hidden lg:block">
 
                                 <li className="mx-2 my-0">
                                     <Link to="/">
@@ -57,7 +57,7 @@ const Header = ({authenticated}) => {
                                     <Link to="/logout"><FaSignOutAlt className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Logout</span></Link>
                                 </li>
-                            </>
+                            </div>
                         ) : (
                             <>
                                 <li className="mx-2 my-0">

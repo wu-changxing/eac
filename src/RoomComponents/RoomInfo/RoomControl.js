@@ -10,13 +10,13 @@ import Modal from "../../components/Modals/Modal";
 import UserCard from "./UserCard";
 import config from "../../config";
 import UserList from "./UserList";
-import {RiShutDownLine} from "react-icons/ri";
+import {RiRefreshLine, RiShutDownLine} from "react-icons/ri";
 import useRoomStore from "../../useRoomStore";
 import AdminControls from "./AdminControls";
 
 const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
     const roomId = useParams().roomId;
-    const { isAdmin, isRoomHidden, videoStatus, audioStatus, setVideoStatus, setAudioStatus } = useRoomStore(state => ({
+    const {isAdmin, isRoomHidden, videoStatus, audioStatus, setVideoStatus, setAudioStatus} = useRoomStore(state => ({
         isAdmin: state.isAdmin,
         isRoomHidden: state.isRoomHidden,
         videoStatus: state.videoStatus,
@@ -35,7 +35,7 @@ const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
     // Function to handle the click event of the "Hide" button
     const handleHideRoom = () => {
         // Emit a socket event to hide the room
-        socket.emit("hide_room", { room_id: roomId, hidden: !isRoomHidden })
+        socket.emit("hide_room", {room_id: roomId, hidden: !isRoomHidden})
     };
 
     const level = localStorage.getItem("level");
@@ -115,7 +115,9 @@ const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
 
         socket.emit("toggle_video", {user: username, status: videoTrack.enabled, room_id: roomId});
     };
-
+    const refreshPage = () => {
+        window.location.reload();
+    };
     return (
         <div className="border-b pt-4 text-lg md:text-lg lg:text-lg">
             <div className="flex items-end justify-center flex-wrap lg:space-x-3">
@@ -141,34 +143,43 @@ const RoomControl = ({localStream, openVideo, setOpenVideo, users}) => {
                         <IoVideocamOff className="mr-2 font-bold"/>}
                     <span className="lg:inline hidden">{videoStatus ? "Disable" : "Enable"}</span>
                 </button>
+                <button
+                    className="flex items-center bg-sky-500 hover:bg-sky-700 text-white font-bold p-4 lg:p-2 rounded"
+                    onClick={refreshPage}
+                >
+                    <RiRefreshLine className="mr-2 font-bold"/>
+                    <span className="lg:inline hidden">Reconnect</span>
+                </button>
 
-            </div>
-            {isAdmin && (
-                <div className="flex items-end justify-center flex-wrap lg:space-x-3">
-                    <AdminControls
-                        roomId={roomId}
-                        setShowModal={setShowModal}
-                        level={level}
-                        localStream={localStream}
-                        socket={socket}
-                    />
-                </div>
-            )}
-            <Modal
-                cancelText={"Cancel"}
-                confirmText={"Confirm"}
-                show={leaveRoomModal}
-                setShow={() => setLeaveRoomModal(false)} // Corrected here
-                title={"Leave Room"}
-                onConfirm={confirmLeavePage}/>
-            {
-                showModal && (
-                    <UserList users={users} clickHandler={kickUser} setShowModal={setShowModal}/>
-                )
-            }
         </div>
-    )
-        ;
+    {
+        isAdmin && (
+            <div className="flex items-end justify-center flex-wrap lg:space-x-3">
+                <AdminControls
+                    roomId={roomId}
+                    setShowModal={setShowModal}
+                    level={level}
+                    localStream={localStream}
+                    socket={socket}
+                />
+            </div>
+        )
+    }
+    <Modal
+        cancelText={"Cancel"}
+        confirmText={"Confirm"}
+        show={leaveRoomModal}
+        setShow={() => setLeaveRoomModal(false)} // Corrected here
+        title={"Leave Room"}
+        onConfirm={confirmLeavePage}/>
+    {
+        showModal && (
+            <UserList users={users} clickHandler={kickUser} setShowModal={setShowModal}/>
+        )
+    }
+</div>
+)
+    ;
 };
 
 export default RoomControl;

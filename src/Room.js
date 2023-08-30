@@ -15,7 +15,6 @@ const Room = ({onLogout}) => {
     const socket = socketState.socket;
     const peer = socketState.peer;
     const navigate = useNavigate();
-    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden } = useRoomStore();
     const username = localStorage.getItem('username');
     const {openVideo: initialOpenVideo, openAudio: initialOpenAudio} = location.state || {
         openVideo: false,
@@ -26,7 +25,8 @@ const Room = ({onLogout}) => {
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
     const {localStream, isStreamReady} = useLocalStream(openVideo, openAudio);
-    const [users, setUsers] = useState([]);
+    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden, users, setUsers } = useRoomStore();
+
 
     const backToRoomList = () => {
         setIsAdmin(false);

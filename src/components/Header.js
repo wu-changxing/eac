@@ -15,7 +15,7 @@ const Header = ({authenticated}) => {
     const isPeerConnected = peer && peer.connected;
 
     return (
-        <header className="fixed top-0 text-lg w-full bg-gray-200 h-16 sm:h-20 lg:h-16">
+        <header className="fixed top-0 text-lg w-full bg-gray-200 h-12 lg:h-16">
             <div className="flex flex-row justify-between items-center h-full px-2 sm:px-4 md:px-10 lg:px-20">
                 <div className="flex items-center justify-start ">
 
@@ -36,28 +36,27 @@ const Header = ({authenticated}) => {
                         </div>
 
                         {authenticated ? (
-                            <div className="hidden lg:block">
-
-                                <li className="mx-2 my-0">
+                            <>
+                                <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/">
                                         <FaHome className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Home</span></Link>
                                 </li>
-                                <li className="mx-2 my-0">
+                                <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/profile">
                                         <FaUserCircle className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Profile</span></Link>
                                 </li>
-                                <li className="mx-2 my-0">
+                                <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/events">
                                         <GiWoodenSign className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Events</span></Link>
                                 </li>
-                                <li className="mx-2 my-0">
+                                <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/logout"><FaSignOutAlt className="inline sm:mr-2 text-sky-500"/><span
                                         className="hidden sm:inline">Logout</span></Link>
                                 </li>
-                            </div>
+                            </>
                         ) : (
                             <>
                                 <li className="mx-2 my-0">
@@ -72,7 +71,7 @@ const Header = ({authenticated}) => {
                         )}
                     </ul>
                 </nav>
-                <div className="flex items-center text-lg">
+                <div className="flex items-center text-lg hidden lg:block">
                     <Navbar/>
                 </div>
             </div>

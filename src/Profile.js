@@ -55,7 +55,7 @@ const Profile = () => {
     const progressPercentageCredits = (credits / totalCredits) * 100;
     const progressPercentageExperience = (experience / totalExperience) * 100;
 
-    const invitedByList = ["吴长星", "CC", "nimba"]; // 可以从后端获取或根据需要更改
+    const invitedByList = ["吴长星", "CC", "nimba","Admin"]; // 可以从后端获取或根据需要更改
 
     const shouldShowAddToCalendar = invitedByList.includes(invited_by); // 检查邀请者是否在列表内
 

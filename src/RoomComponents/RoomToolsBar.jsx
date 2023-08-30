@@ -22,20 +22,21 @@ import BookList from './Feeds/BookList';
 import {SocketContext} from '../SocketContext';
 import {BiLibrary} from 'react-icons/bi'; // Added BiLibrary icon
 import { IoMdExit } from 'react-icons/io';  // Importing a hypothetical Exit icon
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {VscFold, VscFoldDown} from "react-icons/vsc";
 const RoomToolsBar = ({users,  localStream, openVideo, setOpenVideo}) => {
     const {state, dispatch} = useContext(SocketContext);
     const {unreadMessages} = state;
-
+    const {socket, peer} = state;
     const [showIframe, setShowIframe] = useState(false);
     const [showFeedList, setShowFeedList] = useState(false);
     const [showChatBox, setShowChatBox] = useState(false);
     const [showRoomPanel, setShowRoomPanel] = useState(false);
     const [showBookList, setShowBookList] = useState(false); // Added showBookList state
     const navigate = useNavigate();
+    const roomId = useParams().roomId;
+    const username = localStorage.getItem('username');
     const backToRoomList = () => {
-        leaveRoom();  // Function to handle room leaving logic (Make sure to define this in your SocketContext)
         socket.emit("leave", { room_id: roomId, username: username });
         navigate('/roomlists');
     };

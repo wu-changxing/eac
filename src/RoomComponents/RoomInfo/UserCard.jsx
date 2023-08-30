@@ -1,28 +1,35 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {FaUser, FaMedal, FaCircle, FaRegCircle, FaSignal} from 'react-icons/fa';
+import React, { useContext, useEffect, useState } from 'react';
+import { FaUser, FaMedal, FaCircle, FaRegCircle, FaSignal } from 'react-icons/fa';
 import config from '../../config';
-import {SocketContext} from "../../SocketContext";
-import {MdConnectWithoutContact} from "react-icons/md";
-import {FaPeopleRobbery} from "react-icons/fa";
-import {GiAerialSignal} from "react-icons/gi";
+import { SocketContext } from "../../SocketContext";
 
-const UserCard = ({user}) => {
+const formatDateAndTime = (isoString) => {
+    const date = new Date(isoString);
+    const localTime = date.toLocaleString('en-US', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+
+    const [_, month, day, year, hour, minute, second] = localTime.match(/(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/);
+
+    return `${month}/${day} ${hour}:${minute}:${second}`;
+};
+
+
+const UserCard = ({ user }) => {
     const [peerIds, setPeerIds] = useState([]);
-    const {state: socketState} = useContext(SocketContext);
-    const {socket, peer} = socketState;
-    console.log("user is", user)
+    const { state: socketState } = useContext(SocketContext);
+    const { socket, peer } = socketState;
+
     useEffect(() => {
         if (peer && peer.connections) {
-            console.log('Connected peers:', Object.keys(peer.connections));
             setPeerIds(Object.keys(peer.connections));
         }
     }, [peer]);
+
     const username = localStorage.getItem('username');
     const isMe = username === user.username;
-    console.log(user);
+
     return (
         <div className="flex flex-col bg-white p-4 rounded shadow">
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-row items-center space-x-4">
                 {user.avatar ? (
                     <img
                         className="rounded-full w-12 h-12"
@@ -31,37 +38,40 @@ const UserCard = ({user}) => {
                     />
                 ) : (
                     <div className="w-12 h-12 rounded-full bg-gray-300">
-                        <FaUser className="text-sky-500 text-xl"/>
+                        <FaUser className="text-sky-500 text-xl" />
                     </div>
                 )}
                 <div className="flex flex-col">
-                    {isMe ? (
-                        <div className="text-lg font-medium text-gray-900">{user.username}(You)</div>
-                    ) : (
-                        <>
-                            <div className="flex items-center space-x-2">
-                                <div className="text-lg font-medium text-gray-900">{user.username}</div>
-                                {user.online ?
-                                    <><FaCircle className="text-sky-500"/><div className="text-xxs text-blue-500"></div></>
-                                    :
-                                    <><FaRegCircle className="text-red-500"/><div className="text-xxxs text-gray-500">Offline</div></>
-                                }
-                                {peerIds.includes(user.peer_id) ? (
-                                    <>
-                                        <FaSignal className="text-sky-500 text-xl"/>
-                                        <div className="text-xxs text-sky-500"></div>
-                                    </>
-                                ) : (
-                                    <div className="text-sm text-gray-500">Not in room</div>
-                                )}
-                            </div>
-                        </>
-                    )}
+                    <div className="flex items-center space-x-2">
+                        <div className="text-lg font-medium text-gray-900">
+                            {isMe ? `${user.username}(You)` : user.username}
+                        </div>
+
+                        {user.online ?
+                            <FaCircle className="text-sky-500" />
+                            :
+                            <FaRegCircle className="text-red-500" />
+                        }
+                        {!isMe && (
+                            peerIds.includes(user.peer_id) ? (
+                                <FaSignal className="text-sky-500 text-xl" />
+                            ) : (
+                                <span className="text-sm text-gray-500">Not in room</span>
+                            )
+                        )}
+                        <div className="ml-auto text-xs text-gray-500">
+                            {user.last_seen && (
+                                <div className="text-xs lg:text-sm text-gray-500 flex-wrap">
+                                    Last Seen: {formatDateAndTime(user.last_seen)}
+                                </div>
+                            )}
+                        </div>
+
+                    </div>
+
                     {user.badge ? (
-                        <div
-                            style={{width: 'fit-content'}}
-                            className="flex items-center text-sm text-white bg-pink-500 shadow-md shadow-sky-700 rounded-full px-2 py-1">
-                            <FaMedal className="mr-1"/>
+                        <div className="flex items-center text-sm text-white bg-pink-500 rounded-full px-2 py-1 w-24">
+                            <FaMedal className="mr-1" />
                             {user.badge.name}
                         </div>
                     ) : (

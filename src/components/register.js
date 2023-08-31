@@ -83,7 +83,7 @@ const Register = () => {
                         <input type="password" id="password2" value={password2} onChange={e => setPassword2(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">
-                        <label htmlFor="recommendationCode" className="block mb-2 font-bold text-gray-700">Recommendation Code:</label>
+                        <label htmlFor="recommendationCode" className="block mb-2 font-bold text-gray-700">Recommendation Code(邀请码）:</label>
                         <input type="text" id="recommendationCode" value={recommendationCode} onChange={e => setRecommendationCode(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <button type="submit" className="w-full py-2 lg:py-4 px-4 mt-4 lg:text-xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Register</button>
@@ -94,5 +94,5 @@ const Register = () => {
         </div>
     );
 };
-
+// TODO add a wechat qr code and other infomation page
 export default Register;

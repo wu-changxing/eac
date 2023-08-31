@@ -55,7 +55,7 @@ const Login = ({ onLogin }) => {
                     <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                 </div>
                 <button onClick={handleLogin} className="w-full py-2 lg:py-4 px-4 mt-4 lg:text-xl bg-sky-600 text-white rounded shadow hover:bg-sky-500">Login</button>
-                <p className="mt-8 text-center text-xl sm:text-2xl">Don't have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Sign up here</Link>.</p>
+                <p className="mt-8 text-center text-xl sm:text-2xl">Don't have an account? <Link to="/register" className="text-blue-500 hover:text-blue-700">Sign up here(注册）</Link>.</p>
             </div>
         </div>
     );

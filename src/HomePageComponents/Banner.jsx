@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
-import config from "./config";
+import config from "../config";
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCalendar } from "react-icons/fa";
-import bannerBG from "../assets/background/allparrots.webp";
+import bannerBG from "../../assets/background/allparrots.webp";
 
 const Banner = () => {
     const [banners, setBanners] = useState([]);

@@ -1,0 +1,16 @@
+/* Danmuka.css */
+.danmu-animation {
+    position: fixed;  /* Fixed at the top of the window */
+    right: 0;         /* Starting from the rightmost side */
+    top: var(--top);  /* Variable to set the top position dynamically */
+    animation: danmu 5s linear forwards;
+}
+
+@keyframes danmu {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 100%;
+    }
+}

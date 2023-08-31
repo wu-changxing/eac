@@ -66,7 +66,7 @@ const Video = ({stream, userLabel, isLocal, socket}) => {
                         className="w-full rounded-full relative"
                         style={{ display: videoTrackAvailable ? "block" : "none" }}
                     />
-                    {!videoTrackAvailable && <img src={avatarUrl} alt="User Avatar" className="w-full rounded-full" />}
+                    {!videoTrackAvailable && <img src={avatarUrl} alt="是该换个头像了" className="w-full rounded-full" />}
                 </div>
             </div>
         </div>

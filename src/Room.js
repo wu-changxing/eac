@@ -8,6 +8,7 @@ import {SocketContext} from './SocketContext';
 import useLocalStream from './RoomComponents/StreamCards/useLocalStream';
 import RoomToolsBar from './RoomComponents/RoomToolsBar';
 import useRoomStore from './useRoomStore';
+import UnreadMessages from "./RoomComponents/UnreadMessages";
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -25,9 +26,14 @@ const Room = ({onLogout}) => {
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
     const {localStream, isStreamReady} = useLocalStream(openVideo, openAudio);
-    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden, users, setUsers } = useRoomStore();
+    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden, users, setUsers, setRoomId } = useRoomStore();
 
-
+    const {
+        unreadMessages,
+        showChatBox,      // Added from Zustand
+        setShowChatBox,   // Added from Zustand
+        setUnreadMessages,
+    } = useRoomStore();
     const backToRoomList = () => {
         setIsAdmin(false);
         navigate('/roomlists');
@@ -35,6 +41,7 @@ const Room = ({onLogout}) => {
 
 
     useEffect(() => {
+        setRoomId(roomId);
         if (socket && peer) {
             console.log('room created: and socket is: ', socket);
             socket.emit('list_rooms');
@@ -109,7 +116,8 @@ const Room = ({onLogout}) => {
 
     // src/Room.js
     return (
-        <div className="flex flex-col h-screen">
+        <div className="relative flex flex-col h-screen">
+            {!showChatBox && <UnreadMessages/>}
             <div className="flex-grow flex flex-col md:flex-row overflow-auto">
                 {/*<div>random </div>*/}
 

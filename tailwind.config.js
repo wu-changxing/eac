@@ -23,6 +23,9 @@ module.exports = {
       animation: {
         'move-left': 'moveLeft 10s linear forwards'
       },
+      boxShadow: {
+        '8xl': '0 0 60px 15px rgba(0, 0, 0, 0.25)',  // Balanced shadow
+      },
       keyframes: {
         moveLeft: {
           '0%': { left: '100%' },

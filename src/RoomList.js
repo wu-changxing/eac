@@ -1,15 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import {SocketContext} from './SocketContext';
-import CreateRoomModal from "./components/CreateRoomModal";
+import CreateRoomModal from "./HomePageComponents/CreateRoomModal";
 import {IoIosAddCircle, IoMdPeople, IoIosTime,} from 'react-icons/io';
-import {RiVoiceprintFill} from 'react-icons/ri';
-import Dialog from "./components/Dialog";
 import Loading from "./components/Loading";
-import Banner from './Banner';
-import {FaPeopleRobbery, FaPeoplePulling} from "react-icons/fa"; // import Banner
-import {FaPeopleRoof} from "react-icons/fa"; // import Banner
-import {MdRoofing} from "react-icons/md"; // import Banner
+import Banner from './HomePageComponents/Banner';
+import RoomCard from "./HomePageComponents/RoomCard"; // import Banner
 const RoomList = () => {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
@@ -67,60 +63,33 @@ const RoomList = () => {
         };
     }, [socket]);
 
-    const joinRoom = (roomId) => {
-        navigate(`/eac/${roomId}`); // Navigate to room
-    };
 
 
     if (loading) {
         return <div><Loading></Loading></div>; // Replace with your own loading spinner
     }
-
     return (
         <>
-        <Banner />
-        <div className="p-2 sm:p-4 text-xl sm:text-2xl lg:text-2xl lg:mt-20">
-            <h1 className="font-bold text-xl sm:text-2xl  lg:text-xl mb-4">Room List</h1>
-            <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4">
-                {rooms
-                    .filter(room => !room.hidden)
-                    .map(room => (
-                    <div key={room.roomId} className="bg-white shadow-lg rounded-lg overflow-hidden max-w-sm">
-                        <div className="p-2 sm:p-4">
-                            <h5 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">{room.name}</h5>
-                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500 mb-2">
-                                <IoMdPeople className="inline mr-2"/>主理人: {room.admin}
-                            </p>
-
-                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
-                                <IoIosTime className="inline mr-2"/>{room.created_at}
-                            </p>
-                            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-500">
-                                <MdRoofing className="inline mr-2"/>
-                                {room.members.length} 人
-                            </p>
-                        </div>
-                        <div className="p-2 sm:p-4 bg-gray-100">
-                            <Link to={`/eac/${room.roomId}`}
-                                  className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-1 sm:py-2 md:py-3 lg:py-4 px-4 sm:px-6 md:px-8 lg:px-12 text-center rounded">
-                                <RiVoiceprintFill className="inline mr-2"/>
-                                <span className="hidden text-lg sm:inline">Join</span>
-                            </Link>
-                        </div>
-                    </div>
-                ))}
+            <Banner />
+            <div className="p-2 sm:p-4 text-xl sm:text-2xl lg:text-2xl lg:mt-20">
+                <h1 className="font-bold text-xl sm:text-2xl lg:text-xl mb-4">Room List</h1>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:grid-cols-3 gap-4">
+                    {rooms
+                        .filter(room => !room.hidden)
+                        .map(room => (
+                            <RoomCard key={room.roomId} room={room} />
+                        ))}
+                </div>
+                <div className="flex justify-center mt-10">
+                    <button
+                        className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-12 sm:w-16 md:w-20 lg:w-24 h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center rounded-full"
+                        onClick={createRoom}
+                    >
+                        <IoIosAddCircle className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl"/>
+                    </button>
+                </div>
+                <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom} />
             </div>
-            <div className="flex justify-center mt-10 py-2 sm:py-4">
-                <button
-                    className="bg-sky-500 hover:bg-sky-700 text-white font-bold w-12 sm:w-16 md:w-20 lg:w-24 h-12 sm:h-16 md:h-20 lg:h-24 flex items-center justify-center rounded-full"
-                    onClick={createRoom}>
-                    <IoIosAddCircle className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl"/>
-                </button>
-            </div>
-
-
-            <CreateRoomModal isOpen={modalOpen} onClose={() => setModalOpen(false)} onCreate={handleCreateRoom}/>
-        </div>
         </>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import InstallButton from "./InstallButton";
+import InstallButton from "../components/InstallButton";
 import config from "../config";
 import {Link} from "react-router-dom";
 import {FaHome, FaSignOutAlt, FaUserCircle} from "react-icons/fa";

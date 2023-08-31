@@ -4,9 +4,8 @@ import {FaFileAlt, FaFileImage, FaGift, FaPaperPlane, FaPlus, FaQuora} from 'rea
 import {useParams} from 'react-router-dom';
 import {AiOutlineClose} from 'react-icons/ai';
 import SendGift from "./SendGift";
-import {IoMdCloseCircleOutline} from "react-icons/io";
-import {GrClose} from "react-icons/gr";
 import {ImCross} from "react-icons/im";
+
 
 const ChatFeatures = ({messages, setMessages, socket, users, setShowQuiz}) => {
     const [selectedFile, setSelectedFile] = useState(null);

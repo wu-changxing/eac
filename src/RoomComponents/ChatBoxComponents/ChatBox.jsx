@@ -6,9 +6,21 @@ import ChatFeatures from "./ChatFeatures";
 import {useTransition, animated} from 'react-spring';
 import GiftMessage from "./GiftMessage";
 import Quiz from "./QuizComponents/Quiz";
-const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
+import useRoomStore from '../../useRoomStore';  // Import your Zustand store
+import {IoPin} from "react-icons/io5";
+import {AiTwotonePushpin} from "react-icons/ai";
+import Message from "./Message";  // Import the Pin icon
+const ChatBox = ({users}) => {
     const {state} = useContext(SocketContext);
+
     const {socket} = state;
+    const { unreadMessages, addUnreadMessage, setUnreadMessages, showChatBox } = useRoomStore((state) => ({
+        unreadMessages: state.unreadMessages,
+        addUnreadMessage: state.addUnreadMessage,
+        setUnreadMessages: state.setUnreadMessages,
+        showChatBox: state.showChatBox  // Make sure this is identical to the Zustand state name
+    }));
+
     const [messages, setMessages] = useState([]);
     const endOfChatRef = useRef(null);
     const transitions = useTransition(showChatBox, {
@@ -29,21 +41,29 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
         }, config: {mass: 1, tension: 280, friction: 20, precision: 0.00001},
     });
     const [showQuiz, setShowQuiz] = useState(false);
+    const username = localStorage.getItem('username');
+    const isAdmin = useRoomStore((state) => state.isAdmin);
+    const roomId = useRoomStore((state) => state.roomId);
+
+
+    const handlePinMessage = (message) => {
+        if (isAdmin) {  // Check if the user is an admin
+            socket.emit('pin_message', { room_id: roomId, message: message });  // Replace YOUR_ROOM_ID with the actual room ID
+        }
+    }
     useEffect(() => {
         if (showChatBox && unreadMessages.length > 0) {
             setMessages(prevMessages => [...prevMessages, ...unreadMessages]);
-            dispatch({type: 'SET_UNREAD_MESSAGES', payload: []});
         }
-    }, [showChatBox, dispatch, unreadMessages]);
+    }, [showChatBox,  unreadMessages]);
 
     useEffect(() => {
         if (socket) {
             socket.on('room_chat_msg', (message) => {
                 if (!showChatBox) {
-                    dispatch({type: 'SET_UNREAD_MESSAGES', payload: [...unreadMessages, message]});
-                } else {
-                    setMessages(prevMessages => [...prevMessages, message]);
+                    addUnreadMessage(message);
                 }
+                    setMessages(prevMessages => [...prevMessages, message]);
             });
             socket.on('room_chat_img', (message) => {
                 setMessages(prevMessages => [...prevMessages, message]);
@@ -57,7 +77,7 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
             socket.on('receive_gift', (message) => {
                 if (!showChatBox) {
                     console.log('unreadMessages', unreadMessages);
-                    dispatch({type: 'SET_UNREAD_MESSAGES', payload: [...unreadMessages, message]});
+                    addUnreadMessage(message);
                 } else {
                     setMessages(prevMessages => [...prevMessages, message]);
                 }
@@ -74,7 +94,7 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
                 socket.off('room_chat_file');
             }
         };
-    }, [socket, showChatBox, dispatch, unreadMessages]);
+    }, [socket, showChatBox]);
 
     useEffect(() => {
         if (endOfChatRef.current) {
@@ -92,31 +112,13 @@ const ChatBox = ({showChatBox, dispatch, unreadMessages, users}) => {
                 Chat
             </div>
             {messages.map((message, index) => (
-                <div
+                <Message
                     key={index}
-                    className={`flex flex-col border-2 border-sky-500 gap-1 my-2 text-gray-800 p-2 rounded-md ${
-                        message.user === 'You' ? 'bg-sky-300 text-white ml-auto' : 'bg-white text-gray-500 mr-auto'
-                    } ${message.user === 'You' ? 'max-w-70' : 'max-w-99'} sm:max-w-70`}
-                >
-                <span className="text-sm font-bold text-sky-500">{message.user}</span>
-                {message.message && <span className="text-slate-700 text-lg">{message.message}</span>}
-                {message.gift && <GiftMessage message={message}/>}
-                {message.image && <img src={message.image} alt="sent content"/>}
-                {message.file && (
-                    <div className="flex items-center space-x-2 border-2 shadow-lg p-2 rounded-md bg-white">
-                        <FaFileAlt className="text-sky-500" />
-                        <a
-                            href={message.fileURL}
-                            download={message.filename}
-                            className="underline text-sky-500 hover:text-sky-600 overflow-hidden whitespace-wrap break-all"
-                            style={{ maxWidth: '200px' }} // Set the maximum width to wrap long file names
-                        >
-                            {message.filename}
-                        </a>
-                    </div>
-                )}
-
-            </div>))}
+                    message={message}
+                    messages={messages}
+                    setMessages={setMessages}
+                />
+            ))}
             {showQuiz && (
                 <Quiz
                     QuizClose={() => setShowQuiz(false)} // so you can close the quiz

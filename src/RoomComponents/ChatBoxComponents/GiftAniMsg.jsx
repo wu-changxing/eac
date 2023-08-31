@@ -10,7 +10,7 @@ const GiftAniMsg = ({ msg }) => {
 
     useEffect(() => {
         setAnimationPlayed(true);
-        setZIndex('fixed z-50 display');
+        setZIndex('fixed z-10 display');
         setTimeout(() => {
             setAnimationPlayed(false);
             setZIndex('fixed z-0');
@@ -47,22 +47,22 @@ const GiftAniMsg = ({ msg }) => {
 
     return displayGift ? (
         <motion.div
-            className={`p-5 m-5 rounded-lg shadow-md transform transition-all duration-300 ${zIndex} top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
+            className={`lg:p-5 lg:m-5 m-2 p-2 rounded-xl lg:rounded-md shadow-8xl shadow-pink-400 transform ${zIndex}`}
             initial={{ opacity: 0, scale: 0.1, rotate: -360 }}
-            animate={{ opacity: 1, scale: animationPlayed ? 1.3 : 0.8, rotate: 360 }}
+            animate={{ opacity: 1, scale: animationPlayed ? 1.3 : 1.0, rotate: 360 }}
             exit={{ opacity: 0, scale: 0, rotate: -360 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
         >
             <motion.div
-                className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center relative"
+                className="bg-white rounded-lg shadow-lg p-3 md:p-4 lg:p-6 flex flex-col items-center relative"
                 variants={fadeInSequence}
                 initial="hidden"
                 animate="show"
                 exit="exit"
             >
-                <motion.div className="rounded-full overflow-hidden mt-4" variants={itemVariants}>
+                <motion.div className="rounded-full overflow-hidden mt-2 md:mt-3 lg:mt-4" variants={itemVariants}>
                     <motion.img
-                        className="h-48 w-48 object-cover"
+                        className="h-22 md:h-24 lg:h-32 w-22 md:w-24 lg:w-32 object-cover"
                         src={`${config.DJ_END}${msg.gift.image.url}`}
                         alt={msg.gift.image.alt}
                         initial={{ scale: 0.9 }}
@@ -79,7 +79,7 @@ const GiftAniMsg = ({ msg }) => {
 
                 <motion.div variants={itemVariants}>
                     <motion.h2
-                        className="font-bold text-2xl mb-2 text-red-500"
+                        className="font-bold text-lg md:text-xl lg:text-2xl mb-2 text-red-500"
                     >
                         <AiFillHeart className="inline-block" />
                         {` ${msg.user} sent a gift to ${msg.gift.to}`}
@@ -108,7 +108,7 @@ const GiftAniMsg = ({ msg }) => {
                     </div>
 
                     <p className="absolute bottom-2 right-2 text-gray-600 text-xs">{`Designer: ${msg.gift.designer}`}</p>
-                    <div className="absolute bg-white w-4 h-12 -mt-6 transform rotate-45 -bottom-3" />
+                    <div className="absolute bg-white w-2 md:w-3 lg:w-4 h-6 md:h-8 lg:h-12 -mt-3 md:-mt-4 lg:-mt-6 transform rotate-45 -bottom-1 md:-bottom-2 lg:-bottom-3" />
                 </motion.div>
             </motion.div>
         </motion.div>

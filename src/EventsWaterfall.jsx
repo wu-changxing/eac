@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
 import { FaLevelUpAlt, FaMedal, FaRegCalendarAlt } from 'react-icons/fa';
 import config from './config';
-import getRandomBackgroundImage from './components/RandomBackgroundImage';
+import getRandomBackgroundImage from './HomePageComponents/RandomBackgroundImage';
 
 const EventsWaterfall = () => {
     const [events, setEvents] = useState([]);

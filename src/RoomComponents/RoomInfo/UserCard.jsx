@@ -4,13 +4,19 @@ import config from '../../config';
 import { SocketContext } from "../../SocketContext";
 
 const formatDateAndTime = (isoString) => {
-    const date = new Date(isoString);
-    const localTime = date.toLocaleString('en-US', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone });
+    // 添加 "Z" 以明确这是一个 UTC 时间
+    const date = new Date(`${isoString}Z`);
 
-    const [_, month, day, year, hour, minute, second] = localTime.match(/(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/);
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    return `${month}/${day} ${hour}:${minute}:${second}`;
+    const localTime = date.toLocaleString('zh-CN', { timeZone: timeZone });
+
+    const [_, year, month, day, hour, minute, second] = localTime.match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/);
+    const formattedTime = `${month}/${day} ${hour}:${minute}:${second}`;
+
+    return formattedTime;
 };
+
 
 
 const UserCard = ({ user }) => {

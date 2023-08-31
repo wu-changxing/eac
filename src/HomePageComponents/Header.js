@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 import {SocketContext} from '../SocketContext';
 import {FaListUl, FaSignOutAlt, FaSignInAlt, FaUserPlus, FaHome, FaUserCircle, FaCalendarAlt} from 'react-icons/fa';
 import {GiWoodenSign} from 'react-icons/gi';
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 import macaw6 from "../../assets/macaw6.svg";
-import InstallButton from "./InstallButton";
+import InstallButton from "../components/InstallButton";
 const Header = ({authenticated}) => {
     const {state: socketState} = useContext(SocketContext);
     const socket = socketState.socket;

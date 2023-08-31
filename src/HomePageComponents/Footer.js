@@ -64,7 +64,7 @@ const Footer = ({authenticated}) => {
     return (
         <footer className="w-full transition-all duration-300 mb-1 bg-sky-500 h-13 md:h-12">
             <div className="hidden md:flex flex-row items-center justify-center">
-                <span className="text-white text-xl p-2">Echo Atrium Chat</span>
+                <span className="text-white text-xl p-2">阿咔社区（Echo Atrium community）</span>
             </div>
             <div className="flex items-center justify-around h-16 md:hidden">
                 {authenticated &&
@@ -78,19 +78,19 @@ const Footer = ({authenticated}) => {
                         <div className="text-center p-3 rounded-full hover:bg-sky-600">
                             <Link to="/profile" className="flex flex-col items-center">
                                 <FaUserCircle className="text-2xl text-white"/>
-                                <span className="text-xs text-white">Profile</span>
+                                <span className="text-xs text-white">我</span>
                             </Link>
                         </div>
                         <div className="text-center p-3 rounded-full hover:bg-sky-600">
                             <Link to="/events" className="flex flex-col items-center">
                                 <GiWoodenSign className="text-2xl text-white"/>
-                                <span className="text-xs text-white">Events</span>
+                                <span className="text-xs text-white">活动日历</span>
                             </Link>
                         </div>
                         <div className="text-center p-3 rounded-full hover:bg-sky-600">
                             <Link to="/logout" className="flex flex-col items-center">
                                 <FaSignOutAlt className="text-2xl text-white"/>
-                                <span className="text-xs text-white">Logout</span>
+                                <span className="text-xs text-white">注销</span>
                             </Link>
                         </div>
                     </>

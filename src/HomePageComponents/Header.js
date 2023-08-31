@@ -40,32 +40,32 @@ const Header = ({authenticated}) => {
                                 <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/">
                                         <FaHome className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Home</span></Link>
+                                        className="hidden sm:inline">Home（主页）</span></Link>
                                 </li>
                                 <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/profile">
                                         <FaUserCircle className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Profile</span></Link>
+                                        className="hidden sm:inline">Profile（个人信息）</span></Link>
                                 </li>
                                 <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/events">
                                         <GiWoodenSign className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Events</span></Link>
+                                        className="hidden sm:inline">Events(活动）</span></Link>
                                 </li>
                                 <li className="mx-2 my-0 hidden lg:block">
                                     <Link to="/logout"><FaSignOutAlt className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Logout</span></Link>
+                                        className="hidden sm:inline">Logout（注销）</span></Link>
                                 </li>
                             </>
                         ) : (
                             <>
                                 <li className="mx-2 my-0">
                                     <Link to="/login"><FaSignInAlt className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Login</span></Link>
+                                        className="hidden sm:inline">Login（登录）</span></Link>
                                 </li>
                                 <li className="mx-2 my-0">
                                     <Link to="/register"><FaUserPlus className="inline sm:mr-2 text-sky-500"/><span
-                                        className="hidden sm:inline">Register</span></Link>
+                                        className="hidden sm:inline">Register（注册）</span></Link>
                                 </li>
                             </>
                         )}

@@ -48,7 +48,7 @@ const Register = () => {
                 const data = await response.json();
                 localStorage.setItem('username', username);
                 localStorage.setItem('token', data.token);
-                window.location.href = '/';
+                window.location.href = '#/user-instructions';  // 导航到新页面
             }
         } catch (error) {
             if (error instanceof TypeError) {
@@ -71,11 +71,11 @@ const Register = () => {
                 {error && <div className="bg-red-500 p-2 rounded-sm text-white mb-2">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="my-4">
-                        <label htmlFor="username" className="block mb-2 font-bold text-gray-700">Username:</label>
+                        <label htmlFor="username" className="block mb-2 font-bold text-gray-700">Username(用户名）:</label>
                         <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} className="w-full bg-gray-100 px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">
-                        <label htmlFor="password1" className="block mb-2 font-bold text-gray-700">Password:</label>
+                        <label htmlFor="password1" className="block mb-2 font-bold text-gray-700">Password（密码）:</label>
                         <input type="password" id="password1" value={password1} onChange={e => setPassword1(e.target.value)} className="w-full bg-gray-100  px-3 py-2 lg:py-4 outline-none text-gray-700 focus:ring-2 focus:ring-blue-600 rounded-md" />
                     </div>
                     <div className="my-4">

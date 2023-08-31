@@ -12,6 +12,7 @@ import {SocketProvider} from './SocketContext';
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import EventsWaterfall from "./EventsWaterfall";
+import UserInstructions from "./components/UserInstructions";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
 
                     <div className="flex-grow w-screen">
                     <Routes>
+                        <Route path="/user-instructions" element={<UserInstructions />} />
                             <Route
                                 path="/login"
                                 element={

@@ -13,6 +13,8 @@ import {FaPersonBooth} from "react-icons/fa";
 const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
     const isAdmin = useRoomStore(state => state.isAdmin);
     const isRoomHidden = useRoomStore(state => state.isRoomHidden);
+    const roomName = useRoomStore(state => state.roomName); // get room name from Zustand store
+    const setRoomName = useRoomStore(state => state.setRoomName); //
     const navigate = useNavigate();
     const level = localStorage.getItem("level");
 
@@ -27,6 +29,8 @@ const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
 
     };
 
+
+
     return (
         <div className="flex items-end lg:space-x-3">
             <button
@@ -37,13 +41,8 @@ const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
                 <span className="lg:inline hidden">Dismiss</span>
             </button>
 
-            <button
-                className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
-                onClick={() => setShowModal(true)}
-            >
-                <GiHighKick className="mr-2"/>
-                <span className="lg:inline hidden">Kick</span>
-            </button>
+
+
             {level >= 4 && (
                 <button
                     className={`flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg ${
@@ -55,6 +54,14 @@ const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
                     <span className="lg:inline hidden">{isRoomHidden ? 'Unhide' : 'Hide'}</span>
                 </button>
             )}
+            <button
+                className="flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg hover:bg-red-600 hover:text-white focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                onClick={() => setShowModal(true)}
+            >
+                <GiHighKick className="mr-2"/>
+                <span className="lg:inline hidden">Kick</span>
+            </button>
+
         </div>
     );
 };

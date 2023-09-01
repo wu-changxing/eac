@@ -6,6 +6,7 @@ const useRoomStore = create((set) => ({
     videoStatus: false,
     audioStatus: true,
     roomId: null,
+    roomName: null,
     users: [],
     unreadMessages: [],
     showChatBox: false, // Added showChatBox
@@ -16,6 +17,7 @@ const useRoomStore = create((set) => ({
     setVideoStatus: (videoStatus) => set({ videoStatus }),
     setAudioStatus: (audioStatus) => set({ audioStatus }),
     setRoomId: (roomId) => set({ roomId }),
+    setRoomName: (roomName) => set({ roomName }),
     setUnreadMessages: (unreadMessages) => set({ unreadMessages }),
     addUnreadMessage: (newMessage) => set((state) => ({
         unreadMessages: [...state.unreadMessages, newMessage]

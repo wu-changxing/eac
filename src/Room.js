@@ -26,7 +26,7 @@ const Room = ({onLogout}) => {
     const [openAudio, setOpenAudio] = useState(initialOpenAudio);
     // rest of the code
     const {localStream, isStreamReady} = useLocalStream(openVideo, openAudio);
-    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden, users, setUsers, setRoomId } = useRoomStore();
+    const { isAdmin, setIsAdmin, isRoomHidden, setIsRoomHidden, users, setUsers, setRoomId , roomName, setRoomName } = useRoomStore();
 
     const {
         unreadMessages,
@@ -67,8 +67,7 @@ const Room = ({onLogout}) => {
             socket.on('is_admin', (data) => {
                 console.log('Room admin:', data);
                 setIsAdmin(data.is_admin);
-                console.log('after set is admin in room:', isAdmin);
-                console.log('isAdmin:', isAdmin);
+                setRoomName(data.room_name)
             });
             socket.on('room_dismissed', (data) => {
                 if (data.room_id === roomId) {

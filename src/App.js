@@ -13,6 +13,7 @@ import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import EventsWaterfall from "./EventsWaterfall";
 import UserInstructions from "./components/UserInstructions";
+import AIChatToggle from "./RoomComponents/AIChatToggle";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
                     <div className="flex-grow w-screen">
                     <Routes>
                         <Route path="/user-instructions" element={<UserInstructions />} />
+
                             <Route
                                 path="/login"
                                 element={
@@ -74,6 +76,16 @@ function App() {
                                     )
                                 }
                             />
+                        <Route
+                            path="/aichat"
+                            element={
+                                authenticated ? (
+                                    <AIChatToggle showIframe={true}/>
+                                ) : (
+                                    <Login onLogin={handleLogin}/>
+                                )
+                            }
+                        />
                             <Route
                                 path="/eac/:roomId"
                                 element={

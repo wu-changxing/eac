@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import InstallButton from "../components/InstallButton";
 import config from "../config";
 import {Link} from "react-router-dom";
-import {FaHome, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
-import {GiWoodenSign} from "react-icons/gi";
+import {FaHome, FaRobot, FaSignOutAlt, FaUserCircle} from "react-icons/fa";
+import {GiArtificialIntelligence, GiBrain, GiWoodenSign} from "react-icons/gi";
 const Footer = ({authenticated}) => {
     const [profileData, setProfileData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -81,6 +81,13 @@ const Footer = ({authenticated}) => {
                                 <span className="text-xs text-white">我</span>
                             </Link>
                         </div>
+                        <div className="text-center p-3 rounded-full hover:bg-sky-600 bg-sky-500 border-b-2 border-white">
+                            <Link to="/aichat" className="flex flex-col items-center">
+                                <GiBrain className="text-3xl text-white"/> {/* 增大图标 */}
+                                <span className="text-xs text-white font-bold">ChatGPT</span> {/* 增大字体并加粗 */}
+                            </Link>
+                        </div>
+
                         <div className="text-center p-3 rounded-full hover:bg-sky-600">
                             <Link to="/events" className="flex flex-col items-center">
                                 <GiWoodenSign className="text-2xl text-white"/>

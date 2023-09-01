@@ -4,7 +4,8 @@ import { useTransition, animated } from "react-spring";
 import RoomControl from "./RoomControl";
 import UserCard from "./UserCard";
 import {SocketContext} from "../../SocketContext";
-
+import useRoomStore from "../../useRoomStore";
+import { FaEdit } from 'react-icons/fa';
 const RoomPanel = ({
                        users,
                        localStream,
@@ -34,7 +35,20 @@ const RoomPanel = ({
         },
         config: { mass: 1, tension: 280, friction: 20, precision: 0.00001 },
     });
-
+    const {state: socketState} = useContext(SocketContext);
+    const {socket, peer} = socketState;
+    const isAdmin = useRoomStore(state => state.isAdmin);
+    const isRoomHidden = useRoomStore(state => state.isRoomHidden);
+    const roomName = useRoomStore(state => state.roomName); // get room name from Zustand store
+    const setRoomName = useRoomStore(state => state.setRoomName); //
+    const roomId = useRoomStore(state => state.roomId); // get room id from Zustand store
+    const handleEditRoomName = () => {
+        const newRoomName = prompt('Enter the new room name:', roomName);
+        if (newRoomName) {
+            setRoomName(newRoomName);
+            socket.emit("update_room_name", {room_id: roomId, room_name: newRoomName});
+        }
+    };
     return (
         transitions((styles, item) => item &&
             <animated.div
@@ -50,6 +64,17 @@ const RoomPanel = ({
                     </div>
                     <CheckIn className="mt-4" experience={0} />
                 </div>
+                {isAdmin && (
+                    <div className="flex flex-wrap items-center justify-between bg-gray-100 rounded-lg p-2 w-full lg:w-auto">
+                        <span className="text-gray-700 font-semibold">{roomName}</span> {/* Display the room name */}
+                        <button
+                            className="ml-2 p-2 rounded-full bg-sky-500 transition duration-500 ease-in-out transform focus:outline-none focus:ring focus:ring-blue-200"
+                            onClick={handleEditRoomName}
+                        >
+                            <FaEdit className="text-white bg-sky-500 text-xl lg:text-2xl" /> {/* Using Font Awesome Edit Icon */}
+                        </button>
+                    </div>
+                )}
                 <RoomControl
                     localStream={localStream}
                     openVideo={openVideo}

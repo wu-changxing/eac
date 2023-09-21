@@ -43,7 +43,7 @@ function Loading() {
     };
 
     // Timer for auto-refresh
-    const [timer, setTimer] = useState(15);
+    const [timer, setTimer] = useState(5);
 
     useEffect(() => {
         // Update timer every second
@@ -51,7 +51,7 @@ function Loading() {
             setTimer((prevTimer) => prevTimer > 0 ? prevTimer - 1 : 0);
         }, 1000);
 
-        const timeout = setTimeout(refreshPage, 15000);
+        const timeout = setTimeout(refreshPage, 5000);
 
         // Clear countdown and timeout if the component is unmounted
         return () => {

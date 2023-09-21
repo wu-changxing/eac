@@ -4,7 +4,7 @@ const useRoomStore = create((set) => ({
     isAdmin: false,
     isRoomHidden: false,
     videoStatus: false,
-    audioStatus: true,
+    audioStatus: false,
     roomId: null,
     roomName: null,
     users: [],

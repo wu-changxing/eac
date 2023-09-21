@@ -63,7 +63,7 @@ const Footer = ({authenticated}) => {
 
     return (
         <footer className="w-full transition-all duration-300 mb-1 bg-sky-500 h-13 md:h-12">
-            <div className="hidden md:flex flex-row items-center justify-center">
+            <div className="hidden md:flex flex-row items-center jutify-center">
                 <span className="text-white text-xl p-2">阿咔社区（Echo Atrium community）</span>
             </div>
             <div className="flex items-center justify-around h-16 md:hidden">

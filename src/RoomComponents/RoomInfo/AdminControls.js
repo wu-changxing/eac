@@ -41,8 +41,6 @@ const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
                 <span className="lg:inline hidden">Dismiss</span>
             </button>
 
-
-
             {level >= 4 && (
                 <button
                     className={`flex items-center p-4 lg:p-2 font-semibold text-red-500 transition duration-500 ease-in-out transform bg-gray-50 rounded-lg ${

@@ -55,15 +55,7 @@ const RoomPanel = ({
                 style={styles}
                 className={`flex flex-col justify-between mt-4 h-[600px] lg:w-[599] lg:h-[756] p-4 bg-gray-50 border border-gray-300 rounded-md overflow-auto`}
             >
-                <div>
-                    <h2 className="text-lg font-semibold mb-4 text-indigo-700">Room Panel</h2>
-                    <div className="space-y-2">
-                        {users && users.map(user =>
-                            <UserCard key={user.sid} user={user} />
-                        )}
-                    </div>
-                    <CheckIn className="mt-4" experience={0} />
-                </div>
+
                 {isAdmin && (
                     <div className="flex flex-wrap items-center justify-between bg-gray-100 rounded-lg p-2 w-full lg:w-auto">
                         <span className="text-gray-700 font-semibold">{roomName}</span> {/* Display the room name */}
@@ -81,6 +73,15 @@ const RoomPanel = ({
                     setOpenVideo={setOpenVideo}
                     users={users}
                 />
+                <div>
+                    <h2 className="text-lg font-semibold mb-4 text-indigo-700">Room Panel</h2>
+                    <div className="space-y-2">
+                        {users && users.map(user =>
+                            <UserCard key={user.sid} user={user} />
+                        )}
+                    </div>
+                    <CheckIn className="mt-4" experience={0} />
+                </div>
             </animated.div>
         )
     );

@@ -29,8 +29,6 @@ const AdminControls = ({roomId, setShowModal, localStream, socket}) => {
 
     };
 
-
-
     return (
         <div className="flex items-end lg:space-x-3">
             <button

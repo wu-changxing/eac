@@ -227,7 +227,9 @@ const RoomToolsBar = ({users, localStream, openVideo, setOpenVideo}) => {
             <ChatBox  users={users}/>
             {showRoomPanel && <RoomPanel users={users} localStream={localStream} openVideo={openVideo}
                                          setOpenVideo={setOpenVideo}/>}
+
             {showBookList && <BookList/>}
+
 
         </div>
     );

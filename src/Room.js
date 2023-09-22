@@ -9,6 +9,7 @@ import useLocalStream from './RoomComponents/StreamCards/useLocalStream';
 import RoomToolsBar from './RoomComponents/RoomToolsBar';
 import useRoomStore from './useRoomStore';
 import UnreadMessages from "./RoomComponents/UnreadMessages";
+import RoomControl from "./RoomComponents/RoomInfo/RoomControl";
 
 const Room = ({onLogout}) => {
     const roomId = useParams().roomId;
@@ -125,9 +126,17 @@ const Room = ({onLogout}) => {
                              isStreamReady={isStreamReady}/>
                 </div>
                 <div className="w-full lg:w-3/4">
+                    <RoomControl
+                        localStream={localStream}
+                        openVideo={openVideo}
+                        setOpenVideo={setOpenVideo}
+                        users={users}
+                    />
                     <RoomToolsBar users={users} localStream={localStream}
                                   openVideo={openVideo} setOpenVideo={setOpenVideo}/>
+
                 </div>
+
             </div>
         </div>
     );

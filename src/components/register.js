@@ -6,7 +6,7 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
-    const [recommendationCode, setRecommendationCode] = useState('');
+    const [recommendationCode, setRecommendationCode] = useState('腊八粥');
     const [error, setError] = useState('');
     const [searchParams] = useSearchParams();
 

@@ -1,85 +1,81 @@
 # eac
 
-## Integrate with your tools
+# EchoAtrium Community Frontend (EAC)
 
-- [ ] [Set up project integrations](https://nw-syd-gitlab.cseunsw.tech/z5326086/eac/-/settings/integrations)
+Welcome to the official repository for the EchoAtrium Community Frontend (EAC), a dynamic and user-friendly interface designed to enhance communication and collaboration within the EchoAtrium community. This platform is built with a focus on real-time interactions, offering features like peer-to-peer video and audio calls, as well as voice chat rooms.
 
-## Collaborate with your team
+## Features
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+EAC brings a suite of interactive features to the EchoAtrium community:
 
-## Test and Deploy
+- **Peer-to-Peer Video Calls**: Connect with community members through high-quality video calls.
+- **Audio Calls**: Opt for audio-only calls for a more bandwidth-friendly option.
+- **Voice Chat Rooms**: Join or create voice chat rooms for group discussions or casual conversations.
 
-Use the built-in continuous integration in GitLab.
+## Tech Stack
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+This project is built using a robust and modern tech stack, ensuring a seamless user experience and easy maintainability:
 
----
+- **React**: A JavaScript library for building user interfaces, known for its efficiency and flexibility.
+- **TailwindCSS**: A utility-first CSS framework for rapidly building custom designs.
+- **WebRTC**: An open-source project that provides web browsers and mobile applications with real-time communication capabilities.
 
-# Editing this README
+## Getting Started
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+To get started with EAC, follow these steps:
 
-## Suggestions for a good README
+### Prerequisites
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Ensure you have the following installed:
 
-## Name
+- Node.js (latest stable version)
+- npm (comes with Node.js)
 
-Choose a self-explaining name for your project.
+### Installation
 
-## Description
+1. **Clone the Repository**
 
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+   ```bash
+   git clone https://github.com/your-username/echoatrium-community-frontend.git
+   cd echoatrium-community-frontend
+   ```
 
-## Badges
+2. **Install Dependencies**
 
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+   ```bash
+   npm install
+   ```
 
-## Visuals
+3. **Run the Application**
 
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+   ```bash
+   npm start
+   ```
 
-## Installation
-
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+   This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ## Contributing
 
-State if you are open to contributions and what your requirements are for accepting them.
+We welcome contributions to the EchoAtrium Community Frontend! If you have suggestions for how to improve the app, or if you want to report a bug, please open an issue. For larger changes, please open a pull request with a clear description of the changes.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### Guidelines
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- Ensure your code adheres to the existing style for consistency.
+- Update the documentation, if necessary.
+- Write and run tests to confirm your changes work as expected.
 
-## Authors and acknowledgment
+## Support
 
-Show your appreciation to those who have contributed to the project.
+If you encounter any problems or have questions, feel free to reach out to the community or maintainers for assistance.
 
 ## License
 
-For open source projects, say how it is licensed.
+This project is licensed under the Creative Commons Attribution-NonCommercial (CC BY-NC) License - see the [LICENSE](LICENSE.md) file for details.
 
-## Project status
+Please note that this project is available for non-commercial use only. Commercial use is strictly prohibited under this license.
 
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+---
+
+Thank you for being a part of the EchoAtrium community and contributing to the EAC project! 🌟
+
+---
